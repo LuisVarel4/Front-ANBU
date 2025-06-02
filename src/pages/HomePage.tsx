@@ -1,4 +1,3 @@
-// src/pages/AuthPage.tsx
 import DashboardScreen from '../components/Dashboard';
 import TraitorsScreen from '../components/Traitors';
 
