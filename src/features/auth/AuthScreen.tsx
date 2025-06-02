@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../../components/Button';
-import MascaraAmbuInicio from '../../assets/logos/Logo prueba 4.png'; // Make sure the path is correct
-import whiteLogo from '../../assets/logos/logo_blanco-removebg-preview.png';
+import MascaraAmbuInicio from '../../assets/logos/Logo prueba 4.png'; 
+import whiteLogo from '../../assets/logos/logo_blanco.png';
 import { useNavigate } from 'react-router-dom';
 
 

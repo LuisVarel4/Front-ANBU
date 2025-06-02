@@ -2,9 +2,13 @@ import React from 'react';
 import Button from '../../components/Button';
 import MascaraAmbuInicio from '../../assets/logos/Logo prueba 4.png'; 
 import RelojIcon from '../../assets/icons/chronometer-svgrepo-com.svg'; 
-import whiteLogo from '../../assets/logos/logo_blanco-removebg-preview.png';
+import whiteLogo from '../../assets/logos/logo_blanco.png';
+import { useNavigate } from 'react-router-dom';
 
 const AuthScreen: React.FC = () => {
+
+  const navigate = useNavigate(); 
+
   return (
     <div className="min-h-screen flex flex-col-reverse md:flex-row bg-black-anbu text-white">     
 
@@ -40,6 +44,7 @@ const AuthScreen: React.FC = () => {
             </div>
 
               <Button
+                onClick={() =>  navigate('/homepage')}
                 type="submit"
                 color="bg-red-anbu hover:bg-yellow-anbu"
                 textColor="text-white hover:text-black"
