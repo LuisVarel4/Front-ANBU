@@ -2,6 +2,7 @@ import logoBlanco from '../assets/logos/logo_blanco.png'
 import fondo from '../assets/ilustrations/dashboard_bg.jpg'
 import iconoAtras from '../assets/icons/arrow_back.svg'
 import iconoCampana from '../assets/icons/campana.png'
+import { Link } from 'react-router-dom';
 
 function Dashboard() {
 
@@ -24,7 +25,7 @@ function Dashboard() {
 						{/* Menú de Navegación Central */}
 						<ul className="flex justify-center items-center space-x-4">
 							<li><a href="#inicio" className="block text-center px-4 py-2 hover:text-red-anbu " style={textShadow}>Inicio</a></li>
-							<li><a href="#Misiones" className="block text-center px-4 py-2 hover:text-red-anbu" style={textShadow}>Misiones</a></li>
+							<li>  <Link to="/mision" className="block text-center px-4 py-2 hover:text-red-anbu" style={textShadow}> Misiones </Link></li>
 							<li><img src={logoBlanco} alt="Logo" className="w-16 h-16 md:w-20 md:h-20 invert" /></li>
 							<li><a href="#agentes" className="block text-center px-4 py-2 hover:text-red-anbu" style={textShadow}>Agentes</a></li>
 							<li><a href="#reportes" className="block text-center px-4 py-2   hover:text-red-anbu" style={textShadow}>Reportes</a></li>
