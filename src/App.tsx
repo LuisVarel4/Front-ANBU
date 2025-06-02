@@ -1,14 +1,10 @@
 import './App.css'
-import Dashboard from './components/Dashboard.tsx'
-import Traidores from './components/Traidores.tsx'
+import AppRoutes from './routes/Routes'
 
 function App() {
 
   return (
-    <>
-    <Dashboard />
-    <Traidores />
-    </>
+    <AppRoutes />
   )
 }
 
