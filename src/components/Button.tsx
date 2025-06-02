@@ -1,27 +1,35 @@
-// src/components/Button.tsx
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary';
+  color: string;        // required background color (Tailwind class)
+  textColor?: string;   // optional text color (Tailwind class)
+  iconRight?: string;   // optional image/icon path
 }
 
-const Button: React.FC<ButtonProps> = ({ 
-  children, 
-  variant = 'primary', 
-  className = '', 
-  ...props 
+const Button: React.FC<ButtonProps> = ({
+  children,
+  color,
+  textColor = 'text-white',
+  iconRight,
+  className = '',
+  ...props
 }) => {
-  const baseClasses = 'font-medium py-2 px-4 rounded-md transition duration-200';
-  const variantClasses = variant === 'primary' 
-    ? 'bg-blue-600 hover:bg-blue-700 text-white' 
-    : 'bg-gray-600 hover:bg-gray-700 text-white';
-  
+  const baseClasses =
+    'font-medium py-2 px-4 rounded-md transition duration-200 flex items-center justify-center gap-2';
+
   return (
     <button
-      className={`${baseClasses} ${variantClasses} ${className}`}
+      className={`${baseClasses} ${color} ${textColor} ${className}`}
       {...props}
     >
-      {children}
+      <span>{children}</span>
+      {iconRight && (
+        <img
+          src={iconRight}
+          alt="icon"
+          className="h-5 w-5 object-contain"
+        />
+      )}
     </button>
   );
 };
