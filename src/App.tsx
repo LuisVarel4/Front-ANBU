@@ -1,16 +1,10 @@
 import './App.css'
-import Dashboard from './components/Dashboard.tsx'
-import Traidores from './components/Traitors.tsx'
-import CreateAgent from './pages/CreateAgent.tsx'
+import AppRoutes from './routes/Routes'
 
 function App() {
 
   return (
-    <>
-    <Dashboard />
-  
-    <CreateAgent />
-    </>
+    <AppRoutes />
   )
 }
 
