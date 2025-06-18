@@ -1,6 +1,7 @@
 import Button from '../components/Button';
 import CloseButton from '../components/CloseButton';
 import jutsuAnbu from '../assets/ilustrations/anbu_jutsu.png';
+import { useNavigate } from 'react-router-dom';
 
 interface PopupProps {
   isOpen: boolean;
@@ -9,6 +10,8 @@ interface PopupProps {
 }
 
 function Popup({ isOpen, onClose, message }: PopupProps) {
+
+  const navigate = useNavigate(); 
   if (!isOpen) return null;
 
   return (
@@ -32,10 +35,9 @@ function Popup({ isOpen, onClose, message }: PopupProps) {
         {/* Botón "aceptar" */}
         <div className="flex justify-center mt-2">
           <Button
-            onClick={onClose}
+            onClick={() =>  navigate('/homepage')}
             color="bg-black-anbu"
-            className="hover:bg-gray-800"
-          >
+            className="hover:bg-gray-800">
             Aceptar
           </Button>
         </div>

@@ -1,20 +1,21 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import maskAnbu from '../assets/ilustrations/Mascara_png-removebg-preview.png';
-import logoAnbu from '../assets/logos/imagen_2025-04-13_231517876-Photoroom.png';
-import Popup from '../components/Popup'; // Asegúrate de tenerlo
+import Popup from '../components/Popup'; 
 import Button from '../components/Button';
+import Header from '../components/Header';
 
 function CreateAgent() {
   const [formData, setFormData] = useState({
     nombre: "",
     alias: "",
     correo: "",
-    contraseña: "",
+    password: "",
     especialidad: "",
   });
-
+  const navigate = useNavigate(); 
   const [errores, setErrores] = useState<{ [key: string]: string }>({});
-  const [modalVisible, setModalVisible] = useState(false); // Nuevo estado
+  const [modalVisible, setModalVisible] = useState(false); 
 
   const especialidades = ["Asesino", "Torturador", "Espía"];
 
@@ -37,12 +38,12 @@ function CreateAgent() {
     setErrores(nuevosErrores);
 
     if (Object.keys(nuevosErrores).length === 0) {
-      setModalVisible(true); // Mostrar modal
+      setModalVisible(true); 
       setFormData({
         nombre: "",
         alias: "",
         correo: "",
-        contraseña: "",
+        password: "",
         especialidad: "",
       });
     }
@@ -51,14 +52,8 @@ function CreateAgent() {
   return (
     <div className="min-h-screen bg-black-anbu text-white flex flex-col items-center p-4">
       <div className="w-full max-w-3xl bg-grayBlue-anbu rounded-xl shadow-md">
-        <div className="bg-red-anbu px-6 py-4 flex justify-between items-center rounded-t-xl">
-          <h1 className="text-2xl font-bold">Kage</h1>
-          <div className="flex items-end-safe gap-2">
-            <img src={logoAnbu} alt="Logo" className="w-14 h-14" />
-            <img src={maskAnbu} alt="ANBU Mask" className="w-12 h-12" />
-          </div>
-        </div>
-
+        <Header />
+        
         <form onSubmit={manejarEnvio} className="p-6 grid md:grid-cols-2 gap-6">
           <div className="flex justify-center items-center">
             <img src={maskAnbu} alt="ANBU Mask" className="w-70 h-70" />
@@ -66,12 +61,12 @@ function CreateAgent() {
 
           <div className="flex flex-col gap-4">
             {/** Campos del formulario */}
-            {["nombre", "alias", "correo", "contraseña"].map((campo) => (
+            {["nombre", "alias", "correo", "password"].map((campo) => (
               <div key={campo}>
                 <label className="block mb-1 capitalize">{campo}</label>
                 <input
                   name={campo}
-                  type={campo === "correo" ? "email" : campo === "contraseña" ? "password" : "text"}
+                  type={campo === "correo" ? "email" : campo === "password" ? "password" : "text"}
                   value={(formData as any)[campo]}
                   onChange={manejarCambio}
                   className="w-full px-3 py-2 rounded bg-gray-100 text-black-anbu"
@@ -103,26 +98,24 @@ function CreateAgent() {
 
           <div className="col-span-2 flex justify-center gap-4 mt-4">
             <Button
+              onClick={() =>  navigate('/homepage')}
               type="button"
               color="bg-red-anbu"
-              className="hover:bg-gray2-anbu"
-              >
+              className="hover:bg-gray2-anbu">
                 Volver
             </Button>
 
             <Button
               type="submit"
               color="bg-red-anbu"
-              className="hover:bg-green-anbu"
-            >
+              className="hover:bg-green-anbu">
               Guardar
             </Button>
 
             <Button
               type="button"
               color="bg-red-anbu"
-              className="hover:bg-gray2-anbu"
-            >
+              className="hover:bg-gray2-anbu">
               Eliminar
             </Button>
           </div>

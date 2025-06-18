@@ -5,6 +5,8 @@ import OtpPage from '../pages/OtpPage';
 import HomePage from '../pages/HomePage';
 import MisionLisScreen from '../features/missions/ListMisionScreen';
 import MisionPage from '../pages/MisionPage';
+import CreateAgent  from '../pages/CreateAgent';
+import ListAgent from '../features/agent/ListAgent';
 
 const AppRoutes = () => {
   return (
@@ -14,6 +16,8 @@ const AppRoutes = () => {
       <Route path="/otp" element={<OtpPage />} />
       <Route path="/homepage" element={<HomePage />} />
       <Route path="/mision" element={<MisionPage />} />
+      <Route path="/create-agent" element={<CreateAgent />} />
+      <Route path="/list-agent" element={<ListAgent />} />
       {/* Add other routes here */}
     </Routes>
   );

@@ -27,7 +27,7 @@ function Dashboard() {
 							<li><a href="#inicio" className="block text-center px-4 py-2 hover:text-red-anbu " style={textShadow}>Inicio</a></li>
 							<li>  <Link to="/mision" className="block text-center px-4 py-2 hover:text-red-anbu" style={textShadow}> Misiones </Link></li>
 							<li><img src={logoBlanco} alt="Logo" className="w-16 h-16 md:w-20 md:h-20 invert" /></li>
-							<li><a href="#agentes" className="block text-center px-4 py-2 hover:text-red-anbu" style={textShadow}>Agentes</a></li>
+							<li>  <Link to="/list-agent" className="block text-center px-4 py-2 hover:text-red-anbu" style={textShadow}> Agentes </Link></li>
 							<li><a href="#reportes" className="block text-center px-4 py-2   hover:text-red-anbu" style={textShadow}>Reportes</a></li>
 						</ul>
 
