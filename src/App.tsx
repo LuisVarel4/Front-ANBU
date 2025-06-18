@@ -1,13 +1,14 @@
 import './App.css'
 import Dashboard from './components/Dashboard.tsx'
-import Traidores from './components/Traidores.tsx'
+import Traitors from './components/Traitors.tsx'
+import Footer from './components/Footer.tsx'	
 
 function App() {
-
   return (
     <>
     <Dashboard />
-    <Traidores />
+    <Traitors />
+    <Footer />
     </>
   )
 }
