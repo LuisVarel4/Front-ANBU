@@ -1,7 +1,7 @@
 import FooterQuote from '../components/footer/FooterQuote';
 import FooterLogo from '../components/footer/FooterLogo';
 import FooterLegal from '../components/footer/FooterLegal';
-import AnbuLogo from '../assets/logos/imagen_2025-04-13_231517876-Photoroom.png';
+import AnbuLogo from '../assets/logos/anbu-letras.png';
 
 function Footer() {
   return (

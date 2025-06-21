@@ -6,7 +6,6 @@ import MobileMenuOverlay from '../components/header/MobileMenuOverlay'
 import BackButton from '../components/header/BackButton'
 import BellIcon from '../components/header/BellIcon'
 import WelcomeMessage from '../components/header/WelcomeMessage'
-import OjosIluminados from '../components/header/OjosIluminados'
 
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
