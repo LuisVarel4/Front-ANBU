@@ -1,13 +1,17 @@
 import './App.css'
-import Dashboard from './components/Dashboard.tsx'
-import Traidores from './components/Traidores.tsx'
+import HeaderHero from './features/HeaderHero.tsx'
+import Traitors from './features/Traitors.tsx'  
+import Footer from './features/Footer.tsx'	
+import CustomBr from './components/CustomBr.tsx'
 
 function App() {
-
   return (
     <>
-    <Dashboard />
-    <Traidores />
+      <HeaderHero/>
+      <CustomBr />
+      <Traitors />
+      <CustomBr />
+      <Footer />
     </>
   )
 }
