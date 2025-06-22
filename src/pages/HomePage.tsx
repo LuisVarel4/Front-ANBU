@@ -1,10 +1,15 @@
-import DashboardScreen from '../components/Dashboard';
-import TraitorsScreen from '../components/Traitors';
+import HeaderHero from '../features/HeaderHero';
+import Traitors from '../features/Traitors';
+import Footer from '../features/Footer';
+import CustomBr from '../components/CustomBr'
 
 const HomePage: React.FC = () => {
   return <>
-    <DashboardScreen />;
-    <TraitorsScreen />
+    <HeaderHero />
+    <CustomBr />
+    <Traitors />
+    <CustomBr />
+    <Footer />
   </>
 };
 
