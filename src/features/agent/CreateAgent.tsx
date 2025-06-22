@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import maskAnbu from '../assets/ilustrations/Mascara_png-removebg-preview.png';
-import Popup from '../components/Popup'; 
-import Button from '../components/Button';
-import Header from '../components/Header';
+import maskAnbu from '../../assets/ilustrations/Mascara_png-removebg-preview.png';
+import Popup from '../../components/Popup'; 
+import Button from '../../components/Button';
+import Header from '../../components/mission/Header';
 
 function CreateAgent() {
   const [formData, setFormData] = useState({

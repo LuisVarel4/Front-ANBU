@@ -1,6 +1,6 @@
 import React from 'react';
 import anbuLetras from '../../assets/logos/anbu-letras.png'; 
-import maskAnbu from '../assets/ilustrations/Mascara_png-removebg-preview.png';
+import maskAnbu from '../../assets/ilustrations/Mascara_png-removebg-preview.png';
 
 const HeaderMision: React.FC = () => {
   return (

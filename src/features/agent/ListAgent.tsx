@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Header from '../../components/Header';
+import Header from '../../components/mission/Header';
 import Button from '../../components/Button';
 import { FaEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
