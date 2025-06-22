@@ -51,6 +51,7 @@ const BellWithNotifications: React.FC = () => {
                 <NotificationsMenu
                     notifications={notifications}
                     isOpen={isOpen}
+                    setIsOpen={setIsOpen}
                     panelRef={panelRef}
                 />
             </div>
