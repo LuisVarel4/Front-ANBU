@@ -1,16 +1,17 @@
 import React from 'react';
+import whiteLogo from '../assets/logos/logo_blanco.png';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color: string;        // required background color (Tailwind class)
-  textColor?: string;   // optional text color (Tailwind class)
-  iconRight?: string;   // optional image/icon path
+  color: string;        
+  textColor?: string;   
+  iconRight?: string;   
 }
 
 const Button: React.FC<ButtonProps> = ({
   children,
   color,
   textColor = 'text-white',
-  iconRight,
+  iconRight = whiteLogo,
   className = '',
   ...props
 }) => {

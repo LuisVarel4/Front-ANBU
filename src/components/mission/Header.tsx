@@ -1,5 +1,5 @@
 import React from 'react';
-import anbuLetras from '../assets/logos/anbu-letras.png'; 
+import anbuLetras from '../../assets/logos/anbu-letras.png'; 
 
 const HeaderMision: React.FC = () => {
   return (
@@ -14,3 +14,4 @@ const HeaderMision: React.FC = () => {
 };
 
 export default HeaderMision;
+  

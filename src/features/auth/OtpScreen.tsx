@@ -2,7 +2,6 @@ import React from 'react';
 import Button from '../../components/Button';
 import MascaraAmbuInicio from '../../assets/logos/Logo prueba 4.png'; 
 import RelojIcon from '../../assets/icons/chronometer-svgrepo-com.svg'; 
-import whiteLogo from '../../assets/logos/logo_blanco.png';
 import { useNavigate } from 'react-router-dom';
 
 const AuthScreen: React.FC = () => {
@@ -48,7 +47,6 @@ const AuthScreen: React.FC = () => {
                 type="submit"
                 color="bg-red-anbu hover:bg-yellow-anbu"
                 textColor="text-white hover:text-black"
-                iconRight={whiteLogo}
                 className="w-full"
               >
                 Enviar código de autenticación
