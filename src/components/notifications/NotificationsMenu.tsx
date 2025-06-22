@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Notification } from "../../store/notifications/notifications.types";
 import NotificationList from "./NotificationList";
@@ -17,13 +17,27 @@ const NotificationsMenu: React.FC<Props> = ({
     setIsOpen,
     panelRef,
 }) => {
+    useEffect(() => {
+        const target = document.documentElement; // <html>
+
+        if (isOpen && window.innerWidth < 640) {
+            target.style.overflow = "hidden";
+        } else {
+            target.style.overflow = "";
+        }
+
+        return () => {
+            target.style.overflow = "";
+        };
+    }, [isOpen]);
+
     return (
         <AnimatePresence>
             {isOpen && (
                 <>
                     {/* Mobile */}
                     <motion.div
-                        className="fixed inset-0 z-50 flex flex-col bg-white sm:hidden"
+                        className="fixed inset-0 z-50 flex flex-col overflow-auto bg-white sm:hidden"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
