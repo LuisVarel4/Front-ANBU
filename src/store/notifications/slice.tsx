@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import type { Notification } from './notifications.types.ts';
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { Notification } from "./notifications.types.ts";
 
 type NotificationsState = {
     list: Notification[];
@@ -9,41 +9,52 @@ type NotificationsState = {
 const initialState: NotificationsState = {
     list: [
         {
-            id: '1',
-            message: 'Has recibido una nueva misión.',
+            id: "1",
+            message: "Pedrito reportó un posible traidor.",
             createdAt: new Date().toISOString(),
             isRead: false,
-            type: 'mission',
+            type: "mission",
         },
         {
-            id: '2',
-            message: 'Se ha tomado una decisión importante en tu equipo.',
-            createdAt: new Date(Date.now() - 1000 * 60 * 60).toISOString(), // hace 1 hora
+            id: "2",
+            message: "Alfonsito quiere unirse a la misión recuperar Panamá",
+            createdAt: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
             isRead: false,
-            type: 'decision',
+            type: "decision",
         },
         {
-            id: '3',
-            message: 'Actualización del sistema completada.',
-            createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // hace 1 día
+            id: "3",
+            message: "Pablito reportó que fracasó en ganar el semestre",
+            createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
             isRead: true,
-            type: 'info',
+            type: "info",
+        },
+        {
+            id: "4",
+            message: "Danilito quiere que te unas a eliminar Perú",
+            createdAt: new Date(Date.now() - 1000 * 60 * 60 * 25).toISOString(),
+            isRead: false,
+            type: "decision",
         },
     ],
 };
 
 const notificationsSlice = createSlice({
-    name: 'notifications',
+    name: "notifications",
     initialState,
     reducers: {
         addNotification: (state, action: PayloadAction<Notification>) => {
-            const exists = state.list.some((n: Notification) => n.id === action.payload.id);
+            const exists = state.list.some(
+                (n: Notification) => n.id === action.payload.id,
+            );
             if (!exists) {
                 state.list.unshift(action.payload);
             }
         },
         markAsRead: (state, action: PayloadAction<string>) => {
-            const notif = state.list.find((n: Notification) => n.id === action.payload);
+            const notif = state.list.find(
+                (n: Notification) => n.id === action.payload,
+            );
             if (notif) {
                 notif.isRead = true;
             }
