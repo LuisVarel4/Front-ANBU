@@ -3,5 +3,6 @@ export type Notification = {
     message: string;
     createdAt: string;
     isRead: boolean;
-    type?: 'mission' | 'decision' | 'info';
+    type?: "mission" | "decision" | "info";
+    decisionStatus?: "accepted" | "rejected";
 };

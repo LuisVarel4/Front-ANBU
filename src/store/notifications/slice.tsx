@@ -67,6 +67,19 @@ const notificationsSlice = createSlice({
         clearNotifications: (state) => {
             state.list = [];
         },
+        setDecisionStatus(
+            state,
+            action: PayloadAction<{
+                id: string;
+                status: "accepted" | "rejected";
+            }>,
+        ) {
+            const n = state.list.find((n) => n.id === action.payload.id);
+            if (n) {
+                n.decisionStatus = action.payload.status;
+                n.isRead = true;
+            }
+        },
     },
 });
 
@@ -75,6 +88,7 @@ export const {
     markAsRead,
     markAllAsRead,
     clearNotifications,
+    setDecisionStatus,
 } = notificationsSlice.actions;
 
 export default notificationsSlice.reducer;
