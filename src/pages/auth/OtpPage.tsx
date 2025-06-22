@@ -1,4 +1,4 @@
-import OtpScreen from '../features/auth/OtpScreen';
+import OtpScreen from '../../features/auth/OtpScreen';
 
 const OtpPage: React.FC = () => {
   return <OtpScreen />;
