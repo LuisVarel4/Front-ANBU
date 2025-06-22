@@ -1,6 +1,7 @@
 import { motion, useAnimation } from "framer-motion";
 import React, { useEffect, useRef } from "react";
 import iconoCampana from "../../assets/icons/campana.png";
+import useNotificationSound from "./UseNotificationSound.tsx";
 
 type BellIconProps = {
     onClick?: () => void;
@@ -9,21 +10,14 @@ type BellIconProps = {
 
 const BellIcon: React.FC<BellIconProps> = ({ onClick, unreadCount }) => {
     const controls = useAnimation();
-    const prevCount = React.useRef(unreadCount);
-    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const prevCount = useRef(unreadCount);
 
-    useEffect(() => {
-        audioRef.current = new Audio("/sounds/notification.wav");
-        // Opcional: prevenir que se repita sobre sí mismo
-        audioRef.current.preload = "auto";
-    }, []);
+    const playNotificationSound = useNotificationSound();
 
     useEffect(() => {
         if (unreadCount > prevCount.current) {
             // Reproducir sonido
-            audioRef.current?.play().catch((err) => {
-                console.warn("No se pudo reproducir el sonido:", err);
-            });
+            playNotificationSound();
 
             // Ejecutar animación
             void controls.start({
@@ -32,7 +26,7 @@ const BellIcon: React.FC<BellIconProps> = ({ onClick, unreadCount }) => {
             });
         }
         prevCount.current = unreadCount;
-    }, [unreadCount, controls]);
+    }, [unreadCount, controls, playNotificationSound]);
 
     return (
         <div className="group cursor-pointer md:block" onClick={onClick}>

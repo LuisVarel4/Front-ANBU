@@ -14,12 +14,26 @@ const NotificationItem: React.FC<Props> = ({ notification }) => {
             }`}
         >
             <div className="flex justify-between gap-4">
-                {/* Contenido del mensaje y fecha */}
                 <div className="flex-1">
                     <p className="text-gray-800">{notification.message}</p>
-                    <small className="text-gray-400">
-                        {new Date(notification.createdAt).toLocaleString()}
-                    </small>
+
+                    {/* Estado de decisión */}
+                    {notification.decisionStatus === "accepted" && (
+                        <span className="text-xs text-green-600">
+                            ✔ Aceptada
+                        </span>
+                    )}
+                    {notification.decisionStatus === "rejected" && (
+                        <span className="text-xs text-red-600">
+                            ✘ Rechazada
+                        </span>
+                    )}
+
+                    <div>
+                        <small className="text-gray-400">
+                            {new Date(notification.createdAt).toLocaleString()}
+                        </small>
+                    </div>
                 </div>
 
                 <NotificationActions notification={notification} />
