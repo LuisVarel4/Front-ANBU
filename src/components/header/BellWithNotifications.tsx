@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import BellIcon from "../ui/BellIcon.tsx";
+import BellIcon from "../notifications/BellIcon.tsx";
 import NotificationsMenu from "../notifications/NotificationsMenu.tsx";
 import type { RootState } from "../../store";
 
