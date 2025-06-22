@@ -1,4 +1,4 @@
-import MisionsScreen from '../features/missions/ListMisionScreen';
+import MisionsScreen from '../../features/missions/ListMisionScreen';
 
 const MisionPage: React.FC = () => {
   return <MisionsScreen />;
