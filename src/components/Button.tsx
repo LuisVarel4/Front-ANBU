@@ -29,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({
         <img
           src={iconRight}
           alt="icon"
-          className="h-5 w-5 object-contain"
+          className="text-2xl h-5 w-5 object-contain"
         />
       )}
     </button>
