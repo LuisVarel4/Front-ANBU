@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import Header from '../../components/mission/Header';
 import Button from '../../components/Button';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
+interface Agent {
+  id: number;
+  nombre: string;
+  alias: string;
+  correo: string;
+  especialidad: string;
+  rol: string;
+}
 
-
-const mockAgents = [
+const initialAgents: Agent[] = [
   {
+    id: 1,
     nombre: 'Pablo Escobar',
     alias: 'Orichimaru',
     correo: 'Orichimaru@anbu.com.co',
@@ -15,6 +23,7 @@ const mockAgents = [
     rol: 'Kage',
   },
   {
+    id: 2,
     nombre: 'Gustavo Petro',
     alias: 'Loco',
     correo: 'Loco@anbu.com.co',
@@ -24,9 +33,9 @@ const mockAgents = [
 ];
 
 const AgentsListScreen: React.FC = () => {
-    
-  const navigate = useNavigate(); 
-    
+  const navigate = useNavigate();
+
+  const [agents, setAgents] = useState<Agent[]>(initialAgents);
   const [filters, setFilters] = useState({
     nombre: '',
     alias: '',
@@ -46,7 +55,7 @@ const AgentsListScreen: React.FC = () => {
     }
   };
 
-  const filteredAgents = mockAgents
+  const filteredAgents = agents
     .filter(agent =>
       agent.nombre.toLowerCase().includes(filters.nombre.toLowerCase()) &&
       agent.alias.toLowerCase().includes(filters.alias.toLowerCase()) &&
@@ -56,12 +65,23 @@ const AgentsListScreen: React.FC = () => {
     )
     .sort((a, b) => {
       if (!sortField) return 0;
-      const valA = a[sortField as keyof typeof a];
-      const valB = b[sortField as keyof typeof b];
+      const valA = a[sortField as keyof Agent];
+      const valB = b[sortField as keyof Agent];
       return sortAsc
         ? String(valA).localeCompare(String(valB))
         : String(valB).localeCompare(String(valA));
     });
+
+  const handleEdit = (agent: Agent) => {
+    navigate('/agent-edit', { state: { agenteAEditar: agent } });
+  };
+
+  const handleDelete = (id: number) => {
+    const confirm = window.confirm('¿Estás seguro que deseas eliminar este agente?');
+    if (confirm) {
+      setAgents(prev => prev.filter(agent => agent.id !== id));
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black-anbu text-white">
@@ -84,7 +104,7 @@ const AgentsListScreen: React.FC = () => {
                   {key.charAt(0).toUpperCase() + key.slice(1)}
                 </th>
               ))}
-              <th className="px-4 py-2">Editar</th>
+              <th className="px-4 py-2">Acciones</th>
             </tr>
             <tr className="bg-white">
               <th><input type="text" placeholder="Filtro" className="w-full p-1 text-xs text-black-anbu" onChange={(e) => setFilters({ ...filters, nombre: e.target.value })} /></th>
@@ -96,18 +116,19 @@ const AgentsListScreen: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredAgents.map((agent, index) => (
-              <tr key={index} className="border-t border-gray-700 text-center">
+            {filteredAgents.map((agent) => (
+              <tr key={agent.id} className="border-t border-gray-700 text-center">
                 <td className="px-4 py-2 text-gray3-anbu-300">{agent.nombre}</td>
                 <td className="px-4 py-2 text-gray3-anbu-300">{agent.alias}</td>
                 <td className="px-4 py-2 text-gray3-anbu-300 font-bold">{agent.correo}</td>
                 <td className="px-4 py-2 text-gray3-anbu-300">{agent.rol}</td>
                 <td className="px-4 py-2 text-gray3-anbu-300">{agent.especialidad}</td>
-                <td className="px-4 py-2">
-                  <button
-                    className="text-red-anbu hover:underline cursor-pointer"
-                    onClick={() => navigate('/create-agent')}>
+                <td className="px-4 py-2 flex justify-center gap-3">
+                  <button onClick={() => handleEdit(agent)} className="text-yellow-anbu hover:scale-110">
                     <FaEdit />
+                  </button>
+                  <button onClick={() => handleDelete(agent.id)} className="text-red-anbu hover:scale-110">
+                    <FaTrash />
                   </button>
                 </td>
               </tr>
@@ -118,15 +139,14 @@ const AgentsListScreen: React.FC = () => {
 
       <div className="flex justify-between px-6 mt-8">
         <Button
-          onClick={() =>  navigate('/homepage')}
+          onClick={() => navigate('/homepage')}
           type="button"
           color="bg-red-anbu"
           className="hover:bg-gray2-anbu">
           Volver
         </Button>
         <Button
-
-            onClick={() =>  navigate('/create-agent')}
+          onClick={() => navigate('/agent-create')}
           type="button"
           color="bg-red-anbu"
           className="hover:bg-green-anbu">

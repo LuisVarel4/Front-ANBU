@@ -5,8 +5,9 @@ import OtpPage from '../pages/auth/OtpPage';
 import HomePage from '../pages/HomePage';
 import MisionPage from '../pages/mission/MisionPage';
 import MisionDetailPage from '../pages/mission/MisionDetailPage';
-import CreateAgentPage  from '../pages/agent/CreateAgentPage';
+import CreateAgent  from '../features/agent/CreateAgent';
 import AgentListPage from '../features/agent/ListAgent';
+import AgentForm from '../features/agent/AgentForm';
 
 const AppRoutes = () => {
   return (
@@ -18,8 +19,9 @@ const AppRoutes = () => {
 
       <Route path="/mision" element={<MisionPage />} />
       <Route path="/mision-detail" element={<MisionDetailPage />} />
-      <Route path="/agent-create" element={<CreateAgentPage />} />
+      <Route path="/agent-create" element={<CreateAgent />} />
       <Route path="/agent-list" element={<AgentListPage />} />
+      <Route path="/agent-edit" element={<AgentForm />} />
     </Routes>
   );
 };
