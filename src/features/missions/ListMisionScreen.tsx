@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../../components/mission/Header";
+import Header from "../../components/header/Header";
 import { Button } from "../../components/ui";
 import ItemMisionList from "../../components/mission/ItemMisionList";
 import { mockMissions } from "../../data/misiones";
@@ -10,7 +10,7 @@ const MisionLisScreen: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
-      <Header />
+      <Header color="bg-red-anbu/90" />
 
       <div className="py-6 text-center">
         <h2 className="text-red-anbu text-2xl font-bold">
