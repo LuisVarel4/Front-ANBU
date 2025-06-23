@@ -1,14 +1,16 @@
 @import "tailwindcss";
 
+@plugin 'tailwind-scrollbar';
+
 @theme {
-  --color-red-anbu: #960014;
-  --color-green-anbu: #7f8f76;
-  --color-yellow-anbu: #ffe8c6;
-  --color-black-anbu: #090101;
-  --color-grayBlue-anbu: #262B32;
-  --color-gray1-anbu: #1B2229;
-  --color-gray2-anbu: #C7C7D1;
-  --color-gray3-anbu: #d9e0e6;
+    --color-red-anbu: #960014;
+    --color-green-anbu: #7f8f76;
+    --color-yellow-anbu: #ffe8c6;
+    --color-black-anbu: #090101;
+    --color-grayBlue-anbu: #262B32;
+    --color-gray1-anbu: #1B2229;
+    --color-gray2-anbu: #C7C7D1;
+    --color-gray3-anbu: #d9e0e6;
 }
 
 html {
