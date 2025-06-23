@@ -1,4 +1,3 @@
-// src/routes/Routes.tsx
 import { Route, Routes, Navigate } from 'react-router-dom'; 
 import AuthPage from '../pages/auth/AuthPage';
 import OtpPage from '../pages/auth/OtpPage';
