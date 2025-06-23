@@ -1,10 +1,11 @@
 // src/routes/Routes.tsx
-import { Route, Routes, Navigate } from 'react-router-dom'; 
-import AuthPage from '../pages/AuthPage';
-import OtpPage from '../pages/OtpPage';
-import HomePage from '../pages/HomePage';
-import MisionPage from '../pages/mission/MisionPage';
-import MisionDetailPage from '../pages/mission/MisionDetailPage';
+import { Route, Routes, Navigate } from "react-router-dom";
+import AuthPage from "../pages/AuthPage";
+import OtpPage from "../pages/OtpPage";
+import HomePage from "../pages/HomePage";
+import MisionPage from "../pages/mission/MisionPage";
+import MisionDetailPage from "../pages/mission/MisionDetailPage";
+import ChatPage from "../pages/mission/ChatPage.tsx";
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
 
       <Route path="/mision" element={<MisionPage />} />
       <Route path="/misionDetail" element={<MisionDetailPage />} />
+      <Route path="/mission/chat" element={<ChatPage />} />
     </Routes>
   );
 };
