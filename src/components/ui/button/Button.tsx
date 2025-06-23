@@ -20,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseClasses =
-    "font-medium py-1 px-2 rounded-md transition duration-200 flex items-center justify-center gap-2";
+    "font-medium py-1 px-2 rounded-md transition duration-200 flex items-center justify-center gap-2 cursor-pointer";
 
   return (
     <button
