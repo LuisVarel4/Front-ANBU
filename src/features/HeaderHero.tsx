@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import fondo from "../assets/ilustrations/itachi_bg.svg";
 import MobileMenuButton from "../components/header/MobileMenuButton";
 import DesktopNav from "../components/header/DesktopNav";
@@ -6,10 +6,13 @@ import MobileMenuOverlay from "../components/header/MobileMenuOverlay";
 import BackButton from "../components/header/BackButton";
 import WelcomeMessage from "../components/header/WelcomeMessage";
 import BellWithNotifications from "../components/header/BellWithNotifications.tsx";
+import useScrollLock from "../hooks/useScrollLock";
 
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const textShadow = { textShadow: "1px 1px 4px rgba(0, 0, 0, 0.7)" };
+    useScrollLock(isMenuOpen);
+
     return (
         <div
             className="relative h-screen w-full bg-cover bg-center"
