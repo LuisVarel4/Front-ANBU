@@ -24,7 +24,7 @@ const ItemMisionList: React.FC<MisionProps> = ({
   const navigate = useNavigate();
 
   const handleEdit = () => {
-    navigate('/misionDetail', {
+    navigate('/mision-detail', {
       state: {
         captain,
         objective,

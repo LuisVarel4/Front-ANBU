@@ -5,19 +5,14 @@ import Popup from '../../components/Popup';
 import Button from '../../components/Button';
 import Header from '../../components/mission/Header';
 
-function CreateAgent() {
+function RequestAgent() {
   const [formData, setFormData] = useState({
-    nombre: "",
     alias: "",
     correo: "",
-    password: "",
-    especialidad: "",
   });
   const navigate = useNavigate(); 
   const [errores, setErrores] = useState<{ [key: string]: string }>({});
   const [modalVisible, setModalVisible] = useState(false); 
-
-  const especialidades = ["Asesino", "Torturador", "Espía"];
 
   const manejarCambio = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -40,11 +35,8 @@ function CreateAgent() {
     if (Object.keys(nuevosErrores).length === 0) {
       setModalVisible(true); 
       setFormData({
-        nombre: "",
         alias: "",
         correo: "",
-        password: "",
-        especialidad: "",
       });
     }
   };
@@ -61,7 +53,7 @@ function CreateAgent() {
 
           <div className="flex flex-col gap-4">
             {/** Campos del formulario */}
-            {["nombre", "alias", "correo", "password"].map((campo) => (
+            {["alias", "correo",].map((campo) => (
               <div key={campo}>
                 <label className="block mb-1 capitalize">{campo}</label>
                 <input
@@ -75,25 +67,6 @@ function CreateAgent() {
               </div>
             ))}
 
-            <div>
-              <label className="block mb-1">Especialidad</label>
-              <select
-                name="especialidad"
-                value={formData.especialidad}
-                onChange={manejarCambio}
-                className="w-full px-3 py-2 rounded bg-gray-100 text-black-anbu"
-              >
-                <option value="">Selecciona una opción</option>
-                {especialidades.map((esp) => (
-                  <option key={esp} value={esp}>
-                    {esp}
-                  </option>
-                ))}
-              </select>
-              {errores.especialidad && (
-                <p className="text-red-400 text-sm">{errores.especialidad}</p>
-              )}
-            </div>
           </div>
 
           <div className="col-span-2 flex justify-center gap-4 mt-4">
@@ -109,14 +82,7 @@ function CreateAgent() {
               type="submit"
               color="bg-red-anbu"
               className="hover:bg-green-anbu">
-              Guardar
-            </Button>
-
-            <Button
-              type="button"
-              color="bg-red-anbu"
-              className="hover:bg-gray2-anbu">
-              Eliminar
+              Enviar Solicitud
             </Button>
           </div>
         </form>
@@ -132,4 +98,4 @@ function CreateAgent() {
   );
 }
 
-export default CreateAgent;
+export default RequestAgent;
