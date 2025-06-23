@@ -1,4 +1,4 @@
-import Button from '../components/Button';
+import { Button } from "../components/ui";
 import CloseButton from '../components/CloseButton';
 import jutsuAnbu from '../assets/ilustrations/anbu_jutsu.png';
 import { useNavigate } from 'react-router-dom';

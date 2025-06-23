@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import notificationsReducer from "./notifications/slice";
 import { useDispatch, useSelector } from "react-redux";
 import type { TypedUseSelectorHook } from "react-redux";
+
+// reducers
+import chatReducer from "./chat/slice.ts";
+import notificationsReducer from "./notifications/slice";
 
 export const store = configureStore({
   reducer: {
     notifications: notificationsReducer,
+    chat: chatReducer,
   },
 });
 

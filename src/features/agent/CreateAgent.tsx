@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import maskAnbu from '../../assets/ilustrations/Mascara_png-removebg-preview.png';
-import Popup from '../../components/Popup'; 
-import Button from '../../components/Button';
-import Header from '../../components/mission/Header';
+import { useNavigate } from "react-router-dom";
+import maskAnbu from "../../assets/ilustrations/Mascara_png-removebg-preview.png";
+import Popup from "../../components/Popup";
+import { Button } from "../../components/ui";
+import Header from "../../components/mission/Header";
 
 function CreateAgent() {
   const [formData, setFormData] = useState({
@@ -13,13 +13,15 @@ function CreateAgent() {
     password: "",
     especialidad: "",
   });
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [errores, setErrores] = useState<{ [key: string]: string }>({});
-  const [modalVisible, setModalVisible] = useState(false); 
+  const [modalVisible, setModalVisible] = useState(false);
 
   const especialidades = ["Asesino", "Torturador", "Espía"];
 
-  const manejarCambio = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const manejarCambio = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -38,7 +40,7 @@ function CreateAgent() {
     setErrores(nuevosErrores);
 
     if (Object.keys(nuevosErrores).length === 0) {
-      setModalVisible(true); 
+      setModalVisible(true);
       setFormData({
         nombre: "",
         alias: "",
@@ -50,38 +52,47 @@ function CreateAgent() {
   };
 
   return (
-    <div className="min-h-screen bg-black-anbu text-white flex flex-col items-center p-4">
-      <div className="w-full max-w-3xl bg-grayBlue-anbu rounded-xl shadow-md">
+    <div className="bg-black-anbu flex min-h-screen flex-col items-center p-4 text-white">
+      <div className="bg-grayBlue-anbu w-full max-w-3xl rounded-xl shadow-md">
         <Header />
-        
-        <form onSubmit={manejarEnvio} className="p-6 grid md:grid-cols-2 gap-6">
-          <div className="flex justify-center items-center">
-            <img src={maskAnbu} alt="ANBU Mask" className="w-70 h-70" />
+
+        <form onSubmit={manejarEnvio} className="grid gap-6 p-6 md:grid-cols-2">
+          <div className="flex items-center justify-center">
+            <img src={maskAnbu} alt="ANBU Mask" className="h-70 w-70" />
           </div>
 
           <div className="flex flex-col gap-4">
             {/** Campos del formulario */}
             {["nombre", "alias", "correo", "password"].map((campo) => (
               <div key={campo}>
-                <label className="block mb-1 capitalize">{campo}</label>
+                <label className="mb-1 block capitalize">{campo}</label>
                 <input
                   name={campo}
-                  type={campo === "correo" ? "email" : campo === "password" ? "password" : "text"}
+                  type={
+                    campo === "correo"
+                      ? "email"
+                      : campo === "password"
+                        ? "password"
+                        : "text"
+                  }
                   value={(formData as any)[campo]}
                   onChange={manejarCambio}
-                  className="w-full px-3 py-2 rounded bg-gray-100 text-black-anbu"
+                  className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
                 />
-                {errores[campo] && <p className="text-red-400 text-sm">{errores[campo]}</p>}
+                {errores[campo] && (
+                  <p className="text-sm text-red-400">{errores[campo]}</p>
+                )}
               </div>
             ))}
 
             <div>
-              <label className="block mb-1">Especialidad</label>
+              <label className="mb-1 block">Especialidad</label>
               <select
                 name="especialidad"
                 value={formData.especialidad}
                 onChange={manejarCambio}
-                className="w-full px-3 py-2 rounded bg-gray-100 text-black-anbu">
+                className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
+              >
                 <option value="">Selecciona una opción</option>
                 {especialidades.map((esp) => (
                   <option key={esp} value={esp}>
@@ -90,31 +101,34 @@ function CreateAgent() {
                 ))}
               </select>
               {errores.especialidad && (
-                <p className="text-red-400 text-sm">{errores.especialidad}</p>
+                <p className="text-sm text-red-400">{errores.especialidad}</p>
               )}
             </div>
           </div>
 
-          <div className="col-span-2 flex justify-center gap-4 mt-4">
+          <div className="col-span-2 mt-4 flex justify-center gap-4">
             <Button
-              onClick={() =>  navigate(-1)}
+              onClick={() => navigate(-1)}
               type="button"
               color="bg-red-anbu"
-              className="hover:bg-gray2-anbu">
-                Volver
+              className="hover:bg-gray2-anbu"
+            >
+              Volver
             </Button>
 
             <Button
               type="submit"
               color="bg-red-anbu"
-              className="hover:bg-green-anbu">
+              className="hover:bg-green-anbu"
+            >
               Crear Agente
             </Button>
 
             <Button
               type="button"
               color="bg-red-anbu"
-              className="hover:bg-gray2-anbu">
+              className="hover:bg-gray2-anbu"
+            >
               Eliminar
             </Button>
           </div>
