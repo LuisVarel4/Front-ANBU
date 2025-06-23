@@ -2,92 +2,13 @@ import React from 'react';
 import Header from '../../components/mission/Header';
 import Button from '../../components/Button';
 import ItemMisionList from '../../components/mission/ItemMisionList';
-
-const mockMissions = [
-  {
-    captain: 'Agente Anbu',
-    objective: 'Asesinar al líder O',
-    deadline: '27-10-2023',
-    level: 'Baja',
-    status: 'En Proceso',
-    isOwner: true,
-  },
-  {
-    captain: 'Carlos Quijano',
-    objective: 'Asesinar al líder O',
-    deadline: '27-10-2023',
-    level: 'Baja',
-    status: 'En Proceso',
-    isOwner: false,
-  },
-  {
-    captain: 'Emmanuel',
-    objective: 'Emboscada',
-    deadline: '29-10-2025',
-    level: 'Baja',
-    status: 'En Proceso',
-    isOwner: false,
-  },
-  {
-    captain: 'María Fernanda',
-    objective: 'Rescatar al rehén',
-    deadline: '03-11-2024',
-    level: 'Media',
-    status: 'Retraso',
-    isOwner: false,
-  },
-  {
-    captain: 'Juan Pérez',
-    objective: 'Infiltrar base enemiga',
-    deadline: '15-08-2025',
-    level: 'Alta',
-    status: 'Completada',
-    isOwner: false,
-  },
-  {
-    captain: 'Tatiana Ruiz',
-    objective: 'Recolectar información',
-    deadline: '12-07-2025',
-    level: 'Media',
-    status: 'En Proceso',
-    isOwner: false,
-  },
-  {
-    captain: 'Agente Anbu',
-    objective: 'Interceptar convoy',
-    deadline: '01-09-2025',
-    level: 'Crítica',
-    status: 'Retraso',
-    isOwner: true,
-  },
-  {
-    captain: 'Ana Torres',
-    objective: 'Sabotear comunicaciones',
-    deadline: '28-06-2025',
-    level: 'Crítica',
-    status: 'Fracaso',
-    isOwner: false,
-  },
-  {
-    captain: 'Santiago Rivera',
-    objective: 'Desactivar bomba',
-    deadline: '30-06-2025',
-    level: 'Alta',
-    status: 'Completada',
-    isOwner: false,
-  },
-  {
-    captain: 'Daniela Martínez',
-    objective: 'Vigilar zona frontera',
-    deadline: '10-07-2025',
-    level: 'Media',
-    status: 'En Proceso',
-    isOwner: false,
-  },
-];
-
+import { mockMissions } from '../../data/misiones';
+import { useNavigate } from 'react-router-dom';
 
 const MisionLisScreen: React.FC = () => {
+  
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
       <Header />
@@ -123,6 +44,7 @@ const MisionLisScreen: React.FC = () => {
           type="submit"
           color="bg-red-anbu hover:bg-yellow-anbu"
           textColor="text-white hover:text-black"
+          onClick={() => navigate(-1)}  
           className="px-6 py-2"
         >
           Volver

@@ -126,7 +126,7 @@ const AgentsListScreen: React.FC = () => {
         </Button>
         <Button
 
-            onClick={() =>  navigate('/create-agent')}
+            onClick={() =>  navigate('/agent-create')}
           type="button"
           color="bg-red-anbu"
           className="hover:bg-green-anbu">

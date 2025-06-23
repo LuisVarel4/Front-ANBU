@@ -18,7 +18,7 @@ function TablaRecompensas() {
 				<thead>
 					<tr>
 						<th className="p-3 text-center font-semibold text-gray1-anbu bg-gray3-anbu rounded-tl-2xl text-base md:text-lg border-b border-gray3-anbu">Nombre Traidor</th>
-						<th className="p-3 text-center font-semibold text-gray1-anbu bg-gray3-anbu rounded-tr-2xl text-base md:text-lg border-b border-gray3-anbu border-l border-gray2-anbu">Recompensa</th>
+						<th className="p-3 text-center font-semibold text-gray1-anbu bg-gray3-anbu rounded-tr-2xl text-base md:text-lg border-b border-gray3-anbu border-l ">Recompensa</th>
 					</tr>
 				</thead>
 				<tbody>
