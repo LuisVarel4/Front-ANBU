@@ -22,7 +22,7 @@ export const ScrollArea: React.FC<ScrollAreaProps> = ({
   return (
     <div
       ref={scrollRef}
-      className={`scrollbar-thin scrollbar-thumb-red-anbu scrollbar-track-transparent overflow-y-auto ${className}`}
+      className={`scrollbar-thin scrollbar-thumb-red-anbu scrollbar-track-transparent h-full overflow-y-auto ${className}`}
     >
       {children}
     </div>

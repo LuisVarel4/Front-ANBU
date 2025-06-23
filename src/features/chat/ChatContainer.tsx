@@ -25,10 +25,10 @@ export const ChatContainer: React.FC = () => {
   };
 
   return (
-    <div className="from-grayBlue-anbu to-black-anbu flex min-h-screen items-end justify-center bg-gradient-to-br px-4 py-2">
+    <div className="from-grayBlue-anbu to-black-anbu flex min-h-screen items-center justify-center bg-gradient-to-br px-4 py-2">
       <Card className="bg-grayBlue-anbu flex h-[90vh] w-full flex-col rounded-xl text-sm leading-tight shadow-lg md:text-base lg:text-sm">
         <ChatHeader title={objective} />
-        <CardContent className="h-full overflow-hidden pr-2">
+        <CardContent className="flex-1 overflow-hidden pr-2">
           <ScrollArea autoScroll>
             <MessageList messages={messages} currentUser={username} />
           </ScrollArea>

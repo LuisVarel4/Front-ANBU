@@ -27,7 +27,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, disabled }) => {
         placeholder="Mensaje"
         disabled={disabled}
         maxLength={500}
-        className="bg-gray3-anbu p-y0 text-black placeholder-gray-500"
+        className="bg-gray3-anbu mx-2 py-0 text-black placeholder-gray-500"
       />
       <Button
         type="submit"
