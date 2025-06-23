@@ -1,10 +1,12 @@
-// src/routes/Routes.tsx
 import { Route, Routes, Navigate } from "react-router-dom";
-import AuthPage from "../pages/AuthPage";
-import OtpPage from "../pages/OtpPage";
+import AuthPage from "../pages/auth/AuthPage";
+import OtpPage from "../pages/auth/OtpPage";
 import HomePage from "../pages/HomePage";
 import MisionPage from "../pages/mission/MisionPage";
 import MisionDetailPage from "../pages/mission/MisionDetailPage";
+import CreateAgentPage from "../pages/agent/CreateAgentPage";
+import AgentListPage from "../pages/agent/AgentListPage";
+import AgentFormPage from "../pages/agent/AgentFormPage";
 import ChatPage from "../pages/mission/ChatPage.tsx";
 
 const AppRoutes = () => {
@@ -16,7 +18,10 @@ const AppRoutes = () => {
       <Route path="/homepage" element={<HomePage />} />
 
       <Route path="/mision" element={<MisionPage />} />
-      <Route path="/misionDetail" element={<MisionDetailPage />} />
+      <Route path="/mision-detail" element={<MisionDetailPage />} />
+      <Route path="/agent-create" element={<CreateAgentPage />} />
+      <Route path="/agent-list" element={<AgentListPage />} />
+      <Route path="/agent-edit" element={<AgentFormPage />} />
       <Route path="/mission/chat" element={<ChatPage />} />
     </Routes>
   );

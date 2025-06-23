@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../../components/ui";
 import MascaraAmbuInicio from "../../assets/logos/Logo prueba 4.png";
 import { useNavigate } from "react-router-dom";
 
 const AuthScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Por favor ingresa un correo válido.");
+      return;
+    }
+    if (password.length < 8) {
+      setError("La contraseña debe tener al menos 8 caracteres.");
+      return;
+    }
+    // If valid, navigate
+    navigate("/otp");
+  };
 
   return (
     <div className="bg-black-anbu flex min-h-screen flex-col-reverse text-white md:flex-row">
@@ -19,13 +40,16 @@ const AuthScreen: React.FC = () => {
           </p>
           <br />
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <input
-                type="text"
+                type="email"
                 id="username"
                 className="bg-gray3-anbu focus:ring-red-anbu w-full rounded-md px-4 py-2 text-black placeholder:text-gray-600 focus:ring-2 focus:outline-none"
-                placeholder="Usuario"
+                placeholder="Correo electrónico"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
 
@@ -35,11 +59,14 @@ const AuthScreen: React.FC = () => {
                 id="password"
                 className="bg-gray3-anbu focus:ring-red-anbu w-full rounded-md px-4 py-2 text-black placeholder:text-gray-600 focus:ring-2 focus:outline-none"
                 placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={8}
               />
             </div>
-
+            {error && <div className="text-sm text-red-500">{error}</div>}
             <Button
-              onClick={() => navigate("/otp")}
               type="submit"
               color="bg-red-anbu hover:bg-yellow-anbu"
               textColor="text-white hover:text-black"
@@ -50,7 +77,6 @@ const AuthScreen: React.FC = () => {
           </form>
         </div>
       </div>
-
       <div className="flex w-full items-center justify-center p-6 md:w-1/2 md:p-8">
         <img
           src={MascaraAmbuInicio}

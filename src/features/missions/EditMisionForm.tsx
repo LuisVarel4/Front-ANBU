@@ -4,6 +4,7 @@ import EstadoDropdown from "../../components/mission/DropdownState";
 import { Button } from "../../components/ui";
 import { useNavigate } from "react-router-dom";
 
+
 const EditMissionForm: React.FC = () => {
   const navigate = useNavigate();
 
@@ -102,6 +103,7 @@ const EditMissionForm: React.FC = () => {
             type="button"
             color="bg-red-anbu hover:bg-yellow-anbu"
             textColor="text-white hover:text-black"
+            onClick={() => navigate('/agent-mision-list')}  
           >
             Ver Agentes
           </Button>
