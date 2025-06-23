@@ -1,4 +1,4 @@
-import logoBlanco from '../../assets/logos/logo_blanco.png';
+import logoBlanco from '../../assets/icons/mask_icon.png';
 
 interface MobileMenuOverlayProps {
   isOpen: boolean;
@@ -12,7 +12,7 @@ function MobileMenuOverlay({ isOpen, closeMenu, textShadow }: MobileMenuOverlayP
       isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
     }`}>
       <div className="flex flex-col items-center justify-center h-full space-y-8">
-        <img src={logoBlanco} alt="Logo" className="w-20 h-20 mb-8" />
+        <img src={logoBlanco} alt="Logo" className="w-20 h-20 mt-15"/>
 
         <nav className="flex flex-col space-y-6 text-center">
           {["inicio", "Misiones", "agentes", "reportes"].map((item) => (
