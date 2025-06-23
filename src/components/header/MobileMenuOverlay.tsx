@@ -3,10 +3,9 @@ import logoBlanco from '../../assets/icons/mask_icon.png';
 interface MobileMenuOverlayProps {
   isOpen: boolean;
   closeMenu: () => void;
-  textShadow: React.CSSProperties;
 }
 
-function MobileMenuOverlay({ isOpen, closeMenu, textShadow }: MobileMenuOverlayProps) {
+function MobileMenuOverlay({ isOpen, closeMenu}: MobileMenuOverlayProps) {
   return (
     <div className={`md:hidden fixed inset-0 bg-black/95 backdrop-blur-sm z-40 transition-opacity duration-300 ${
       isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -20,7 +19,6 @@ function MobileMenuOverlay({ isOpen, closeMenu, textShadow }: MobileMenuOverlayP
               key={item}
               href={`#${item}`}
               className="text-2xl font-medium text-gray3-anbu hover:text-red-anbu transition-colors px-6 py-3"
-              style={textShadow}
               onClick={closeMenu}
             >
               {item.charAt(0).toUpperCase() + item.slice(1)}
