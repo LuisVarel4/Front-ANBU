@@ -1,4 +1,5 @@
-import type { Traidor } from '../../data/traidores';
+import type { Traidor } from "../../data/traidores";
+import { ScrollArea } from "../ui";
 
 interface TablaRecompensasProps {
   data: Traidor[];
@@ -6,25 +7,40 @@ interface TablaRecompensasProps {
 
 function TablaRecompensas({ data }: TablaRecompensasProps) {
   return (
-    <div className="w-full max-w-lg mx-auto rounded-2xl shadow-lg overflow-hidden bg-grayBlue-anbu">
-      <table className="w-full">
+    <div className="bg-grayBlue-anbu mx-auto w-full max-w-lg overflow-hidden rounded-2xl shadow-lg">
+      <table className="w-full table-fixed">
         <thead>
           <tr>
-            <th className="p-3 text-center font-semibold text-gray1-anbu bg-gray3-anbu rounded-tl-2xl text-base md:text-lg border-b border-gray3-anbu">Nombre Traidor</th>
-            <th className="p-3 text-center font-semibold text-gray1-anbu bg-gray3-anbu rounded-tr-2xl text-base md:text-lg border-b border-gray3-anbu border-l border-gray2-anbu">Recompensa</th>
+            <th className="text-gray1-anbu bg-gray3-anbu border-gray3-anbu rounded-tl-2xl border-b p-3 text-center text-base font-semibold md:text-lg">
+              Nombre Traidor
+            </th>
+            <th className="text-gray1-anbu bg-gray3-anbu border-gray3-anbu rounded-tr-2xl border-b border-l p-3 text-center text-base font-semibold md:text-lg">
+              Recompensa
+            </th>
           </tr>
         </thead>
-        <tbody>
-          {data.map(({ nombre, recompensa }, index) => (
-            <tr key={index} className="border-b border-gray3-anbu last:border-b-0">
-              <td className="p-3 align-middle text-gray3-anbu text-left text-base md:text-lg">{nombre}</td>
-              <td className="p-3 text-right align-middle font-mono text-lg md:text-xl text-gray3-anbu">{recompensa}</td>
-            </tr>
-          ))}
-        </tbody>
       </table>
+      <ScrollArea className="max-h-64">
+        <table className="w-full table-fixed">
+          <tbody>
+            {data.map(({ nombre, recompensa }, index) => (
+              <tr
+                key={index}
+                className="border-gray3-anbu border-b last:border-b-0"
+              >
+                <td className="text-gray3-anbu p-3 text-left align-middle text-base md:text-lg">
+                  {nombre}
+                </td>
+                <td className="text-gray3-anbu p-3 text-right align-middle font-mono text-lg md:text-xl">
+                  {recompensa}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </ScrollArea>
     </div>
   );
 }
 
-export default TablaRecompensas; 
+export default TablaRecompensas;
