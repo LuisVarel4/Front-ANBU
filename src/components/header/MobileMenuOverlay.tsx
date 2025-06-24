@@ -1,5 +1,5 @@
 import logoBlanco from "../../assets/icons/mask_icon.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 interface MobileMenuOverlayProps {
   isOpen: boolean;
@@ -7,8 +7,6 @@ interface MobileMenuOverlayProps {
 }
 
 function MobileMenuOverlay({ isOpen, closeMenu }: MobileMenuOverlayProps) {
-  const navigate = useNavigate();
-
   const baseTextColor = "text-gray3-anbu";
   const activeTextColor = "text-red-anbu";
   const hoverTextColor = "hover:text-red-anbu";
