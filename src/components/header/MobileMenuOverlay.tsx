@@ -1,46 +1,89 @@
-import logoBlanco from '../../assets/logos/logo_blanco.png';
+import logoBlanco from "../../assets/icons/mask_icon.png";
+import { NavLink } from "react-router-dom";
 
 interface MobileMenuOverlayProps {
   isOpen: boolean;
   closeMenu: () => void;
-  textShadow: React.CSSProperties;
 }
 
-function MobileMenuOverlay({ isOpen, closeMenu, textShadow }: MobileMenuOverlayProps) {
+function MobileMenuOverlay({ isOpen, closeMenu }: MobileMenuOverlayProps) {
+  const baseTextColor = "text-gray3-anbu";
+  const activeTextColor = "text-red-anbu";
+  const hoverTextColor = "hover:text-red-anbu";
+
   return (
-    <div className={`md:hidden fixed inset-0 bg-black/95 backdrop-blur-sm z-40 transition-opacity duration-300 ${
-      isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-    }`}>
-      <div className="flex flex-col items-center justify-center h-full space-y-8">
-        <img src={logoBlanco} alt="Logo" className="w-20 h-20 mb-8" />
+    <div
+      className={`fixed inset-0 z-40 bg-black/95 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+        isOpen ? "opacity-100" : "pointer-events-none opacity-0"
+      }`}
+    >
+      <div className="flex h-full flex-col items-center justify-center space-y-8">
+        <img src={logoBlanco} alt="Logo" className="mt-15 h-20 w-20" />
 
         <nav className="flex flex-col space-y-6 text-center">
-          {["inicio", "Misiones", "agentes", "reportes"].map((item) => (
-            <a
-              key={item}
-              href={`#${item}`}
-              className="text-2xl font-medium text-gray3-anbu hover:text-red-anbu transition-colors px-6 py-3"
-              style={textShadow}
-              onClick={closeMenu}
-            >
-              {item.charAt(0).toUpperCase() + item.slice(1)}
-            </a>
-          ))}
-
-          <button className="text-2xl font-medium text-gray3-anbu hover:text-red-anbu transition-colors px-6 py-3">
-            <span>Notificaciones</span>
-          </button>
-
-          <button
-            className="text-2xl font-medium text-gray3-anbu hover:text-red-anbu transition-colors px-6 py-3"
+          <NavLink
+            to="/homepage"
             onClick={closeMenu}
+            className={({ isActive }) =>
+              `px-6 py-3 text-2xl font-medium transition-colors ${
+                isActive ? activeTextColor : baseTextColor
+              } ${hoverTextColor}`
+            }
+          >
+            Inicio
+          </NavLink>
+
+          <NavLink
+            to="/mision"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              `px-6 py-3 text-2xl font-medium transition-colors ${
+                isActive ? activeTextColor : baseTextColor
+              } ${hoverTextColor}`
+            }
+          >
+            Misiones
+          </NavLink>
+
+          <NavLink
+            to="/agent-list"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              `px-6 py-3 text-2xl font-medium transition-colors ${
+                isActive ? activeTextColor : baseTextColor
+              } ${hoverTextColor}`
+            }
+          >
+            Agentes
+          </NavLink>
+
+          <NavLink
+            to="/reportes"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              `px-6 py-3 text-2xl font-medium transition-colors ${
+                isActive ? activeTextColor : baseTextColor
+              } ${hoverTextColor}`
+            }
+          >
+            Reportes
+          </NavLink>
+
+          <NavLink
+            to="/auth"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              `px-6 py-3 text-2xl font-medium transition-colors ${
+                isActive ? activeTextColor : baseTextColor
+              } ${hoverTextColor}`
+            }
           >
             <span>Cerrar sesión</span>
-          </button>
+          </NavLink>
         </nav>
       </div>
     </div>
   );
 }
 
-export default MobileMenuOverlay; 
+export default MobileMenuOverlay;

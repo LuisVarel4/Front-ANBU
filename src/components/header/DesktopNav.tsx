@@ -1,21 +1,70 @@
-import logoBlanco from '../../assets/logos/logo_blanco.png';
-import { Link } from 'react-router-dom';
+import logoBlanco from "../../assets/icons/mask_icon.png";
+import { NavLink } from "react-router-dom";
+import React from "react";
 
+type Props = {
+  background: string;
+};
 
-interface DesktopNavProps {
-  textShadow: React.CSSProperties;
-}
+const DesktopNav: React.FC<Props> = ({ background = "transparent" }) => {
+  const isRedBg = background === "red";
+  const baseTextColor = isRedBg ? "text-white" : "text-gray2-anbu";
+  const hoverTextColor = isRedBg
+    ? "hover:text-yellow-anbu"
+    : "hover:text-red-anbu";
+  const activeTextColor = isRedBg ? "text-yellow-anbu" : "text-red-anbu";
 
-function DesktopNav({ textShadow }: DesktopNavProps) {
   return (
-    <ul className="hidden md:flex justify-center items-center space-x-10">
-      <li><a href="#inicio" className="text-xl text-black-anbu block text-center hover:text-red-anbu" style={textShadow}>Inicio</a></li>
-      <li><Link to="/mision" className="text-xl text-black-anbu block text-center hover:text-red-anbu" style={textShadow}>Misiones</Link></li>
-      <li><img src={logoBlanco} alt="Logo" className="w-16 h-16 md:w-22 md:h-22 invert" /></li>
-			<li><Link to="/agent-list" className="text-xl text-black-anbu block text-center hover:text-red-anbu" style={textShadow}> Agentes </Link></li>
-      <li><a href="#reportes" className="text-xl text-black-anbu block text-center hover:text-red-anbu" style={textShadow}>Reportes</a></li>
+    <ul className="hidden items-center justify-center space-x-10 md:flex text-shadow-lg/30">
+      <li>
+        <NavLink
+          to="/homepage"
+          className={({ isActive }) =>
+            `block text-center text-xl ${isActive ? activeTextColor : baseTextColor} ${hoverTextColor}`
+          }
+        >
+          Inicio
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/mision"
+          className={({ isActive }) =>
+            `block text-center text-xl ${isActive ? activeTextColor : baseTextColor} ${hoverTextColor} `
+          }
+        >
+          Misiones
+        </NavLink>
+      </li>
+      <li>
+        <img
+          src={logoBlanco}
+          alt="Logo"
+          className="h-16 w-16 md:h-22 md:w-22"
+        />
+      </li>
+      <li>
+        <NavLink
+          to="/agent-list"
+          className={({ isActive }) =>
+            `block text-center text-xl ${isActive ? activeTextColor : baseTextColor} ${hoverTextColor}`
+          }
+        >
+          Agentes
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/reportes"
+          className={({ isActive }) =>
+            `block text-center text-xl ${isActive ? activeTextColor : baseTextColor} ${hoverTextColor}`
+          }
+        >
+          Reportes
+        </NavLink>
+      </li>
     </ul>
   );
-}
+};
 
-export default DesktopNav; 
+export default DesktopNav;

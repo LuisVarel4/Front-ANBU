@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "../../components/ui";
-import MascaraAmbuInicio from "../../assets/logos/Logo prueba 4.png";
+import MascaraAmbuInicio from "../../assets/logos/Logo_mask_login.png";
 import RelojIcon from "../../assets/icons/chronometer-svgrepo-com.svg";
 import { useNavigate } from "react-router-dom";
 

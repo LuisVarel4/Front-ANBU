@@ -4,8 +4,8 @@ import { Button } from "../../components/ui";
 import { useNavigate } from "react-router-dom";
 import { mockAgentes } from "../../data/agentes";
 import { FaFilter } from "react-icons/fa";
-import ItemAgentMisionList from "../../components/mission/ItemAgentMisionList"; // Ajusta la ruta si es necesario
-const agents = mockAgentes; // Suponiendo que tienes una lista de agentes en un archivo de datos
+import ItemAgentMisionList from "../../components/mission/ItemAgentMisionList"; 
+const agents = mockAgentes;
 
 const ListAgentMisionScreen: React.FC = () => {
   const navigate = useNavigate();

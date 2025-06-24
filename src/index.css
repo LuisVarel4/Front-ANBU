@@ -11,9 +11,15 @@
     --color-gray1-anbu: #1B2229;
     --color-gray2-anbu: #C7C7D1;
     --color-gray3-anbu: #d9e0e6;
+
+}
+@font-face {
+    font-family: 'njaruto';
+    src: url('./assets/fonts/njnaruto.ttf') format('truetype');
 }
 
 html {
+
     overflow-x: hidden;
 }
 
@@ -22,3 +28,10 @@ body {
 }
 
 
+html, body, #root {
+    height: 100%;
+}
+
+h1, h2, a {
+    font-family: 'njaruto', sans-serif;
+}

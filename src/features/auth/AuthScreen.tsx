@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "../../components/ui";
-import MascaraAmbuInicio from "../../assets/logos/Logo prueba 4.png";
+import MascaraAmbuInicio from "../../assets/logos/Logo_mask_login.png";
 import { useNavigate } from "react-router-dom";
 
 const AuthScreen: React.FC = () => {

@@ -58,7 +58,7 @@ function CreateAgent() {
 
         <form onSubmit={manejarEnvio} className="grid gap-6 p-6 md:grid-cols-2">
           <div className="flex items-center justify-center">
-            <img src={maskAnbu} alt="ANBU Mask" className="h-70 w-70" />
+            <img src={maskAnbu} alt="ANBU Mask" className="h-auto w-70" />
           </div>
 
           <div className="flex flex-col gap-4">
