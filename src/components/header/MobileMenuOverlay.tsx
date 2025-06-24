@@ -79,7 +79,7 @@ function MobileMenuOverlay({ isOpen, closeMenu }: MobileMenuOverlayProps) {
             }
           >
             <span>Cerrar sesión</span>
-          </a>
+          </NavLink>
         </nav>
       </div>
     </div>

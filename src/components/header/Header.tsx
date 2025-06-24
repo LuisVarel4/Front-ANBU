@@ -11,7 +11,7 @@ const Header: React.FC<Props> = ({ color, floating }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <header
-      className={`h-20 w-full ${color} ${floating ? "absolute top-0 left-0 z-50" : ""}`}
+      className={`h-25 w-full ${color} ${floating ? "absolute top-0 left-0 z-50" : ""}`}
     >
       <nav className="relative flex items-center justify-center">
         {/* Mobile Menu Button */}

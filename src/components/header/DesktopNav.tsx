@@ -8,14 +8,14 @@ type Props = {
 
 const DesktopNav: React.FC<Props> = ({ background = "transparent" }) => {
   const isRedBg = background === "red";
-  const baseTextColor = isRedBg ? "text-white" : "text-black-anbu";
+  const baseTextColor = isRedBg ? "text-white" : "text-gray2-anbu";
   const hoverTextColor = isRedBg
-    ? "hover:text-black-anbu"
+    ? "hover:text-yellow-anbu"
     : "hover:text-red-anbu";
-  const activeTextColor = isRedBg ? "text-black-anbu" : "text-red-anbu";
+  const activeTextColor = isRedBg ? "text-yellow-anbu" : "text-red-anbu";
 
   return (
-    <ul className="hidden items-center justify-center space-x-10 md:flex">
+    <ul className="hidden items-center justify-center space-x-10 md:flex text-shadow-lg/30">
       <li>
         <NavLink
           to="/homepage"
@@ -30,7 +30,7 @@ const DesktopNav: React.FC<Props> = ({ background = "transparent" }) => {
         <NavLink
           to="/mision"
           className={({ isActive }) =>
-            `block text-center text-xl ${isActive ? activeTextColor : baseTextColor} ${hoverTextColor}`
+            `block text-center text-xl ${isActive ? activeTextColor : baseTextColor} ${hoverTextColor} `
           }
         >
           Misiones
