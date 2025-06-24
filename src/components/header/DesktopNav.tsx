@@ -55,7 +55,7 @@ const DesktopNav: React.FC<Props> = ({ background = "transparent" }) => {
       </li>
       <li>
         <NavLink
-          to="/reportes"
+          to="/reports"
           className={({ isActive }) =>
             `block text-center text-xl ${isActive ? activeTextColor : baseTextColor} ${hoverTextColor}`
           }

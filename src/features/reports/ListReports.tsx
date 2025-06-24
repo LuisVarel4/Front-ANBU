@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../../components/mission/Header';
 import {Button} from '../../components/ui';
 import { FaEye } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -46,7 +45,6 @@ const ListReports: React.FC = () => {
   };
   return (
     <div className="min-h-screen bg-black-anbu text-white">
-      <Header />
       <div className="text-center py-6">
         <h2 className="text-xl text-red-anbu font-semibold">Lista de reportes de traidores</h2>
       </div>

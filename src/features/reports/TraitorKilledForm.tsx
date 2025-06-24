@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import Header from '../../components/mission/Header';
 import {Button} from '../../components/ui';
 import ClipIcon from '../../assets/icons/clip-svgrepo-com.svg';
 import React, { useState } from 'react';
@@ -29,7 +28,6 @@ const ReportsForm: React.FC = () => {
   };
   return (
     <div className="min-h-screen bg-black-anbu text-white">
-      <Header />
       <div className="flex flex-col items-center w-full">
         {/* POPUP */}
         <Popup isOpen={popup.open} onClose={closePopup} message={popup.message} />
