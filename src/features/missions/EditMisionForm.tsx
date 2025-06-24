@@ -1,17 +1,13 @@
 import React from "react";
-import Header from "../../components/mission/Header";
 import EstadoDropdown from "../../components/mission/DropdownState";
 import { Button } from "../../components/ui";
 import { useNavigate } from "react-router-dom";
-
 
 const EditMissionForm: React.FC = () => {
   const navigate = useNavigate();
 
   return (
     <div className="bg-black-anbu min-h-screen text-white">
-      <Header />
-
       <div className="mx-auto max-w-5xl px-6 py-10">
         <h2 className="text-red-anbu mb-6 text-2xl font-bold">Capitán</h2>
 
@@ -103,7 +99,7 @@ const EditMissionForm: React.FC = () => {
             type="button"
             color="bg-red-anbu hover:bg-yellow-anbu"
             textColor="text-white hover:text-black"
-            onClick={() => navigate('/agent-mision-list')}  
+            onClick={() => navigate("/agent-mision-list")}
           >
             Ver Agentes
           </Button>

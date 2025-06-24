@@ -9,9 +9,10 @@ import BellWithNotifications from "./BellWithNotifications.tsx";
 type Props = { color: string; floating?: boolean };
 const Header: React.FC<Props> = ({ color, floating }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  console.log(floating);
   return (
     <header
-      className={`h-25 w-full ${color} ${floating ? "absolute top-0 left-0 z-50" : ""}`}
+      className={`h-18 w-full ${color} ${floating ? "absolute top-0 left-0 z-50" : ""}`}
     >
       <nav className="relative flex items-center justify-center">
         {/* Mobile Menu Button */}
