@@ -11,10 +11,10 @@ const ReportsForm: React.FC = () => {
   // Datos de ejemplo, puedes reemplazar por props o datos reales
   const data = {
     tipo: "Traidor asesinado",
-    fecha: "25/06/2025",
-    agente: "Luis Varela",
+    fecha: "25/07/2025",
+    agente: "Emma",
     evidencia: "evidencia.jpg",
-    descripcion: "Más falso que moneda de 300 pesos"
+    descripcion: "Lo veo bastante tieso, creo que ya no respira"
   };
 
   // Función para mostrar el popup
@@ -47,7 +47,7 @@ const ReportsForm: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block mb-1 font-semibold">Agente reportado</label>
+              <label className="block mb-1 font-semibold">Agente asesinado</label>
               <input
                 value={data.agente}
                 disabled
@@ -107,9 +107,9 @@ const ReportsForm: React.FC = () => {
               type="button"
               color="bg-[#960014]"
               className="w-full md:w-auto"
-              onClick={() => showPopup('Traidor creado')}
+              onClick={() => showPopup('Petición aceptada')}
             >
-              Crear traidor
+              Aceptar petición
             </Button>
           </div>
           <div className="md:col-span-2 flex justify-center mt-2">
