@@ -10,37 +10,30 @@ interface PopupProps {
 }
 
 function Popup({ isOpen, onClose, message }: PopupProps) {
-
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative bg-yellow-anbu p-6 rounded-xl shadow-lg text-center w-80 min-h-[340px] flex flex-col justify-between">
+    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+      <div className="bg-yellow-anbu p-4 rounded-xl shadow-lg text-center w-80 flex flex-col items-center relative">
         {/* Botón cerrar (X) */}
         <CloseButton onClick={onClose} />
 
-        {/* Mensaje */}
-        <h2 className="text-xl font-semibold text-black-anbu mt-4">{message}</h2>
-
-        {/* Imagen centrada */}
-        <div className="flex justify-center my-4">
+        <h2 className="text-lg font-semibold text-black-anbu">{message}</h2>
+        <div className="flex justify-center my-2">
           <img
             src={jutsuAnbu}
             alt="Jutsu ANBU"
-            className="w-40 h-40 object-contain"
+            className="w-20 h-20 object-contain"
           />
         </div>
-
-        {/* Botón "aceptar" */}
-        <div className="flex justify-center mt-2">
-          <Button
-            onClick={() =>  navigate('/homepage')}
-            color="bg-black-anbu"
-            className="hover:bg-gray-800">
-            Aceptar
-          </Button>
-        </div>
+        <Button
+          onClick={() => navigate(-1)}
+          color="bg-black-anbu"
+          className="hover:bg-gray-800 mt-2"
+        >
+          Aceptar
+        </Button>
       </div>
     </div>
   );

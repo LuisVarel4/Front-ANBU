@@ -12,6 +12,9 @@ import ChatPage from "../pages/mission/ChatPage";
 import MainLayout from "../layouts/MainLayout";
 import MisionAgentListPage from "../pages/mission/MisionAgentListPage.tsx";
 import AgentRequestPage from "../pages/mission/AgentRequestPage.tsx";
+import ReportsPage from '../pages/report/ReportsPage';
+import PosibleTraitorPage from '../pages/report/PosibleTraitorPage';
+import TraitorKilledPage from '../pages/report/TraitorKilledPage';
 
 export const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/auth" replace /> },
@@ -30,6 +33,9 @@ export const router = createBrowserRouter([
       { path: "mission/chat", element: <ChatPage /> },
       { path: "/agent-mision-list", element: <MisionAgentListPage /> },
       { path: "/agent-request", element: <AgentRequestPage /> },
+      { path: "/reports", element: <ReportsPage />},
+      { path: "/detalle-posible", element: <PosibleTraitorPage />},
+      { path: "/detalle-asesinado", element: <TraitorKilledPage />} 
     ],
   },
 ]);
