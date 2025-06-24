@@ -5,14 +5,21 @@ import Popup from "../../components/Popup";
 import { Button } from "../../components/ui";
 import Header from "../../components/mission/Header";
 
-function RequestAgent() {
+const AgentForm: React.FC = () => {
   const [formData, setFormData] = useState({
+    nombre: "",
     alias: "",
     correo: "",
+    password: "",
+    especialidad: "",
+    rol: "",
   });
+
   const navigate = useNavigate();
   const [errores, setErrores] = useState<{ [key: string]: string }>({});
   const [modalVisible, setModalVisible] = useState(false);
+  const especialidades = ["Asesino", "Torturador", "Espía"];
+  const roles = ["Kage", "Capitan", "Agente"];
 
   const manejarCambio = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -35,10 +42,15 @@ function RequestAgent() {
     setErrores(nuevosErrores);
 
     if (Object.keys(nuevosErrores).length === 0) {
+      // Mostrar éxito y limpiar formulario
       setModalVisible(true);
       setFormData({
+        nombre: "",
         alias: "",
         correo: "",
+        password: "",
+        especialidad: "",
+        rol: "",
       });
     }
   };
@@ -50,12 +62,12 @@ function RequestAgent() {
 
         <form onSubmit={manejarEnvio} className="grid gap-6 p-6 md:grid-cols-2">
           <div className="flex items-center justify-center">
-            <img src={maskAnbu} alt="ANBU Mask" className="h-70 w-70" />
+            <img src={maskAnbu} alt="ANBU Mask" className="h-60 w-60" />
           </div>
 
           <div className="flex flex-col gap-4">
-            {/** Campos del formulario */}
-            {["alias", "correo"].map((campo) => (
+            {/* Campos */}
+            {["nombre", "alias", "correo", "password"].map((campo) => (
               <div key={campo}>
                 <label className="mb-1 block capitalize">{campo}</label>
                 <input
@@ -76,11 +88,51 @@ function RequestAgent() {
                 )}
               </div>
             ))}
+
+            <div>
+              <label className="mb-1 block">Especialidad</label>
+              <select
+                name="especialidad"
+                value={formData.especialidad}
+                onChange={manejarCambio}
+                className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
+              >
+                <option value="">Selecciona una opción</option>
+                {especialidades.map((esp) => (
+                  <option key={esp} value={esp}>
+                    {esp}
+                  </option>
+                ))}
+              </select>
+              {errores.especialidad && (
+                <p className="text-sm text-red-400">{errores.especialidad}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="mb-1 block">Rol</label>
+              <select
+                name="rol"
+                value={formData.rol}
+                onChange={manejarCambio}
+                className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
+              >
+                <option value="">Selecciona un rol</option>
+                {roles.map((rol) => (
+                  <option key={rol} value={rol}>
+                    {rol}
+                  </option>
+                ))}
+              </select>
+              {errores.rol && (
+                <p className="text-sm text-red-400">{errores.rol}</p>
+              )}
+            </div>
           </div>
 
           <div className="col-span-2 mt-4 flex justify-center gap-4">
             <Button
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/homepage")}
               type="button"
               color="bg-red-anbu"
               className="hover:bg-gray2-anbu"
@@ -93,20 +145,27 @@ function RequestAgent() {
               color="bg-red-anbu"
               className="hover:bg-green-anbu"
             >
-              Enviar Solicitud
+              Guardar
+            </Button>
+
+            <Button
+              type="button"
+              color="bg-red-anbu"
+              className="hover:bg-gray2-anbu"
+            >
+              Eliminar
             </Button>
           </div>
         </form>
       </div>
 
-      {/* Modal de éxito */}
       <Popup
         isOpen={modalVisible}
         onClose={() => setModalVisible(false)}
-        message="¡Creación exitosa!"
+        message="¡Agente guardado exitosamente!"
       />
     </div>
   );
-}
+};
 
-export default RequestAgent;
+export default AgentForm;
