@@ -1,17 +1,18 @@
-import Welcome from '../features/Welcome';
-import Traitors from '../features/Traitors';
-import Footer from '../features/Footer';
-import CustomBr from '../components/CustomBr'
-import background from '../assets/ilustrations/itachi_bg.svg';
+import Welcome from "../features/Welcome";
+import Traitors from "../features/Traitors";
+import CustomBr from "../components/CustomBr";
+import background from "../assets/ilustrations/itachi_bg.svg";
+import React from "react";
 
 const HomePage: React.FC = () => {
-  return <>
-    <Welcome background={background} />
-    <CustomBr />
-    <Traitors />
-    <CustomBr />
-    <Footer />
-  </>
+  return (
+    <>
+      <Welcome background={background} />
+      <CustomBr />
+      <Traitors />
+      <CustomBr />
+    </>
+  );
 };
 
 export default HomePage;

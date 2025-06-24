@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Header from "../../components/mission/Header";
 import { Button } from "../../components/ui";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -89,9 +88,7 @@ const AgentsListScreen: React.FC = () => {
   };
 
   return (
-    <div className="bg-black-anbu min-h-screen text-white">
-      <Header />
-
+    <div className="bg-black-anbu h-full text-white">
       <div className="py-10 text-center">
         <h2 className="text-red-anbu text-xl font-semibold">
           Listado de Agentes

@@ -44,7 +44,7 @@ const BellWithNotifications: React.FC = () => {
           unreadCount={unreadCount}
         />
         {unreadCount > 0 && (
-          <Badge className="bg-red-anbu" floating rounded>
+          <Badge className="bg-grayBlue-anbu" floating rounded>
             {unreadCount}
           </Badge>
         )}

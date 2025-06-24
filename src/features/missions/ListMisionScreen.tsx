@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../../components/header/Header";
 import { Button } from "../../components/ui";
 import ItemMisionList from "../../components/mission/ItemMisionList";
 import { mockMissions } from "../../data/misiones";
@@ -9,9 +8,7 @@ const MisionLisScreen: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
-      <Header color="bg-red-anbu/90" />
-
+    <div className="h-full bg-[#0A0A0A] text-white">
       <div className="py-6 text-center">
         <h2 className="text-red-anbu text-2xl font-bold">
           Listado de misiones
