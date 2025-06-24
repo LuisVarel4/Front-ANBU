@@ -10,6 +10,8 @@ import AgentListPage from "../pages/agent/AgentListPage";
 import AgentFormPage from "../pages/agent/AgentFormPage";
 import ChatPage from "../pages/mission/ChatPage";
 import MainLayout from "../layouts/MainLayout";
+import MisionAgentListPage from "../pages/mission/MisionAgentListPage.tsx";
+import AgentRequestPage from "../pages/mission/AgentRequestPage.tsx";
 
 export const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/auth" replace /> },
@@ -26,6 +28,8 @@ export const router = createBrowserRouter([
       { path: "agent-list", element: <AgentListPage /> },
       { path: "agent-edit", element: <AgentFormPage /> },
       { path: "mission/chat", element: <ChatPage /> },
+      { path: "/agent-mision-list", element: <MisionAgentListPage /> },
+      { path: "/agent-request", element: <AgentRequestPage /> },
     ],
   },
 ]);

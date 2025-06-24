@@ -37,7 +37,7 @@ const BellWithNotifications: React.FC = () => {
   }, [isOpen]);
 
   return (
-    <div className="absolute top-0 right-5">
+    <div className="absolute top-0 right-0">
       <div className="relative" ref={buttonRef}>
         <BellIcon
           onClick={() => setIsOpen((prev) => !prev)}

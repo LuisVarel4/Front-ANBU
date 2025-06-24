@@ -1,10 +1,10 @@
 import React from "react";
-import Header from "../../components/mission/Header";
 import { Button } from "../../components/ui";
 import { useNavigate } from "react-router-dom";
 import { mockAgentes } from "../../data/agentes";
 import { FaFilter } from "react-icons/fa";
-import ItemAgentMisionList from "../../components/mission/ItemAgentMisionList"; 
+import ItemAgentMisionList from "../../components/mission/ItemAgentMisionList";
+
 const agents = mockAgentes;
 
 const ListAgentMisionScreen: React.FC = () => {
@@ -12,7 +12,6 @@ const ListAgentMisionScreen: React.FC = () => {
 
   return (
     <div className="bg-black-anbu min-h-screen text-white">
-      <Header />
       <div className="py-6 text-center">
         <h2 className="text-red-anbu text-2xl font-bold">Listado de Agentes</h2>
       </div>

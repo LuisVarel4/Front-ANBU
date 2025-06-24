@@ -29,6 +29,102 @@ const initialAgents: Agent[] = [
     especialidad: "Torturador",
     rol: "Capitan",
   },
+  {
+    id: 1,
+    nombre: "Pablo Escobar",
+    alias: "Orichimaru",
+    correo: "Orichimaru@anbu.com.co",
+    especialidad: "Asesino",
+    rol: "Kage",
+  },
+  {
+    id: 2,
+    nombre: "Gustavo Petro",
+    alias: "Loco",
+    correo: "Loco@anbu.com.co",
+    especialidad: "Torturador",
+    rol: "Capitan",
+  },
+  {
+    id: 1,
+    nombre: "Pablo Escobar",
+    alias: "Orichimaru",
+    correo: "Orichimaru@anbu.com.co",
+    especialidad: "Asesino",
+    rol: "Kage",
+  },
+  {
+    id: 2,
+    nombre: "Gustavo Petro",
+    alias: "Loco",
+    correo: "Loco@anbu.com.co",
+    especialidad: "Torturador",
+    rol: "Capitan",
+  },
+  {
+    id: 1,
+    nombre: "Pablo Escobar",
+    alias: "Orichimaru",
+    correo: "Orichimaru@anbu.com.co",
+    especialidad: "Asesino",
+    rol: "Kage",
+  },
+  {
+    id: 2,
+    nombre: "Gustavo Petro",
+    alias: "Loco",
+    correo: "Loco@anbu.com.co",
+    especialidad: "Torturador",
+    rol: "Capitan",
+  },
+  {
+    id: 1,
+    nombre: "Pablo Escobar",
+    alias: "Orichimaru",
+    correo: "Orichimaru@anbu.com.co",
+    especialidad: "Asesino",
+    rol: "Kage",
+  },
+  {
+    id: 2,
+    nombre: "Gustavo Petro",
+    alias: "Loco",
+    correo: "Loco@anbu.com.co",
+    especialidad: "Torturador",
+    rol: "Capitan",
+  },
+  {
+    id: 1,
+    nombre: "Pablo Escobar",
+    alias: "Orichimaru",
+    correo: "Orichimaru@anbu.com.co",
+    especialidad: "Asesino",
+    rol: "Kage",
+  },
+  {
+    id: 2,
+    nombre: "Gustavo Petro",
+    alias: "Loco",
+    correo: "Loco@anbu.com.co",
+    especialidad: "Torturador",
+    rol: "Capitan",
+  },
+  {
+    id: 1,
+    nombre: "Pablo Escobar",
+    alias: "Orichimaru",
+    correo: "Orichimaru@anbu.com.co",
+    especialidad: "Asesino",
+    rol: "Kage",
+  },
+  {
+    id: 2,
+    nombre: "Gustavo Petro",
+    alias: "Loco",
+    correo: "Loco@anbu.com.co",
+    especialidad: "Torturador",
+    rol: "Capitan",
+  },
 ];
 
 const AgentsListScreen: React.FC = () => {
@@ -88,7 +184,7 @@ const AgentsListScreen: React.FC = () => {
   };
 
   return (
-    <div className="bg-black-anbu h-full text-white">
+    <div className="bg-black-anbu min-h-full text-white">
       <div className="py-10 text-center">
         <h2 className="text-red-anbu text-xl font-semibold">
           Listado de Agentes

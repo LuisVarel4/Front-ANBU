@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import maskAnbu from "../../assets/ilustrations/Mascara_png-removebg-preview.png";
 import Popup from "../../components/Popup";
 import { Button } from "../../components/ui";
-import Header from "../../components/mission/Header";
 
 function CreateAgent() {
   const [formData, setFormData] = useState({
@@ -54,8 +53,6 @@ function CreateAgent() {
   return (
     <div className="bg-black-anbu flex min-h-screen flex-col items-center p-4 text-white">
       <div className="bg-grayBlue-anbu w-full max-w-3xl rounded-xl shadow-md">
-        <Header />
-
         <form onSubmit={manejarEnvio} className="grid gap-6 p-6 md:grid-cols-2">
           <div className="flex items-center justify-center">
             <img src={maskAnbu} alt="ANBU Mask" className="h-auto w-70" />
