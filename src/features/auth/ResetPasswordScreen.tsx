@@ -3,28 +3,39 @@ import { Button } from "../../components/ui";
 import MascaraAmbuInicio from "../../assets/logos/Logo_mask_login.png";
 import { useNavigate } from "react-router-dom";
 
-const AuthScreen: React.FC = () => {
+const ResetPasswordScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError("Por favor ingresa un correo válido.");
+    // Restricciones
+    if (newPassword.length < 8) {
+      setError("La nueva contraseña debe tener al menos 8 caracteres.");
       return;
     }
-    if (password.length < 8) {
-      setError("La contraseña debe tener al menos 8 caracteres.");
+    if (!/[A-Z]/.test(newPassword)) {
+      setError("La contraseña debe contener al menos una letra mayúscula.");
       return;
     }
-    // If valid, navigate
-    navigate("/otp");
+    if (!/[^A-Za-z0-9]/.test(newPassword)) {
+      setError("La contraseña debe contener al menos un símbolo.");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setError("Las contraseñas no coinciden.");
+      return;
+    }
+
+    // Aquí iría la lógica para guardar la nueva contraseña
+    setSuccess("¡Contraseña restablecida exitosamente!");
+    setTimeout(() => navigate("/login"), 1500);
   };
 
   return (
@@ -32,56 +43,48 @@ const AuthScreen: React.FC = () => {
       <div className="flex w-full flex-col items-center justify-center p-8 md:w-1/2">
         <div className="w-full max-w-sm">
           <h1 className="text-red-anbu mb-2 text-center text-3xl font-bold">
-            ¡Bienvenido Agente!
+            Restablecer contraseña
           </h1>
           <br />
           <p className="text-gray2-anbu mb-6 text-center">
-            Autenticación requerida. El silencio es lealtad.
+            Ingresa tu nueva contraseña y confírmala.
           </p>
           <br />
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <input
-                type="email"
-                id="username"
-                className="bg-gray3-anbu focus:ring-red-anbu w-full rounded-md px-4 py-2 text-black placeholder:text-gray-600 focus:ring-2 focus:outline-none"
-                placeholder="Correo electrónico"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            <div>
-              <input
                 type="password"
-                id="password"
+                id="new-password"
                 className="bg-gray3-anbu focus:ring-red-anbu w-full rounded-md px-4 py-2 text-black placeholder:text-gray-600 focus:ring-2 focus:outline-none"
-                placeholder="Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Nueva contraseña"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
                 required
                 minLength={8}
               />
-              <div className="text-right mt-0">
-                <span
-                  className="text-sm text-gray2-anbu hover:underline cursor-pointer"
-                  onClick={() => navigate("/email-notification")}
-                >
-                  ¿Olvidaste tu contraseña?
-                </span>
             </div>
+            <div>
+              <input
+                type="password"
+                id="confirm-password"
+                className="bg-gray3-anbu focus:ring-red-anbu w-full rounded-md px-4 py-2 text-black placeholder:text-gray-600 focus:ring-2 focus:outline-none"
+                placeholder="Confirmar nueva contraseña"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                minLength={8}
+              />
             </div>
-
             {error && <div className="text-sm text-red-500">{error}</div>}
+            {success && <div className="text-sm text-green-500">{success}</div>}
             <Button
               type="submit"
               color="bg-red-anbu hover:bg-yellow-anbu"
               textColor="text-white hover:text-black"
               className="w-full"
             >
-              Enviar código de autenticación
+              Establecer nueva contraseña
             </Button>
           </form>
         </div>
@@ -97,4 +100,4 @@ const AuthScreen: React.FC = () => {
   );
 };
 
-export default AuthScreen;
+export default ResetPasswordScreen;

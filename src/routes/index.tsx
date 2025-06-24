@@ -2,6 +2,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import AuthPage from "../pages/auth/AuthPage";
 import OtpPage from "../pages/auth/OtpPage";
+import ResetPasswordPage from "../pages/auth/ResetPasswordPage.tsx";
+import EmailNotificationPage from "../pages/auth/EmailNotificationPage.tsx";
 import HomePage from "../pages/HomePage";
 import MisionPage from "../pages/mission/MisionPage";
 import MisionDetailPage from "../pages/mission/MisionDetailPage";
@@ -20,19 +22,24 @@ export const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/auth" replace /> },
   { path: "/auth", element: <AuthPage /> },
   { path: "/otp", element: <OtpPage /> },
+  { path: "/reset-password", element: <ResetPasswordPage /> },
+  { path: "/email-notification", element: <EmailNotificationPage /> },
   {
     path: "/",
     element: <MainLayout />,
     children: [
       { path: "homepage", element: <HomePage /> },
-      { path: "mision", element: <MisionPage /> },
-      { path: "mision-detail", element: <MisionDetailPage /> },
+
       { path: "agent-create", element: <CreateAgentPage /> },
       { path: "agent-list", element: <AgentListPage /> },
       { path: "agent-edit", element: <AgentFormPage /> },
+
+      { path: "mision", element: <MisionPage /> },
+      { path: "mision-detail", element: <MisionDetailPage /> },
       { path: "mission/chat", element: <ChatPage /> },
       { path: "/agent-mision-list", element: <MisionAgentListPage /> },
       { path: "/agent-request", element: <AgentRequestPage /> },
+
       { path: "/reports", element: <ReportsPage />},
       { path: "/detalle-posible", element: <PosibleTraitorPage />},
       { path: "/detalle-asesinado", element: <TraitorKilledPage />} 
