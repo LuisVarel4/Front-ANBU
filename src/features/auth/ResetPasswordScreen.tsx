@@ -35,7 +35,7 @@ const ResetPasswordScreen: React.FC = () => {
 
     // Aquí iría la lógica para guardar la nueva contraseña
     setSuccess("¡Contraseña restablecida exitosamente!");
-    setTimeout(() => navigate("/login"), 1500);
+    setTimeout(() => navigate("/auth"), 1500);
   };
 
   return (
