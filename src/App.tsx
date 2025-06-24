@@ -1,6 +1,6 @@
 import "./App.css";
 import { RouterProvider } from "react-router-dom";
-import { router } from "./routes"; // 👈 tu router exportado
+import { router } from "./routes";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
