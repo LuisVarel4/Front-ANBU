@@ -78,8 +78,8 @@ function MobileMenuOverlay({ isOpen, closeMenu }: MobileMenuOverlayProps) {
               } ${hoverTextColor}`
             }
           >
-            Cerrar sesión
-          </NavLink>
+            <span>Cerrar sesión</span>
+          </a>
         </nav>
       </div>
     </div>
