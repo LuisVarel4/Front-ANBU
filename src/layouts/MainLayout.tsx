@@ -16,7 +16,7 @@ const MainLayout = () => {
     <div className="flex h-full flex-col">
       <Header color={color} floating={floating} />
       <main className="flex-1 overflow-hidden">
-        <ScrollArea autoScroll>
+        <ScrollArea>
           <Outlet />
         </ScrollArea>
       </main>
