@@ -1,5 +1,6 @@
 import logoBlanco from "../../assets/icons/mask_icon.png";
 import { NavLink } from "react-router-dom";
+import { useAuthContext } from "../../context/auth/context.ts";
 
 interface MobileMenuOverlayProps {
   isOpen: boolean;
@@ -10,6 +11,8 @@ function MobileMenuOverlay({ isOpen, closeMenu }: MobileMenuOverlayProps) {
   const baseTextColor = "text-gray3-anbu";
   const activeTextColor = "text-red-anbu";
   const hoverTextColor = "hover:text-red-anbu";
+
+  const { logout } = useAuthContext();
 
   return (
     <div
@@ -69,17 +72,15 @@ function MobileMenuOverlay({ isOpen, closeMenu }: MobileMenuOverlayProps) {
             Reportes
           </NavLink>
 
-          <NavLink
-            to="/auth"
-            onClick={closeMenu}
-            className={({ isActive }) =>
-              `px-6 py-3 text-2xl font-medium transition-colors ${
-                isActive ? activeTextColor : baseTextColor
-              } ${hoverTextColor}`
-            }
+          <a
+            onClick={() => {
+              logout();
+              closeMenu();
+            }}
+            className={`px-6 py-3 text-2xl font-medium transition-colors ${baseTextColor} ${hoverTextColor} cursor-pointer`}
           >
-            <span>Cerrar sesión</span>
-          </NavLink>
+            Cerrar sesión
+          </a>
         </nav>
       </div>
     </div>

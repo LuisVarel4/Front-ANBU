@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Button } from "../../components/ui";
 import MascaraAmbuInicio from "../../assets/logos/Logo_mask_login.png";
 import RelojIcon from "../../assets/icons/chronometer-svgrepo-com.svg";
-import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/auth/context.ts";
 
 const OtpScreen: React.FC = () => {
-  const navigate = useNavigate();
-
   const [seconds, setSeconds] = useState(120); // 2 minutes
   const [expired, setExpired] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const { completeLogin } = useAuthContext();
 
   useEffect(() => {
     if (seconds > 0) {
@@ -41,7 +41,8 @@ const OtpScreen: React.FC = () => {
       setError("La contraseña debe tener al menos 6 caracteres.");
       return;
     }
-    navigate("/homepage");
+
+    completeLogin();
   };
 
   return (

@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Button } from "../../components/ui";
 import MascaraAmbuInicio from "../../assets/logos/Logo_mask_login.png";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/auth/context.ts";
 
 const AuthScreen: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const { login } = useAuthContext();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +26,14 @@ const AuthScreen: React.FC = () => {
       setError("La contraseña debe tener al menos 8 caracteres.");
       return;
     }
+    
     // If valid, navigate
+    const success = login(email, password);
+    if (!success) {
+      setError("Credenciales inválidas.");
+      return;
+    }
+
     navigate("/otp");
   };
 
@@ -64,14 +74,14 @@ const AuthScreen: React.FC = () => {
                 required
                 minLength={8}
               />
-              <div className="text-right mt-0">
+              <div className="mt-0 text-right">
                 <span
-                  className="text-sm text-gray2-anbu hover:underline cursor-pointer"
+                  className="text-gray2-anbu cursor-pointer text-sm hover:underline"
                   onClick={() => navigate("/email-notification")}
                 >
                   ¿Olvidaste tu contraseña?
                 </span>
-            </div>
+              </div>
             </div>
 
             {error && <div className="text-sm text-red-500">{error}</div>}
