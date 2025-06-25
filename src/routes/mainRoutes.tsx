@@ -1,8 +1,6 @@
 // routes/mainRoutes.tsx
 import HomePage from "../pages/HomePage";
-import CreateAgentPage from "../pages/agent/CreateAgentPage";
 import AgentListPage from "../pages/agent/AgentListPage";
-import AgentFormPage from "../pages/agent/AgentFormPage";
 import ReportsPage from "../pages/report/ReportsPage";
 import MisionPage from "../pages/mission/MisionPage";
 import MisionDetailPage from "../pages/mission/MisionDetailPage";
@@ -25,9 +23,9 @@ export const mainRoutes = [
     element: <RoleGuard allowedRoles={["kage", "anbu"]} />,
     children: [
       // Agentes
-      { path: "agent-create", element: <CreateAgentPage /> },
+      // { path: "agent-create", element: <CreateAgentPage /> },
       { path: "agent-list", element: <AgentListPage /> },
-      { path: "agent-edit", element: <AgentFormPage /> },
+      // { path: "agent-edit", element: <AgentFormPage /> },
       { path: "agent-mision-list", element: <MisionAgentListPage /> },
       { path: "agent-request", element: <AgentRequestPage /> },
 
