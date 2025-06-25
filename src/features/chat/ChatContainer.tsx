@@ -25,11 +25,11 @@ export const ChatContainer: React.FC = () => {
   };
 
   return (
-    <div className="from-grayBlue-anbu to-black-anbu flex min-h-screen items-center justify-center bg-gradient-to-br px-4 py-2">
-      <Card className="bg-grayBlue-anbu flex h-[90vh] w-full flex-col rounded-xl text-sm leading-tight shadow-lg md:text-base lg:text-sm">
+    <div className="from-grayBlue-anbu to-black-anbu flex h-full items-center justify-center bg-gradient-to-br px-4 py-2">
+      <Card className="bg-grayBlue-anbu flex h-full w-full max-w-4xl flex-col rounded-xl text-sm leading-tight shadow-lg md:text-base lg:text-sm">
         <ChatHeader title={objective} />
-        <CardContent className="flex-1 overflow-hidden pr-2">
-          <ScrollArea autoScroll>
+        <CardContent className="flex flex-1 flex-col overflow-hidden pr-2">
+          <ScrollArea autoScroll className="flex-1">
             <MessageList messages={messages} currentUser={username} />
           </ScrollArea>
         </CardContent>
