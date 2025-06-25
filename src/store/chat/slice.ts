@@ -51,8 +51,7 @@ const fakeApiMessages: Message[] = [
   {
     id: "10",
     username: "Tsunade",
-    content:
-      "Todos los ANBU, a la torre del Hokage, ¡de inmediato! ¡de inmediato!",
+    content: "Todos los ANBU, a la torre del Hokage, ¡de inmediato! ",
     createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
   },
   {

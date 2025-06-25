@@ -29,25 +29,28 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isOwn }) => {
   };
 
   return (
-    <div className={`flex ${isOwn ? "justify-end" : "justify-start pl-2"}`}>
+    <div
+      className={`flex ${isOwn ? "justify-end pr-2" : "justify-start pl-2"}`}
+    >
       <div
-        className={`max-w-xs rounded-lg px-2 py-1 lg:max-w-md ${
-          isOwn ? "bg-red-anbu text-white" : "bg-gray1-anbu text-gray2-anbu"
+        className={`max-w-[80%] rounded-lg px-4 py-2 ${
+          isOwn ? "bg-green-anbu text-white" : "bg-gray1-anbu text-gray2-anbu"
         }`}
       >
         {!isOwn && (
           <p
-            className={`${getUsernameColor(message.username)} mb-1 text-xs font-semibold`}
+            className={`${getUsernameColor(message.username)} mb-1 text-xs font-semibold sm:text-sm`}
           >
             {message.username}
           </p>
         )}
-        <p className="text-[12px] leading-tight break-words">
+        <p className="text-xs leading-tight break-words sm:text-sm md:text-base">
           {message.content}
         </p>
+
         <p
-          className={`mt-0.5 text-end text-[10px] ${
-            isOwn ? "text-blue-100" : "text-gray-500"
+          className={`mt-0.5 text-end text-[10px] sm:text-xs ${
+            isOwn ? "text-white/70" : "text-gray-500"
           }`}
         >
           {new Date(message.createdAt).toLocaleTimeString([], {

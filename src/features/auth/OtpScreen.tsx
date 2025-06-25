@@ -2,19 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Button } from "../../components/ui";
 import MascaraAmbuInicio from "../../assets/logos/Logo_mask_login.png";
 import RelojIcon from "../../assets/icons/chronometer-svgrepo-com.svg";
-import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/auth/context.ts";
+import OtpInput from "../../components/ui/form/OtpInpu.tsx";
 
 const OtpScreen: React.FC = () => {
-  const navigate = useNavigate();
-
-  const [seconds, setSeconds] = useState(120); // 2 minutes
+  const [seconds, setSeconds] = useState(120);
   const [expired, setExpired] = useState(false);
-  const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+
+  const { completeLogin } = useAuthContext();
 
   useEffect(() => {
     if (seconds > 0) {
-      const timer = setTimeout(() => setSeconds(seconds - 1), 1000);
+      const timer = setTimeout(() => setSeconds((s) => s - 1), 1000);
       return () => clearTimeout(timer);
     } else {
       setExpired(true);
@@ -24,7 +25,7 @@ const OtpScreen: React.FC = () => {
   const handleResend = () => {
     setSeconds(120);
     setExpired(false);
-    setPassword("");
+    setOtp("");
     setError("");
   };
 
@@ -36,12 +37,15 @@ const OtpScreen: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
     if (expired) return;
-    if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres.");
+
+    if (otp.length < 6) {
+      setError("Debes ingresar el código completo.");
       return;
     }
-    navigate("/homepage");
+
+    completeLogin(); // Aquí validarías con backend en un caso real
   };
 
   return (
@@ -55,8 +59,11 @@ const OtpScreen: React.FC = () => {
             Autenticación requerida. El silencio es lealtad.
           </p>
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <div className="mb-6 flex items-center justify-center gap-2">
+          <form
+            className="mb-6 flex flex-col items-center justify-center gap-2 space-y-4"
+            onSubmit={handleSubmit}
+          >
+            <div className="flex items-center gap-2">
               <img
                 src={RelojIcon}
                 alt="icon"
@@ -69,16 +76,11 @@ const OtpScreen: React.FC = () => {
             </div>
 
             <div>
-              <input
-                type="password"
-                id="password"
-                className="bg-gray3-anbu focus:ring-red-anbu w-full rounded-md px-4 py-2 text-black placeholder:text-gray-600 focus:ring-2 focus:outline-none"
-                placeholder="Contraseña"
-                disabled={expired}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                minLength={6}
-                required
+              <OtpInput
+                value={otp}
+                onChange={setOtp}
+                length={6}
+                inputType="password" // Asegúrate de soportar esto
               />
             </div>
             {error && <div className="text-sm text-red-500">{error}</div>}
