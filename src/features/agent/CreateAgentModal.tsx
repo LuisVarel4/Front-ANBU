@@ -22,7 +22,7 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
   const especialidades = ["Asesino", "Torturador", "Espía"];
 
   const manejarCambio = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     setFormData({
       ...formData,
@@ -55,78 +55,87 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
 
   if (!isOpen) return null;
 
+  type Campo = keyof typeof formData;
+
   return (
     <>
       {/* Contenido del modal */}
-      <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-3xl bg-grayBlue-anbu p-6 rounded-xl shadow-lg">
-        <form onSubmit={manejarEnvio} className="grid md:grid-cols-2 gap-6">
-          <div className="flex justify-center items-center">
-            <img src={maskAnbu} alt="ANBU Mask" className="w-74 h-74" />
-          </div>
+      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto p-4">
+        <div className="bg-grayBlue-anbu w-full max-w-3xl rounded-xl shadow-md">
+          <form
+            onSubmit={manejarEnvio}
+            className="grid gap-6 p-6 md:grid-cols-2"
+          >
+            <div className="flex items-center justify-center">
+              <img src={maskAnbu} alt="ANBU Mask" className="w-74" />
+            </div>
 
-          <div className="flex flex-col gap-4">
-            {["nombre", "alias", "correo", "password"].map((campo) => (
-              <div key={campo}>
-                <label className="block mb-1 capitalize">{campo}</label>
-                <input
-                  name={campo}
-                  type={
-                    campo === "correo"
-                      ? "email"
-                      : campo === "password"
-                      ? "password"
-                      : "text"
-                  }
-                  value={(formData as any)[campo]}
+            <div className="flex flex-col gap-4">
+              {(["nombre", "alias", "correo", "password"] as Campo[]).map(
+                (campo) => (
+                  <div key={campo}>
+                    <label className="mb-1 block capitalize">{campo}</label>
+                    <input
+                      name={campo}
+                      type={
+                        campo === "correo"
+                          ? "email"
+                          : campo === "password"
+                            ? "password"
+                            : "text"
+                      }
+                      value={formData[campo]}
+                      onChange={manejarCambio}
+                      className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
+                    />
+                    {errores[campo] && (
+                      <p className="text-sm text-red-400">{errores[campo]}</p>
+                    )}
+                  </div>
+                ),
+              )}
+
+              <div>
+                <label className="mb-1 block">Especialidad</label>
+                <select
+                  name="especialidad"
+                  value={formData.especialidad}
                   onChange={manejarCambio}
-                  className="w-full px-3 py-2 rounded bg-gray-100 text-black-anbu"
-                />
-                {errores[campo] && (
-                  <p className="text-red-400 text-sm">{errores[campo]}</p>
+                  className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
+                >
+                  <option value="">Selecciona una opción</option>
+                  {especialidades.map((esp) => (
+                    <option key={esp} value={esp}>
+                      {esp}
+                    </option>
+                  ))}
+                </select>
+                {errores.especialidad && (
+                  <p className="text-sm text-red-400">{errores.especialidad}</p>
                 )}
               </div>
-            ))}
-
-            <div>
-              <label className="block mb-1">Especialidad</label>
-              <select
-                name="especialidad"
-                value={formData.especialidad}
-                onChange={manejarCambio}
-                className="w-full px-3 py-2 rounded bg-gray-100 text-black-anbu"
-              >
-                <option value="">Selecciona una opción</option>
-                {especialidades.map((esp) => (
-                  <option key={esp} value={esp}>
-                    {esp}
-                  </option>
-                ))}
-              </select>
-              {errores.especialidad && (
-                <p className="text-red-400 text-sm">{errores.especialidad}</p>
-              )}
             </div>
-          </div>
 
-          <div className="col-span-2 flex justify-center gap-4 mt-4">
-            <Button
-              onClick={onClose}
-              type="button"
-              color="bg-red-anbu"
-              className="hover:bg-gray2-anbu"
-            >
-              Cancelar
-            </Button>
+            <div className="col-span-2 mt-4 flex justify-center gap-4">
+              <Button
+                onClick={onClose}
+                type="button"
+                color="bg-red-anbu"
+                className="hover:bg-gray2-anbu"
+              >
+                Cancelar
+              </Button>
 
-            <Button
-              type="submit"
-              color="bg-red-anbu"
-              className="hover:bg-green-anbu"
-            >
-              Crear Agente
-            </Button>
-          </div>
-        </form>
+              <Button
+                type="submit"
+                color="bg-red-anbu"
+                className="hover:bg-green-anbu"
+              >
+                Crear Agente
+              </Button>
+            </div>
+          </form>
+        </div>
 
         <Popup
           isOpen={modalVisible}

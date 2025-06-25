@@ -63,7 +63,7 @@ const AgentForm: React.FC = () => {
             className="grid gap-6 p-6 md:grid-cols-2"
           >
             <div className="flex items-center justify-center">
-              <img src={maskAnbu} alt="ANBU Mask" className="h-60 w-60" />
+              <img src={maskAnbu} alt="ANBU Mask" className="w-60" />
             </div>
 
             <div className="flex flex-col gap-4">
@@ -148,7 +148,6 @@ const AgentForm: React.FC = () => {
               >
                 Guardar
               </Button>
-
             </div>
           </form>
         </div>

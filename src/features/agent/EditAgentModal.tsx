@@ -53,7 +53,7 @@ const EditAgentModal: React.FC<EditAgentModalProps> = ({
   }, [agent]);
 
   const manejarCambio = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrores({ ...errores, [e.target.name]: "" });
@@ -64,7 +64,8 @@ const EditAgentModal: React.FC<EditAgentModalProps> = ({
 
     const nuevosErrores: { [key: string]: string } = {};
     Object.entries(formData).forEach(([key, value]) => {
-      if (!value && key !== "password") nuevosErrores[key] = "Este campo es obligatorio";
+      if (!value && key !== "password")
+        nuevosErrores[key] = "Este campo es obligatorio";
     });
 
     setErrores(nuevosErrores);
@@ -76,37 +77,40 @@ const EditAgentModal: React.FC<EditAgentModalProps> = ({
 
   if (!isOpen || !agent) return null;
 
+  type Campo = keyof typeof formData;
+
   return (
-    
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto p-4">
       <div className="bg-grayBlue-anbu w-full max-w-3xl rounded-xl shadow-md">
         <form onSubmit={manejarEnvio} className="grid gap-6 p-6 md:grid-cols-2">
           <div className="flex items-center justify-center">
-            <img src={maskAnbu} alt="ANBU Mask" className="h-60 w-60" />
+            <img src={maskAnbu} alt="ANBU Mask" className="w-60" />
           </div>
 
           <div className="flex flex-col gap-4">
-            {["nombre", "alias", "correo", "password"].map((campo) => (
-              <div key={campo}>
-                <label className="mb-1 block capitalize">{campo}</label>
-                <input
-                  name={campo}
-                  type={
-                    campo === "correo"
-                      ? "email"
-                      : campo === "password"
-                      ? "password"
-                      : "text"
-                  }
-                  value={(formData as any)[campo]}
-                  onChange={manejarCambio}
-                  className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
-                />
-                {errores[campo] && (
-                  <p className="text-sm text-red-400">{errores[campo]}</p>
-                )}
-              </div>
-            ))}
+            {(["nombre", "alias", "correo", "password"] as Campo[]).map(
+              (campo) => (
+                <div key={campo}>
+                  <label className="mb-1 block capitalize">{campo}</label>
+                  <input
+                    name={campo}
+                    type={
+                      campo === "correo"
+                        ? "email"
+                        : campo === "password"
+                          ? "password"
+                          : "text"
+                    }
+                    value={formData[campo]}
+                    onChange={manejarCambio}
+                    className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
+                  />
+                  {errores[campo] && (
+                    <p className="text-sm text-red-400">{errores[campo]}</p>
+                  )}
+                </div>
+              ),
+            )}
 
             <div>
               <label className="mb-1 block">Especialidad</label>
@@ -179,7 +183,6 @@ const EditAgentModal: React.FC<EditAgentModalProps> = ({
         message="¡Cambios guardados!"
       />
     </div>
-    
   );
 };
 
