@@ -133,7 +133,7 @@ const AgentForm: React.FC = () => {
 
             <div className="col-span-2 mt-4 flex justify-center gap-4">
               <Button
-                onClick={() => navigate("/homepage")}
+                onClick={() => navigate("/agent-list")}
                 type="button"
                 color="bg-red-anbu"
                 className="hover:bg-gray2-anbu"
@@ -149,13 +149,6 @@ const AgentForm: React.FC = () => {
                 Guardar
               </Button>
 
-              <Button
-                type="button"
-                color="bg-red-anbu"
-                className="hover:bg-gray2-anbu"
-              >
-                Eliminar
-              </Button>
             </div>
           </form>
         </div>

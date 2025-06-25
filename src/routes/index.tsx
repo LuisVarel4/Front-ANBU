@@ -7,9 +7,7 @@ import EmailNotificationPage from "../pages/auth/EmailNotificationPage.tsx";
 import HomePage from "../pages/HomePage";
 import MisionPage from "../pages/mission/MisionPage";
 import MisionDetailPage from "../pages/mission/MisionDetailPage";
-import CreateAgentPage from "../pages/agent/CreateAgentPage";
 import AgentListPage from "../pages/agent/AgentListPage";
-import AgentFormPage from "../pages/agent/AgentFormPage";
 import ChatPage from "../pages/mission/ChatPage";
 import MainLayout from "../layouts/MainLayout";
 import MisionAgentListPage from "../pages/mission/MisionAgentListPage.tsx";
@@ -30,9 +28,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "homepage", element: <HomePage /> },
 
-      { path: "agent-create", element: <CreateAgentPage /> },
       { path: "agent-list", element: <AgentListPage /> },
-      { path: "agent-edit", element: <AgentFormPage /> },
 
       { path: "mision", element: <MisionPage /> },
       { path: "mision-detail", element: <MisionDetailPage /> },

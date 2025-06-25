@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import maskAnbu from "../../assets/ilustrations/Mascara_png-removebg-preview.png";
+import Button from "../../components/ui/button/Button";
 import Popup from "../../components/Popup";
-import { Button } from "../../components/ui";
 
-function CreateAgent() {
+interface CreateAgentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
   const [formData, setFormData] = useState({
     nombre: "",
     alias: "",
@@ -12,14 +16,13 @@ function CreateAgent() {
     password: "",
     especialidad: "",
   });
-  const navigate = useNavigate();
   const [errores, setErrores] = useState<{ [key: string]: string }>({});
   const [modalVisible, setModalVisible] = useState(false);
 
   const especialidades = ["Asesino", "Torturador", "Espía"];
 
   const manejarCambio = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({
       ...formData,
@@ -50,45 +53,47 @@ function CreateAgent() {
     }
   };
 
+  if (!isOpen) return null;
+
   return (
-    <div className="bg-black-anbu flex min-h-screen flex-col items-center p-4 text-white">
-      <div className="bg-grayBlue-anbu w-full max-w-3xl rounded-xl shadow-md">
-        <form onSubmit={manejarEnvio} className="grid gap-6 p-6 md:grid-cols-2">
-          <div className="flex items-center justify-center">
-            <img src={maskAnbu} alt="ANBU Mask" className="h-auto w-70" />
+    <>
+      {/* Contenido del modal */}
+      <div className="fixed top-10 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-3xl bg-grayBlue-anbu p-6 rounded-xl shadow-lg">
+        <form onSubmit={manejarEnvio} className="grid md:grid-cols-2 gap-6">
+          <div className="flex justify-center items-center">
+            <img src={maskAnbu} alt="ANBU Mask" className="w-74 h-74" />
           </div>
 
           <div className="flex flex-col gap-4">
-            {/** Campos del formulario */}
             {["nombre", "alias", "correo", "password"].map((campo) => (
               <div key={campo}>
-                <label className="mb-1 block capitalize">{campo}</label>
+                <label className="block mb-1 capitalize">{campo}</label>
                 <input
                   name={campo}
                   type={
                     campo === "correo"
                       ? "email"
                       : campo === "password"
-                        ? "password"
-                        : "text"
+                      ? "password"
+                      : "text"
                   }
                   value={(formData as any)[campo]}
                   onChange={manejarCambio}
-                  className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
+                  className="w-full px-3 py-2 rounded bg-gray-100 text-black-anbu"
                 />
                 {errores[campo] && (
-                  <p className="text-sm text-red-400">{errores[campo]}</p>
+                  <p className="text-red-400 text-sm">{errores[campo]}</p>
                 )}
               </div>
             ))}
 
             <div>
-              <label className="mb-1 block">Especialidad</label>
+              <label className="block mb-1">Especialidad</label>
               <select
                 name="especialidad"
                 value={formData.especialidad}
                 onChange={manejarCambio}
-                className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
+                className="w-full px-3 py-2 rounded bg-gray-100 text-black-anbu"
               >
                 <option value="">Selecciona una opción</option>
                 {especialidades.map((esp) => (
@@ -98,19 +103,19 @@ function CreateAgent() {
                 ))}
               </select>
               {errores.especialidad && (
-                <p className="text-sm text-red-400">{errores.especialidad}</p>
+                <p className="text-red-400 text-sm">{errores.especialidad}</p>
               )}
             </div>
           </div>
 
-          <div className="col-span-2 mt-4 flex justify-center gap-4">
+          <div className="col-span-2 flex justify-center gap-4 mt-4">
             <Button
-              onClick={() => navigate(-1)}
+              onClick={onClose}
               type="button"
               color="bg-red-anbu"
               className="hover:bg-gray2-anbu"
             >
-              Volver
+              Cancelar
             </Button>
 
             <Button
@@ -120,26 +125,17 @@ function CreateAgent() {
             >
               Crear Agente
             </Button>
-
-            <Button
-              type="button"
-              color="bg-red-anbu"
-              className="hover:bg-gray2-anbu"
-            >
-              Eliminar
-            </Button>
           </div>
         </form>
-      </div>
 
-      {/* Modal de éxito */}
-      <Popup
-        isOpen={modalVisible}
-        onClose={() => setModalVisible(false)}
-        message="¡Creación exitosa!"
-      />
-    </div>
+        <Popup
+          isOpen={modalVisible}
+          onClose={() => setModalVisible(false)}
+          message="¡Creación exitosa!"
+        />
+      </div>
+    </>
   );
 }
 
-export default CreateAgent;
+export default CreateAgentModal;
