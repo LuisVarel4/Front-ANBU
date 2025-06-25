@@ -1,0 +1,45 @@
+// routes/mainRoutes.tsx
+import HomePage from "../pages/HomePage";
+import CreateAgentPage from "../pages/agent/CreateAgentPage";
+import AgentListPage from "../pages/agent/AgentListPage";
+import AgentFormPage from "../pages/agent/AgentFormPage";
+import ReportsPage from "../pages/report/ReportsPage";
+import MisionPage from "../pages/mission/MisionPage";
+import MisionDetailPage from "../pages/mission/MisionDetailPage";
+import ChatPage from "../pages/mission/ChatPage";
+import MisionAgentListPage from "../pages/mission/MisionAgentListPage";
+import AgentRequestPage from "../pages/mission/AgentRequestPage";
+import PosibleTraitorPage from "../pages/report/PosibleTraitorPage";
+import TraitorKilledPage from "../pages/report/TraitorKilledPage";
+import { HOME_PATH } from "../constants/app.constant";
+import RoleGuard from "../middleware/RoleGuard.tsx";
+
+export const mainRoutes = [
+  { path: HOME_PATH, element: <HomePage /> },
+
+  {
+    element: <RoleGuard allowedRoles={["kage"]} />,
+    children: [],
+  },
+  {
+    element: <RoleGuard allowedRoles={["kage", "anbu"]} />,
+    children: [
+      // Agentes
+      { path: "agent-create", element: <CreateAgentPage /> },
+      { path: "agent-list", element: <AgentListPage /> },
+      { path: "agent-edit", element: <AgentFormPage /> },
+      { path: "agent-mision-list", element: <MisionAgentListPage /> },
+      { path: "agent-request", element: <AgentRequestPage /> },
+
+      // Misiones
+      { path: "mision", element: <MisionPage /> },
+      { path: "mision-detail", element: <MisionDetailPage /> },
+      { path: "mission/chat", element: <ChatPage /> },
+
+      // Reportes
+      { path: "reports", element: <ReportsPage /> },
+      { path: "detalle-posible", element: <PosibleTraitorPage /> },
+      { path: "detalle-asesinado", element: <TraitorKilledPage /> },
+    ],
+  },
+];
