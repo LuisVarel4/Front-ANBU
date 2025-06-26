@@ -9,6 +9,9 @@ import BellWithNotifications from "./BellWithNotifications.tsx";
 type Props = { color: string; floating?: boolean };
 const Header: React.FC<Props> = ({ color, floating }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const isRedBg = color.includes("bg-red-anbu");
+
   return (
     <header
       className={`h-18 w-full ${color} ${floating ? "absolute top-0 left-0 z-50" : ""}`}
@@ -19,19 +22,15 @@ const Header: React.FC<Props> = ({ color, floating }) => {
           <MobileMenuButton
             isOpen={isMenuOpen}
             toggle={() => setIsMenuOpen(!isMenuOpen)}
-            background={color === "bg-red-anbu" ? "red" : "transparent"}
+            background={isRedBg ? "red" : "transparent"}
           />
         </div>
 
         {/* Back Button - Desktop only */}
-        <LogOutButton
-          background={color === "bg-red-anbu" ? "red" : "transparent"}
-        />
+        <LogOutButton background={isRedBg ? "red" : "transparent"} />
 
         {/* Desktop Navigation */}
-        <DesktopNav
-          background={color === "bg-red-anbu" ? "red" : "transparent"}
-        />
+        <DesktopNav background={isRedBg ? "red" : "transparent"} />
 
         {/* Desktop Bell Icon */}
         <BellWithNotifications />
