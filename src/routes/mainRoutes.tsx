@@ -3,6 +3,7 @@ import HomePage from "../pages/HomePage";
 import AgentListPage from "../pages/agent/AgentListPage";
 import ReportsPage from "../pages/report/ReportsPage";
 import MisionPage from "../pages/mission/MisionPage";
+import MisionCreatePage from "../pages/mission/MisionCreatePage.tsx";
 import MisionDetailPage from "../pages/mission/MisionDetailPage";
 import ChatPage from "../pages/mission/ChatPage";
 import MisionAgentListPage from "../pages/mission/MisionAgentListPage";
@@ -29,6 +30,7 @@ export const mainRoutes = [
 
       // Misiones
       { path: "mision", element: <MisionPage /> },
+      { path: "mision-create", element: <MisionCreatePage /> },
       { path: "mision-detail", element: <MisionDetailPage /> },
       { path: "mission/chat", element: <ChatPage /> },
 

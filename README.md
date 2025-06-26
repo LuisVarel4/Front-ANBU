@@ -1,54 +1,62 @@
-# React + TypeScript + Vite
+## 🚀 **Resumen e Instalación Rápida**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### **¿Qué es ANBU?**
+**ANBU** es un proyecto completo que simula un sistema de gestión de misiones para una organización de agentes especiales, inspirada en el universo de Naruto. **Este repositorio contiene únicamente el frontend** de la aplicación.
 
-Currently, two official plugins are available:
+### **Funcionalidades Principales:**
+- 🔐 **Autenticación** con sistema OTP
+- 👥 **Gestión de agentes** (crear, editar, listar)
+- 🎯 **Gestión de misiones** con diferentes prioridades y estados
+- 💬 **Chat en tiempo real** entre agentes
+- 🚨 **Sistema de reportes** de traidores
+- 🔔 **Notificaciones** con sonidos personalizados
+- 🎨 **Interfaz temática** con diseño ANBU
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### **Stack Tecnológico:**
+- **Frontend:** React 19 + TypeScript
+- **Bundler:** Vite
+- **Estado:** Redux Toolkit
+- **Estilos:** Tailwind CSS
+- **Animaciones:** Framer Motion + GSAP(Aún desarrollo)
+- **Navegación:** React Router DOM
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### **📦 Instalación Rápida:**
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+**Prerrequisitos:**
+- Node.js (versión 18 o superior)
+- npm o yarn
+
+**Pasos:**
+```bash
+# 1. Clonar el repositorio (Frontend)
+git clone [URL_DEL_REPOSITORIO]
+cd Front-ANBU
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Ejecutar en desarrollo
+npm run dev
+
+# 4. Abrir en navegador
+# http://localhost:5173
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+**Scripts Disponibles:**
+```bash
+npm run dev      # Desarrollo (puerto 5173)
+npm run build    # Construir para producción
+npm run lint     # Verificar código con ESLint
+npm run preview  # Previsualizar build de producción
 ```
+---
+### 🧪 **Credenciales de Prueba**
+
+Puedes iniciar sesión con los siguientes usuarios:
+
+- 👤 **Administrador:** `kage@anbu.com`  
+- 🕵️‍♂️ **Agente:** `agente@anbu.com`  
+- 🔑 **Contraseña:** Cualquiera (se acepta cualquier input en esta versión)
+

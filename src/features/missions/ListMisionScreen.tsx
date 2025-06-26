@@ -3,6 +3,7 @@ import { Button, ScrollArea } from "../../components/ui";
 import ItemMisionList from "../../components/mission/ItemMisionList";
 import { mockMissions } from "../../data/misiones";
 import { useNavigate } from "react-router-dom";
+import CreateMision from "./CreateMision";
 
 const MisionLisScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const MisionLisScreen: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex justify-center gap-4">
           <Button
             type="submit"
             color="bg-red-anbu hover:bg-yellow-anbu"
@@ -63,7 +64,17 @@ const MisionLisScreen: React.FC = () => {
           >
             Volver
           </Button>
+          <Button
+            type="submit"
+            color="bg-red-anbu hover:bg-yellow-anbu"
+            textColor="text-white hover:text-black"
+            className="px-6 py-2"
+            onClick={() => navigate('/mision-create')} 
+          >
+            Crear Misión
+          </Button>
         </div>
+
       </div>
     </div>
   );
