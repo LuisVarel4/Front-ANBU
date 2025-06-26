@@ -3,12 +3,15 @@ import { Button } from "../../components/ui";
 import MascaraAmbuInicio from "../../assets/logos/Logo_mask_login.png";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/auth/context.ts";
+import { fakeUsers } from "../../temporal/fakeUsers.ts";
+import PopupTraitor from "../../components/you-are-traitor.tsx";
 
 const AuthScreen: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
   const { login } = useAuthContext();
 
@@ -16,7 +19,7 @@ const AuthScreen: React.FC = () => {
     e.preventDefault();
     setError("");
 
-    // Email validation
+    // Validaciones básicas
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Por favor ingresa un correo válido.");
@@ -26,17 +29,24 @@ const AuthScreen: React.FC = () => {
       setError("La contraseña debe tener al menos 8 caracteres.");
       return;
     }
-    
-    // If valid, navigate
+
+    // Intentar login
     const success = login(email, password);
     if (!success) {
       setError("Credenciales inválidas.");
       return;
     }
 
+    // Revisar si el rol es traidor
+    const role = fakeUsers[email]; // Accedemos al rol usando el correo
+    if (role === "traidor") {
+      setShowPopup(true);
+      return;
+    }
+
+    // Si no es traidor, continuar
     navigate("/otp");
   };
-
   return (
     <div className="bg-black-anbu flex min-h-screen flex-col-reverse text-white md:flex-row">
       <div className="flex w-full flex-col items-center justify-center p-8 md:w-1/2">
@@ -103,6 +113,13 @@ const AuthScreen: React.FC = () => {
           className="max-h-60 object-contain md:max-h-[80%]"
         />
       </div>
+
+      {/* ✅ Popup para traidor */}
+      <PopupTraitor
+        isOpen={showPopup}
+        onClose={() => setShowPopup(false)}
+        message="¡Acceso denegado! Tu lealtad está en duda..."
+      />
     </div>
   );
 };

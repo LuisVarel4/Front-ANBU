@@ -40,16 +40,18 @@ const ItemMisionList: React.FC<MisionProps> = ({
     <tr
       className={`${isOwner ? "bg-red-anbu text-white" : "bg-gray-200 text-black"}`}
     >
-      <td className="px-4 py-2">{isOwner ? "Yo" : captain}</td>
-      <td className="px-4 py-2">{objective}</td>
-      <td className="px-4 py-2">{deadline}</td>
-      <td className="px-4 py-2">
+      <td className="px-4 py-2 whitespace-nowrap">
+        {isOwner ? "Yo" : captain}
+      </td>
+      <td className="px-4 py-2 whitespace-normal">{objective}</td>
+      <td className="px-4 py-2 whitespace-nowrap">{deadline}</td>
+      <td className="px-4 py-2 whitespace-nowrap">
         <LabelTable value={level as MissionPriority} type="priority" />
       </td>
-      <td className="px-4 py-2">
+      <td className="px-4 py-2 whitespace-nowrap">
         <LabelTable value={status as MissionStatus} type="status" />
       </td>
-      <td className="flex items-center justify-center gap-3 px-4 py-2">
+      <td className="flex items-center justify-center gap-3 px-4 py-2 whitespace-nowrap">
         <FaWhatsapp
           className="text-black-anbu cursor-pointer text-2xl"
           onClick={() =>

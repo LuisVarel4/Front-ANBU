@@ -1,7 +1,6 @@
 import { Button } from "../components/ui";
 import CloseButton from "../components/CloseButton";
-import jutsuAnbu from "../assets/ilustrations/anbu_jutsu.png";
-import { useNavigate } from "react-router-dom";
+import anbuHoodie from "../assets/ilustrations/anbu_hoodie_bg.png";
 
 interface PopupProps {
   isOpen: boolean;
@@ -9,8 +8,7 @@ interface PopupProps {
   message: string;
 }
 
-function Popup({ isOpen, onClose, message }: PopupProps) {
-  const navigate = useNavigate();
+function PopupTraitor({ isOpen, onClose, message }: PopupProps) {
   if (!isOpen) return null;
 
   return (
@@ -26,13 +24,13 @@ function Popup({ isOpen, onClose, message }: PopupProps) {
           <h2 className="text-black-anbu text-lg font-semibold">{message}</h2>
           <div className="my-2 flex justify-center">
             <img
-              src={jutsuAnbu}
+              src={anbuHoodie}
               alt="Jutsu ANBU"
               className="h-20 w-20 object-contain"
             />
           </div>
           <Button
-            onClick={() => navigate(-1)}
+            onClick={onClose}
             color="bg-black-anbu"
             className="mt-2 hover:bg-gray-800"
           >
@@ -44,4 +42,4 @@ function Popup({ isOpen, onClose, message }: PopupProps) {
   );
 }
 
-export default Popup;
+export default PopupTraitor;

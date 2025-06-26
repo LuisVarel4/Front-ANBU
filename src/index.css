@@ -35,3 +35,8 @@ html, body, #root {
 h1, h2, a {
     font-family: 'njaruto', sans-serif;
 }
+
+html,
+body {
+    @apply scrollbar-thin scrollbar-thumb-red-anbu scrollbar-track-transparent;
+}

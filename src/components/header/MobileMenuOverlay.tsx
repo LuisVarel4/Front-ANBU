@@ -61,7 +61,7 @@ function MobileMenuOverlay({ isOpen, closeMenu }: MobileMenuOverlayProps) {
           </NavLink>
 
           <NavLink
-            to="/reportes"
+            to="/reports"
             onClick={closeMenu}
             className={({ isActive }) =>
               `px-6 py-3 text-2xl font-medium transition-colors ${

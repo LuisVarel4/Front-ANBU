@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import maskAnbu from "../../assets/ilustrations/Mascara_png-removebg-preview.png";
 import Button from "../../components/ui/button/Button";
 import Popup from "../../components/Popup";
@@ -18,8 +18,6 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
   });
   const [errores, setErrores] = useState<{ [key: string]: string }>({});
   const [modalVisible, setModalVisible] = useState(false);
-
-  const especialidades = ["Asesino", "Torturador", "Espía"];
 
   const manejarCambio = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -94,26 +92,6 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
                   </div>
                 ),
               )}
-
-              <div>
-                <label className="mb-1 block">Especialidad</label>
-                <select
-                  name="especialidad"
-                  value={formData.especialidad}
-                  onChange={manejarCambio}
-                  className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
-                >
-                  <option value="">Selecciona una opción</option>
-                  {especialidades.map((esp) => (
-                    <option key={esp} value={esp}>
-                      {esp}
-                    </option>
-                  ))}
-                </select>
-                {errores.especialidad && (
-                  <p className="text-sm text-red-400">{errores.especialidad}</p>
-                )}
-              </div>
             </div>
 
             <div className="col-span-2 mt-4 flex justify-center gap-4">
