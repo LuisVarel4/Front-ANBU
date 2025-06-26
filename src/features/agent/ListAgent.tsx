@@ -4,6 +4,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import CreateAgentModal from "../../features/agent/CreateAgentModal";
 import EditAgentModal from "../../features/agent/EditAgentModal";
+import Popup from "../../components/Popup.tsx";
 
 interface Agent {
   id: number;
@@ -162,6 +163,9 @@ const AgentsListScreen: React.FC = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [agentToEdit, setAgentToEdit] = useState<Agent | null>(null);
 
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [agentToDelete, setAgentToDelete] = useState<Agent | null>(null);
+
   const handleSort = (field: string) => {
     if (sortField === field) {
       setSortAsc(!sortAsc);
@@ -203,11 +207,10 @@ const AgentsListScreen: React.FC = () => {
   };
 
   const handleDelete = (id: number) => {
-    const confirm = window.confirm(
-      "¿Estás seguro que deseas eliminar este agente?",
-    );
-    if (confirm) {
-      setAgents((prev) => prev.filter((agent) => agent.id !== id));
+    const agent = agents.find((a) => a.id === id);
+    if (agent) {
+      setAgentToDelete(agent);
+      setPopupOpen(true);
     }
   };
 
@@ -217,6 +220,16 @@ const AgentsListScreen: React.FC = () => {
         agent.id === updatedAgent.id ? updatedAgent : agent,
       ),
     );
+  };
+
+  const confirmDelete = () => {
+    if (agentToDelete) {
+      setAgents((prev) =>
+        prev.filter((agent) => agent.id !== agentToDelete.id),
+      );
+      setAgentToDelete(null);
+      setPopupOpen(false);
+    }
   };
 
   return (
@@ -334,6 +347,16 @@ const AgentsListScreen: React.FC = () => {
         onClose={() => setShowEditModal(false)}
         agent={agentToEdit}
         onSave={handleUpdateAgent}
+      />
+
+      <Popup
+        isOpen={popupOpen}
+        onClose={() => {
+          setPopupOpen(false);
+          setAgentToDelete(null);
+        }}
+        onConfirm={confirmDelete}
+        message="¿Estás seguro que deseas eliminar este agente?"
       />
     </div>
   );
