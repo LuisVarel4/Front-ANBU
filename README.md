@@ -51,7 +51,12 @@ npm run build    # Construir para producción
 npm run lint     # Verificar código con ESLint
 npm run preview  # Previsualizar build de producción
 ```
-
-**Nota:** Este es solo el frontend del proyecto ANBU. Para una funcionalidad completa, necesitarás el backend correspondiente.
-
 ---
+### 🧪 **Credenciales de Prueba**
+
+Puedes iniciar sesión con los siguientes usuarios:
+
+- 👤 **Administrador:** `kage@anbu.com`  
+- 🕵️‍♂️ **Agente:** `agente@anbu.com`  
+- 🔑 **Contraseña:** Cualquiera (se acepta cualquier input en esta versión)
+
