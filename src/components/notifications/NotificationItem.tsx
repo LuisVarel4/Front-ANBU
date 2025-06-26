@@ -10,21 +10,21 @@ const NotificationItem: React.FC<Props> = ({ notification }) => {
     return (
         <li
             className={`border-b px-4 py-3 text-sm ${
-                notification.isRead ? "bg-gray-100" : "bg-white"
+                notification.isRead ? "bg-gray2-anbu" : "bg-gray3-anbu"
             }`}
         >
             <div className="flex justify-between gap-4">
                 <div className="flex-1">
-                    <p className="text-gray-800">{notification.message}</p>
+                    <p className="text-gray1-anbu">{notification.message}</p>
 
                     {/* Estado de decisión */}
                     {notification.decisionStatus === "accepted" && (
-                        <span className="text-xs text-green-600">
+                        <span className="text-xs text-green-anbu">
                             ✔ Aceptada
                         </span>
                     )}
                     {notification.decisionStatus === "rejected" && (
-                        <span className="text-xs text-red-600">
+                        <span className="text-xs text-red-anbu">
                             ✘ Rechazada
                         </span>
                     )}

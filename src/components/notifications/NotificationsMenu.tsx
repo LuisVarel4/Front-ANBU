@@ -37,12 +37,12 @@ const NotificationsMenu: React.FC<Props> = ({
                 <>
                     {/* Mobile */}
                     <motion.div
-                        className="fixed inset-0 z-50 flex flex-col overflow-auto bg-white sm:hidden"
+                        className="fixed inset-0 z-50 flex flex-col overflow-auto bg-gray1-anbu sm:hidden"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                     >
-                        <div className="flex items-center justify-between border-b p-4 font-bold text-gray-700">
+                        <div className="flex items-center justify-between border-b p-4 font-bold text-gray2-anbu">
                             Notificaciones
                             <IoMdClose
                                 className="text-red-anbu cursor-pointer text-2xl"
@@ -56,13 +56,13 @@ const NotificationsMenu: React.FC<Props> = ({
                     {/* Desktop */}
                     <motion.div
                         ref={panelRef}
-                        className="absolute top-0 right-full z-50 mt-2 hidden max-h-96 w-80 overflow-auto rounded-lg border bg-white shadow-xl sm:block"
+                        className="absolute top-0 right-full z-50 mt-2 hidden max-h-96 w-80 overflow-auto rounded-lg border bg-black-anbu shadow-xl sm:block"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
                     >
-                        <div className="border-b p-4 font-bold text-gray-700">
+                        <div className="border-b p-4 font-bold text-gray2-anbu">
                             Notificaciones
                         </div>
                         <NotificationList notifications={notifications} />
