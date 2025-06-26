@@ -17,7 +17,7 @@ const AgentForm: React.FC = () => {
   const navigate = useNavigate();
   const [errores, setErrores] = useState<{ [key: string]: string }>({});
   const [modalVisible, setModalVisible] = useState(false);
-  const especialidades = ["Asesino", "Torturador", "Espía"];
+
   const roles = ["Kage", "Capitan", "Agente"];
 
   const manejarCambio = (
@@ -89,26 +89,6 @@ const AgentForm: React.FC = () => {
                   )}
                 </div>
               ))}
-
-              <div>
-                <label className="mb-1 block">Especialidad</label>
-                <select
-                  name="especialidad"
-                  value={formData.especialidad}
-                  onChange={manejarCambio}
-                  className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
-                >
-                  <option value="">Selecciona una opción</option>
-                  {especialidades.map((esp) => (
-                    <option key={esp} value={esp}>
-                      {esp}
-                    </option>
-                  ))}
-                </select>
-                {errores.especialidad && (
-                  <p className="text-sm text-red-400">{errores.especialidad}</p>
-                )}
-              </div>
 
               <div>
                 <label className="mb-1 block">Rol</label>

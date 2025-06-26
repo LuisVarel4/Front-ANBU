@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "../../components/ui";
+import { Button, ScrollArea } from "../../components/ui";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import CreateAgentModal from "../../features/agent/CreateAgentModal";
@@ -19,7 +19,7 @@ const initialAgents: Agent[] = [
     id: 1,
     nombre: "Pablo Escobar",
     alias: "Orichimaru",
-    correo: "Orichimaru@anbu.com.co",
+    correo: "orichimaru@anbu.com.co",
     especialidad: "Asesino",
     rol: "Kage",
   },
@@ -27,23 +27,23 @@ const initialAgents: Agent[] = [
     id: 2,
     nombre: "Gustavo Petro",
     alias: "Loco",
-    correo: "Loco@anbu.com.co",
+    correo: "loco@anbu.com.co",
     especialidad: "Torturador",
     rol: "Capitan",
   },
   {
     id: 3,
-    nombre: "Rosario tijeras",
+    nombre: "Rosario Tijeras",
     alias: "Imparable",
-    correo: "Imparable@anbu.com.co",
+    correo: "imparable@anbu.com.co",
     especialidad: "Asesino",
     rol: "Agente",
   },
   {
     id: 4,
-    nombre: "Alvaro Uribe",
+    nombre: "Álvaro Uribe",
     alias: "El Patrón",
-    correo: "Elpatron@anbu.com.co",
+    correo: "elpatron@anbu.com.co",
     especialidad: "Torturador",
     rol: "Capitan",
   },
@@ -52,7 +52,7 @@ const initialAgents: Agent[] = [
     nombre: "Valentina Ríos",
     alias: "Sombra",
     correo: "sombra@anbu.com.co",
-    especialidad: "Infiltradora",
+    especialidad: "Espía",
     rol: "Agente",
   },
   {
@@ -60,7 +60,7 @@ const initialAgents: Agent[] = [
     nombre: "Camilo Andrade",
     alias: "Cicatriz",
     correo: "cicatriz@anbu.com.co",
-    especialidad: "Explosivos",
+    especialidad: "Asesino",
     rol: "Agente",
   },
   {
@@ -68,7 +68,7 @@ const initialAgents: Agent[] = [
     nombre: "Lucía Márquez",
     alias: "Medusa",
     correo: "medusa@anbu.com.co",
-    especialidad: "Psicológica",
+    especialidad: "Espía",
     rol: "Capitan",
   },
   {
@@ -76,11 +76,74 @@ const initialAgents: Agent[] = [
     nombre: "Diego Salazar",
     alias: "Cuervo",
     correo: "cuervo@anbu.com.co",
-    especialidad: "Francotirador",
+    especialidad: "Asesino",
+    rol: "Agente",
+  },
+  {
+    id: 9,
+    nombre: "Itachi Uchiha",
+    alias: "Cuervo Negro",
+    correo: "itachi@anbu.com.co",
+    especialidad: "Espía",
+    rol: "Agente",
+  },
+  {
+    id: 10,
+    nombre: "Kakashi Hatake",
+    alias: "Lobo Blanco",
+    correo: "kakashi@anbu.com.co",
+    especialidad: "Asesino",
+    rol: "Capitan",
+  },
+  {
+    id: 11,
+    nombre: "Yamato",
+    alias: "Madera",
+    correo: "yamato@anbu.com.co",
+    especialidad: "Espía",
+    rol: "Agente",
+  },
+  {
+    id: 12,
+    nombre: "Sai",
+    alias: "Pincel",
+    correo: "sai@anbu.com.co",
+    especialidad: "Espía",
+    rol: "Agente",
+  },
+  {
+    id: 13,
+    nombre: "Konan",
+    alias: "Ángel de la Muerte",
+    correo: "konan@akatsuki.com",
+    especialidad: "Torturador",
+    rol: "Capitan",
+  },
+  {
+    id: 14,
+    nombre: "Kisame Hoshigaki",
+    alias: "Tiburón Sangriento",
+    correo: "kisame@akatsuki.com",
+    especialidad: "Asesino",
+    rol: "Agente",
+  },
+  {
+    id: 15,
+    nombre: "Zabuza Momochi",
+    alias: "Demonio Oculto",
+    correo: "zabuza@anbu.com.co",
+    especialidad: "Asesino",
+    rol: "Capitan",
+  },
+  {
+    id: 16,
+    nombre: "Shisui Uchiha",
+    alias: "Parpadeo",
+    correo: "shisui@anbu.com.co",
+    especialidad: "Espía",
     rol: "Agente",
   },
 ];
-
 
 const AgentsListScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -109,16 +172,22 @@ const AgentsListScreen: React.FC = () => {
   };
 
   const filteredAgents = agents
-    .filter(
-      (agent) =>
-        agent.nombre.toLowerCase().includes(filters.nombre.toLowerCase()) &&
-        agent.alias.toLowerCase().includes(filters.alias.toLowerCase()) &&
-        agent.correo.toLowerCase().includes(filters.correo.toLowerCase()) &&
-        agent.especialidad
-          .toLowerCase()
-          .includes(filters.especialidad.toLowerCase()) &&
-        agent.rol.toLowerCase().includes(filters.rol.toLowerCase())
-    )
+    .filter((agent) => {
+      return (
+        (!filters.nombre ||
+          agent.nombre.toLowerCase().includes(filters.nombre.toLowerCase())) &&
+        (!filters.alias ||
+          agent.alias.toLowerCase().includes(filters.alias.toLowerCase())) &&
+        (!filters.correo ||
+          agent.correo.toLowerCase().includes(filters.correo.toLowerCase())) &&
+        (!filters.especialidad ||
+          agent.especialidad
+            .toLowerCase()
+            .includes(filters.especialidad.toLowerCase())) &&
+        (!filters.rol ||
+          agent.rol.toLowerCase().includes(filters.rol.toLowerCase()))
+      );
+    })
     .sort((a, b) => {
       if (!sortField) return 0;
       const valA = a[sortField as keyof Agent];
@@ -134,7 +203,9 @@ const AgentsListScreen: React.FC = () => {
   };
 
   const handleDelete = (id: number) => {
-    const confirm = window.confirm("¿Estás seguro que deseas eliminar este agente?");
+    const confirm = window.confirm(
+      "¿Estás seguro que deseas eliminar este agente?",
+    );
     if (confirm) {
       setAgents((prev) => prev.filter((agent) => agent.id !== id));
     }
@@ -143,39 +214,39 @@ const AgentsListScreen: React.FC = () => {
   const handleUpdateAgent = (updatedAgent: Agent) => {
     setAgents((prevAgents) =>
       prevAgents.map((agent) =>
-        agent.id === updatedAgent.id ? updatedAgent : agent
-      )
+        agent.id === updatedAgent.id ? updatedAgent : agent,
+      ),
     );
   };
 
   return (
-    <div className="min-h-full bg-black-anbu text-white">
+    <div className="bg-black-anbu h-full text-white">
       {(showCreateModal || showEditModal) && (
-        <div className="fixed inset-0 bg-opacity-10 backdrop-blur-sm z-40"></div>
+        <div className="bg-opacity-10 fixed inset-0 z-40 backdrop-blur-sm"></div>
       )}
+      <div className="py-6 text-center">
+        <h2 className="text-red-anbu text-xl font-semibold">
+          Listado de Agentes
+        </h2>
+      </div>
 
-      <div className="relative z-30">
-        <div className="py-10 text-center">
-          <h2 className="text-red-anbu text-xl font-semibold">
-            Listado de Agentes
-          </h2>
-        </div>
-
-        <div className="overflow-x-auto px-4">
-
-          <div className="rounded-md bg-gray-800 p-4">
-            <table className="w-full rounded bg-grayBlue-anbu text-sm">
-              <thead className="rounded-md bg-gray-300 text-black">
+      <div className="flex-1 px-2 sm:px-4 md:px-8">
+        <div className="mx-auto w-full max-w-full rounded-md bg-gray-800 p-2 sm:p-4 md:max-w-4xl">
+          <ScrollArea className="max-h-[50vh] flex-1">
+            <table className="bg-grayBlue-anbu w-full rounded text-sm">
+              <thead className="sticky top-0 z-10 bg-gray-300 text-black">
                 <tr>
-                  {"nombre alias correo rol especialidad".split(" ").map((key) => (
-                    <th
-                      key={key}
-                      className="hover:bg-gray3-anbu-200 cursor-pointer px-4 py-2"
-                      onClick={() => handleSort(key)}
-                    >
-                      {key.charAt(0).toUpperCase() + key.slice(1)}
-                    </th>
-                  ))}
+                  {"nombre alias correo rol especialidad"
+                    .split(" ")
+                    .map((key) => (
+                      <th
+                        key={key}
+                        className="hover:bg-gray3-anbu-200 cursor-pointer px-4 py-2"
+                        onClick={() => handleSort(key)}
+                      >
+                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                      </th>
+                    ))}
                   <th className="px-4 py-2">Acciones</th>
                 </tr>
                 <tr className="bg-white">
@@ -184,8 +255,10 @@ const AgentsListScreen: React.FC = () => {
                       <input
                         type="text"
                         placeholder="Filtro"
-                        className="text-black-anbu w-full p-1 text-xs"
-                        onChange={(e) => setFilters({ ...filters, [key]: e.target.value })}
+                        className="text-black-anbu w-full p-1 text-center text-xs"
+                        onChange={(e) =>
+                          setFilters({ ...filters, [key]: e.target.value })
+                        }
                       />
                     </th>
                   ))}
@@ -196,12 +269,19 @@ const AgentsListScreen: React.FC = () => {
                 {filteredAgents.map((agent) => (
                   <tr
                     key={agent.id}
-                    className="border-t bg-gray-300 text-center">
-                    <td className="text-black-anbu px-4 py-2">{agent.nombre}</td>
+                    className="border-t bg-gray-300 text-center"
+                  >
+                    <td className="text-black-anbu px-4 py-2">
+                      {agent.nombre}
+                    </td>
                     <td className="text-black-anbu px-4 py-2">{agent.alias}</td>
-                    <td className="text-black-anbu px-4 py-2">{agent.correo}</td>
+                    <td className="text-black-anbu px-4 py-2">
+                      {agent.correo}
+                    </td>
                     <td className="text-black-anbu px-4 py-2">{agent.rol}</td>
-                    <td className="text-black-anbu px-4 py-2">{agent.especialidad}</td>
+                    <td className="text-black-anbu px-4 py-2">
+                      {agent.especialidad}
+                    </td>
                     <td className="flex justify-center gap-3 px-4 py-2">
                       <button
                         onClick={() => handleEdit(agent)}
@@ -220,28 +300,28 @@ const AgentsListScreen: React.FC = () => {
                 ))}
               </tbody>
             </table>
-          </div>
+          </ScrollArea>
         </div>
+      </div>
 
-        <div className="mt-8 flex justify-between px-6">
-          <Button
-            onClick={() => navigate("/homepage")}
-            type="button"
-            color="bg-red-anbu"
-            className="hover:bg-gray2-anbu"
-          >
-            Volver
-          </Button>
+      <div className="my-4 flex justify-center">
+        <Button
+          onClick={() => navigate("/homepage")}
+          type="button"
+          color="bg-red-anbu"
+          className="hover:bg-gray2-anbu mx-2"
+        >
+          Volver
+        </Button>
 
-          <Button
-            onClick={() => setShowCreateModal(true)}
-            type="button"
-            color="bg-red-anbu"
-            className="hover:bg-green-anbu"
-          >
-            Crear nuevo agente
-          </Button>
-        </div>
+        <Button
+          onClick={() => setShowCreateModal(true)}
+          type="button"
+          color="bg-red-anbu"
+          className="hover:bg-green-anbu mx-2"
+        >
+          Crear nuevo agente
+        </Button>
       </div>
 
       <CreateAgentModal

@@ -20,12 +20,10 @@ export const mainRoutes = [
     children: [],
   },
   {
-    element: <RoleGuard allowedRoles={["kage", "anbu"]} />,
+    element: <RoleGuard allowedRoles={["kage", "agente"]} />,
     children: [
       // Agentes
-      // { path: "agent-create", element: <CreateAgentPage /> },
       { path: "agent-list", element: <AgentListPage /> },
-      // { path: "agent-edit", element: <AgentFormPage /> },
       { path: "agent-mision-list", element: <MisionAgentListPage /> },
       { path: "agent-request", element: <AgentRequestPage /> },
 
