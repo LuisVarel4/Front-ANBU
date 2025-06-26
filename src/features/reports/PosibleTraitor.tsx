@@ -3,6 +3,7 @@ import {Button} from '../../components/ui';
 import ClipIcon from '../../assets/icons/clip-svgrepo-com.svg';
 import React, { useState } from 'react';
 import Popup from '../../components/Popup';
+import CloseButton from '../../components/CloseButton';
 
 const ReportsForm: React.FC = () => {
   const navigate = useNavigate();
@@ -26,12 +27,122 @@ const ReportsForm: React.FC = () => {
   const closePopup = () => {
     setPopup({ open: false, message: '' });
   };
+
+  const [showMissionPopup, setShowMissionPopup] = useState(false);
+
+  function TraitorCaptainPopup({ isOpen, onClose, missions }: { isOpen: boolean; onClose: () => void; missions: string[] }) {
+  if (!isOpen) return null;
+  return (
+    <>
+      <div className="fixed inset-0 bg-opacity-20 backdrop-blur-md z-30"></div>
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+        <div className="bg-yellow-anbu border-2 border-yellow-anbu rounded-xl shadow-lg text-center w-96 flex flex-col items-center relative p-4">
+          <CloseButton onClick={onClose} />
+          <h2 className="text-xl font-bold text-[#960014] mb-2">Traidor identificado como capitán</h2>
+          <hr className="border-[#960014] w-full mb-3" />
+          <p className="text-black-anbu mb-2">
+            El traidor ha sido identificado como capitán en las siguientes misiones:
+          </p>
+          <div className="bg-gray2-anbu rounded-lg p-2 w-full mb-3 flex flex-col items-start">
+            {missions.map((mission, idx) => (
+              <div key={idx} className="flex items-center w-full mb-1 last:mb-0">
+                <img src="/src/assets/logos/anbuDecoration.svg" alt="icon" className="w-4 h-4 mr-2" />
+                <span className="text-red-anbu font-semibold">{mission}</span>
+              </div>
+            ))}
+            {/* Espacios vacíos para igualar el diseño */}
+            {[...Array(4 - missions.length)].map((_, idx) => (
+              <div key={idx} className="h-6 w-full border-b border-gray-400 opacity-50"></div>
+            ))}
+          </div>
+          <p className="text-black-anbu text-sm mb-4 font-semibold">
+            Nota: Se asignarán capitanes aleatorios
+          </p>
+          <Button
+              type="button"
+              color="bg-black-anbu"
+              className="w-full md:w-auto"
+              onClick={() => {
+              onClose();
+              showPopup('Petición aceptada')
+            }}
+            >
+          Aceptar
+        </Button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+const [showTraitorPopup, setShowTraitorPopup] = useState(false);
+
+// Ejemplo de misiones donde el traidor fue capitán
+const traitorMissions = [
+  "Recuperar panamá",
+  "Defender el catatumbo"
+];
+
+
+  function MissionPopup({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  if (!isOpen) return null;
+  return (
+    <>
+  <div className="fixed inset-0 bg-opacity-20 backdrop-blur-md z-30"></div>
+    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+        <div className="bg-yellow-anbu p-4 rounded-xl shadow-lg text-center w-80 flex flex-col items-center relative">
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 text-[#960014] text-2xl font-bold"
+          aria-label="Cerrar"
+        >
+          ×
+        </button>
+        <h2 className="text-xl font-bold text-[#960014] mb-2 text-center">Crear misión caza recompensa</h2>
+        <hr className="border-[#960014] w-full mb-4" />
+        <label className="w-full text-left text-black-anbu font-semibold mb-1">Agente reportado</label>
+        <input
+          className="w-full mb-3 px-3 py-2 rounded bg-[#D9DCE1] text-black-anbu"
+          disabled
+          value="Luis Varela"
+        />
+        <label className="w-full text-left text-black-anbu font-semibold mb-1">Precio por su cabeza</label>
+        <div className="relative w-full mb-4">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black-anbu text-lg pointer-events-none">¥</span>
+          <input
+            className="w-full px-7 py-2 rounded bg-[#D9DCE1] text-black-anbu"
+            placeholder="Ingrese su valor 😈🤑"
+            type="number"
+            min="0"
+          />
+        </div>
+        <Button
+              type="button"
+              color="bg-black-anbu"
+              className="w-full md:w-auto"
+              onClick={() => {
+              onClose();
+              setShowTraitorPopup(true);
+              }}
+            >
+          Crear
+        </Button>
+      </div>
+    </div>
+    </>
+  );
+}
+
   return (
     <div className="min-h-screen bg-black-anbu text-white">
       <div className="flex flex-col items-center w-full">
         {/* POPUP */}
         <Popup isOpen={popup.open} onClose={closePopup} message={popup.message} />
-
+        <TraitorCaptainPopup
+        isOpen={showTraitorPopup}
+        onClose={() => setShowTraitorPopup(false)}
+        missions={traitorMissions}
+        />
         <h2 className="text-center text-xl font-semibold my-6 w-full max-w-5xl mx-auto">
           Vista detallada de reporte
         </h2>
@@ -107,7 +218,7 @@ const ReportsForm: React.FC = () => {
               type="button"
               color="bg-[#960014]"
               className="w-full md:w-auto"
-              onClick={() => showPopup('Traidor creado')}
+              onClick={() => setShowMissionPopup(true)}
             >
               Crear traidor
             </Button>
@@ -123,7 +234,9 @@ const ReportsForm: React.FC = () => {
             </Button>
           </div>
         </form>
+      <MissionPopup isOpen={showMissionPopup} onClose={() => setShowMissionPopup(false)} />  
       </div>
+      <MissionPopup isOpen={showMissionPopup} onClose={() => setShowMissionPopup(false)} />
     </div>
   );
 };
