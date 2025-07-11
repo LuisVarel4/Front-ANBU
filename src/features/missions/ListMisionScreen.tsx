@@ -1,57 +1,80 @@
-import React from 'react';
-import Header from '../../components/Header';
-import ItemMisionList from '../../components/ItemMisionList';
-
-const mockMissions = [
-  {
-    captain: 'Yo',
-    objective: 'Asesinar al líder O',
-    deadline: '27-10-2023',
-    level: 'Baja',
-    status: 'En Proceso',
-    isOwner: true,
-  },
-  {
-    captain: 'Carlos Quijano',
-    objective: 'Asesinar al líder O',
-    deadline: '27-10-2023',
-    level: 'Baja',
-    status: 'En Proceso',
-    isOwner: false,
-  },
-];
+import React from "react";
+import { Button, ScrollArea } from "../../components/ui";
+import ItemMisionList from "../../components/mission/ItemMisionList";
+import { mockMissions } from "../../data/misiones";
+import { useNavigate } from "react-router-dom";
+import CreateMision from "./CreateMision";
 
 const MisionLisScreen: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen bg-black-anbu text-white">
-      <Header />
-
-      <div className="text-center py-6">
-        <h2 className="text-xl text-red-anbu font-semibold">Listado de misiones</h2>
+    <div className="bg-black-anbu min-h-full text-white">
+      <div className="py-6 text-center">
+        <h2 className="text-red-anbu text-2xl font-bold">
+          Listado de misiones
+        </h2>
       </div>
 
-      <div className="overflow-x-auto px-4">
-        <table className="w-full bg-gray-900 text-sm rounded">
-          <thead className="bg-gray-300 text-black">
-            <tr>
-              <th className="px-4 py-2">Capitán</th>
-              <th className="px-4 py-2">Objetivo</th>
-              <th className="px-4 py-2">Fecha Límite</th>
-              <th className="px-4 py-2">Estado</th>
-              <th className="px-4 py-2">Recompensa</th>
-              <th className="px-4 py-2">Chat</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mockMissions.map((mision, idx) => (
-              <ItemMisionList key={idx} {...mision} />
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <div className="px-6">
+        <div className="rounded-md bg-gray-800 p-4">
+          <div className="w-full overflow-x-auto">
+            <ScrollArea className="max-h-[50vh] flex-1">
+              <table className="bg-grayBlue-anbu w-full rounded text-sm">
+                <thead className="sticky top-0 z-10 bg-gray-300 text-black">
+                  <tr className="text-left">
+                    <th className="min-w-[100px] px-4 py-2 whitespace-nowrap">
+                      Capitán
+                    </th>
+                    <th className="min-w-[200px] px-4 py-2 whitespace-normal">
+                      Objetivo
+                    </th>
+                    <th className="min-w-[110px] px-4 py-2 whitespace-nowrap">
+                      Fecha Límite
+                    </th>
+                    <th className="min-w-[100px] px-4 py-2 whitespace-nowrap">
+                      Prioridad
+                    </th>
+                    <th className="min-w-[100px] px-4 py-2 whitespace-nowrap">
+                      Estado
+                    </th>
+                    <th className="min-w-[80px] px-4 py-2 whitespace-nowrap">
+                      Chat
+                    </th>
+                  </tr>
+                </thead>
 
-      <div className="text-center mt-8">
-        <button className="bg-red-anbu text-white px-6 py-2 rounded-md">Volver</button>
+                <tbody className="divide-y-4 divide-gray-700 text-center">
+                  {mockMissions.map((mision, idx) => (
+                    <ItemMisionList key={idx} {...mision} />
+                  ))}
+                </tbody>
+              </table>
+            </ScrollArea>
+          </div>
+        </div>
+
+        <div className="mt-8 flex justify-center gap-4">
+          <Button
+            type="submit"
+            color="bg-red-anbu hover:bg-yellow-anbu"
+            textColor="text-white hover:text-black"
+            onClick={() => navigate(-1)}
+            className="px-6 py-2"
+          >
+            Volver
+          </Button>
+          <Button
+            type="submit"
+            color="bg-red-anbu hover:bg-yellow-anbu"
+            textColor="text-white hover:text-black"
+            className="px-6 py-2"
+            onClick={() => navigate('/mision-create')} 
+          >
+            Crear Misión
+          </Button>
+        </div>
+
       </div>
     </div>
   );

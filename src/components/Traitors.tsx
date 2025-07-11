@@ -1,6 +1,4 @@
-import React from 'react';
-
-import traidorSilueta from '../assets/ilustrations/anbu_jutsu.png'
+//import traidorSilueta from '../assets/ilustrations/anbu_jutsu.png'
 import anbuDecoration from '../assets/logos/logo_blanco.png'
 
 const traidoresData = [
@@ -15,78 +13,64 @@ const traidoresData = [
 
 function TablaRecompensas() {
 	return (
-		// Contenedor principal para centrar y dar fondo a la página de ejemplo
-		<div className="bg-gray-900 p-4 md:p-10 min-h-screen flex items-center justify-center">
-
-			{/* El componente de la tabla en sí */}
-			<div className="w-full max-w-lg bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-				<table className="w-full text-white">
-					{/* Encabezado de la tabla */}
-					<thead className="bg-gray-700/50">
+		<div className="w-full max-w-lg mx-auto rounded-2xl shadow-lg overflow-hidden bg-grayBlue-anbu">
+			<table className="w-full">
+				<thead>
 					<tr>
-						<th className="p-4 text-left font-semibold text-gray-300 border-r border-gray-600 w-1/2">
-							Nombre Traidor
-						</th>
-						<th className="p-4 text-left font-semibold text-gray-300 w-1/2">
-							Recompensa
-						</th>
+						<th className="p-3 text-center font-semibold text-gray1-anbu bg-gray3-anbu rounded-tl-2xl text-base md:text-lg border-b border-gray3-anbu">Nombre Traidor</th>
+						<th className="p-3 text-center font-semibold text-gray1-anbu bg-gray3-anbu rounded-tr-2xl text-base md:text-lg border-b border-gray3-anbu border-l ">Recompensa</th>
 					</tr>
-					</thead>
-
-					{/* Cuerpo de la tabla */}
-					<tbody>
+				</thead>
+				<tbody>
 					{traidoresData.map((traidor, index) => (
-						<tr key={index} className="border-t border-gray-700">
-							{/* Celda del Nombre */}
-							<td className="p-4 align-middle">
-								{traidor.nombre}
-							</td>
-							{/* Celda de la Recompensa */}
-							<td className="p-4 text-right align-middle font-mono text-lg">
-								{traidor.recompensa}
-							</td>
+						<tr key={index} className="border-b border-gray3-anbu last:border-b-0">
+							<td className="p-3 align-middle text-gray3-anbu text-left text-base md:text-lg">{traidor.nombre}</td>
+							<td className="p-3 text-right align-middle font-mono text-lg md:text-xl text-gray3-anbu">{traidor.recompensa}</td>
 						</tr>
 					))}
-					</tbody>
-				</table>
-			</div>
-
+				</tbody>
+			</table>
 		</div>
 	);
 }
 
 function ListaNegra() {
 	return (
-		<div className="relative bg-black-anbu p-8">
+		<div className="flex flex-col md:flex-row items-center justify-center bg-black-anbu gap-8 md:gap-30 p-4 md:p-10">
+			<div className="w-full md:w-auto flex justify-center">
+				<TablaRecompensas />
+			</div>
 
-			<div className="text-center mb-16">
-				<h1 className="text-3xl md:text-4xl font-bold mb-2 text-red-anbu">
+			<div className="text-center mt-8 md:mt-0">
+				<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-red-anbu">
 					LISTA NEGRA ANBU
-				</h1>
-				<p className="text-lg text-gray-400">
-					Todos deben ser exterminados cuánto antes
+				</h2>
+				<p className="text-base sm:text-lg text-gray2-anbu max-w-md px-4 md:px-0">
+					Traidores con mayor nivel de búsqueda dentro de la organización.
+					<br />
+					Todos deben ser exterminados cuanto antes.
 				</p>
+				<div className="flex flex-col items-center gap-3 mb-6 mt-6">
+					<button className="flex items-center justify-between w-full sm:w-80 md:w-96 bg-red-anbu border-2 border-red-anbu text-gray3-anbu font-semibold text-base sm:text-lg rounded-xl py-2 sm:py-3 px-4 hover:bg-transparent hover:text-red-anbu transition-colors">
+						<span className="text-xl mr-2">
+							<img src={anbuDecoration} alt="decoración anbu" width={24} height={24} />
+						</span>
+						Traidores prófugos
+						<span className="text-xl ml-2">
+							<img src={anbuDecoration} alt="decoración anbu" width={24} height={24} />
+						</span>
+					</button>
+					<button className="flex items-center justify-between w-full sm:w-80 md:w-96 bg-red-anbu border-2 border-red-anbu text-gray3-anbu font-semibold text-base sm:text-lg rounded-xl py-2 sm:py-3 px-4 hover:bg-transparent hover:text-red-anbu transition-colors">
+						<span className="text-xl mr-2">
+							<img src={anbuDecoration} alt="decoración anbu" width={24} height={24} />
+						</span>
+						Traidores exterminados
+						<span className="text-xl ml-2">
+							<img src={anbuDecoration} alt="decoración anbu" width={24} height={24} />
+						</span>
+					</button>
+				</div>
 			</div>
-
-			{TablaRecompensas()}
-
-
-			<div className="flex flex-col items-center gap-6 mt-16">
-				{/* Botón Principal */}
-
-				<button className="bg-red-700 text-white font-bold py-3 px-12 rounded-md flex items-center gap-4 hover:bg-red-800 transition-colors">
-					<span className="text-xl">⌖</span>
-					Traidores prófugos
-					<span className="text-xl">⌖</span>
-				</button>
-
-				{/* Botón Secundario */}
-				<button className="bg-transparent border border-red-700 text-red-700 font-bold py-3 px-12 rounded-md flex items-center gap-4 hover:bg-red-700 hover:text-white transition-colors">
-					Traidores exterminados
-				</button>
-			</div>
-
-
 		</div>
 	);
 }
