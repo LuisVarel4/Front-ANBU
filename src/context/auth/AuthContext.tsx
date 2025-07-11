@@ -1,14 +1,12 @@
 import React, { type ReactNode, useEffect, useState } from "react";
-import { fakeUsers } from "../../temporal/fakeUsers.ts";
 import { AuthContext } from "./context.ts";
 import type { AuthContextType } from "./auth.type.ts";
+import { authService } from '../../services/auth/auth.service.ts';
 
 type AuthProvider = {
   children: ReactNode;
 };
 
-const LOCAL_STORAGE_KEY = "auth_user";
-const FULLY_AUTH_KEY = "auth_fully";
 
 export const AuthProvider: React.FC<AuthProvider> = ({ children }) => {
   const [user, setUser] = useState<AuthContextType["user"]>(null);
@@ -16,43 +14,46 @@ export const AuthProvider: React.FC<AuthProvider> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem(LOCAL_STORAGE_KEY);
-    const fullyAuth = localStorage.getItem(FULLY_AUTH_KEY);
-
-    if (storedUser) {
+    (async () => {
       try {
-        setUser(JSON.parse(storedUser));
-        setFullyAuth(fullyAuth === "true"); // Restaurar estado
+        const user = await authService.getMe();
+        setUser(user);
       } catch (err) {
-        console.error("Error parsing stored user", err);
-        localStorage.removeItem(LOCAL_STORAGE_KEY);
-        localStorage.removeItem(FULLY_AUTH_KEY);
+        console.warn("Fallo al obtener el usuario actual", err);
+        setUser(null);
+      } finally {
+        setIsLoading(false);
       }
-    }
-
-    setIsLoading(false);
+    })();
   }, []);
 
-  const login = (email: string, password: string): boolean => {
-    if (fakeUsers[email] && password.length >= 8) {
-      const userData = { email, role: fakeUsers[email] };
-      setUser(userData);
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(userData));
+  const login = async (email: string, password: string): Promise<boolean> => {
+    try {
+      const user = await authService.login({ email, password });
+      setUser(user);
       return true;
+    } catch (err) {
+      console.warn("Fallo al obtener el usuario actual", err);
+      return false;
     }
-    return false;
   };
 
   const completeLogin = () => {
     setFullyAuth(true);
-    localStorage.setItem(FULLY_AUTH_KEY, "true");
   };
 
-  const logout = () => {
+  const logout = async () => {
     setUser(null);
     setFullyAuth(false);
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
-    localStorage.removeItem(FULLY_AUTH_KEY);
+
+    try {
+      await authService.logout();
+    } catch {
+      // incluso si falla, limpiamos
+    } finally {
+      setUser(null);
+      setFullyAuth(false);
+    }
   };
 
   return (
