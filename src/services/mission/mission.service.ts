@@ -29,9 +29,25 @@ export interface APIMission {
   }>;
 }
 
+export interface CreateMissionRequest {
+  codeName: string;
+  objective: string;
+  description: string;
+  captain_id: string;
+  priority: string;
+  deadline: string;
+  status: string;
+  assignedAgents?: string[];
+}
+
 export const missionService = {
   async getRegularMissions(): Promise<APIMission[]> {
     const response = await api.get('/regular-missions');
+    return response.data;
+  },
+
+  async createMission(missionData: CreateMissionRequest): Promise<APIMission> {
+    const response = await api.post('/regular-missions', missionData);
     return response.data;
   }
 };
