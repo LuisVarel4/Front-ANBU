@@ -32,7 +32,7 @@ export const mainRoutes = [
       { path: "mision", element: <MisionPage /> },
       { path: "mision-create", element: <MisionCreatePage /> },
       { path: "mision-detail", element: <MisionDetailPage /> },
-      { path: "mission/chat", element: <ChatPage /> },
+      { path: "mission/chat/:missionId", element: <ChatPage /> },
 
       // Reportes
       { path: "reports", element: <ReportsPage /> },

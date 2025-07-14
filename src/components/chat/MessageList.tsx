@@ -19,7 +19,7 @@ const MessageList: React.FC<MessageListProps> = ({ messages, currentUser }) => {
           <MessageBubble
             key={msg.id}
             message={msg}
-            isOwn={msg.username === currentUser}
+            isOwn={msg.userId === currentUser}
           />
         ))
       )}

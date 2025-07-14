@@ -118,7 +118,18 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
         <Popup
           isOpen={modalVisible}
           onClose={() => setModalVisible(false)}
-          message="¡Creación exitosa!"
+          onConfirm={() => {
+            setModalVisible(false);
+            setFormData({
+              nombre: "",
+              alias: "",
+              correo: "",
+              password: "",
+              especialidad: "",
+            });
+            onClose();
+          }}
+          message="¡Agente creado exitosamente!"
         />
       </div>
     </>
