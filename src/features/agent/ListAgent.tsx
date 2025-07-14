@@ -1,161 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, ScrollArea } from "../../components/ui";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import CreateAgentModal from "../../features/agent/CreateAgentModal";
 import EditAgentModal from "../../features/agent/EditAgentModal";
 import Popup from "../../components/Popup.tsx";
+import { userService } from "../../services/user/user.service";
+import type { APIUser } from "../../services/user/user.service";
 
+// Update the interface to match API response
 interface Agent {
-  id: number;
-  nombre: string;
+  id: string; 
+  fullName: string; 
   alias: string;
-  correo: string;
-  especialidad: string;
-  rol: string;
+  email: string; 
+  role: string; 
 }
-
-const initialAgents: Agent[] = [
-  {
-    id: 1,
-    nombre: "Pablo Escobar",
-    alias: "Orichimaru",
-    correo: "orichimaru@anbu.com.co",
-    especialidad: "Asesino",
-    rol: "Kage",
-  },
-  {
-    id: 2,
-    nombre: "Gustavo Petro",
-    alias: "Loco",
-    correo: "loco@anbu.com.co",
-    especialidad: "Torturador",
-    rol: "Capitan",
-  },
-  {
-    id: 3,
-    nombre: "Rosario Tijeras",
-    alias: "Imparable",
-    correo: "imparable@anbu.com.co",
-    especialidad: "Asesino",
-    rol: "Agente",
-  },
-  {
-    id: 4,
-    nombre: "Álvaro Uribe",
-    alias: "El Patrón",
-    correo: "elpatron@anbu.com.co",
-    especialidad: "Torturador",
-    rol: "Capitan",
-  },
-  {
-    id: 5,
-    nombre: "Valentina Ríos",
-    alias: "Sombra",
-    correo: "sombra@anbu.com.co",
-    especialidad: "Espía",
-    rol: "Agente",
-  },
-  {
-    id: 6,
-    nombre: "Camilo Andrade",
-    alias: "Cicatriz",
-    correo: "cicatriz@anbu.com.co",
-    especialidad: "Asesino",
-    rol: "Agente",
-  },
-  {
-    id: 7,
-    nombre: "Lucía Márquez",
-    alias: "Medusa",
-    correo: "medusa@anbu.com.co",
-    especialidad: "Espía",
-    rol: "Capitan",
-  },
-  {
-    id: 8,
-    nombre: "Diego Salazar",
-    alias: "Cuervo",
-    correo: "cuervo@anbu.com.co",
-    especialidad: "Asesino",
-    rol: "Agente",
-  },
-  {
-    id: 9,
-    nombre: "Itachi Uchiha",
-    alias: "Cuervo Negro",
-    correo: "itachi@anbu.com.co",
-    especialidad: "Espía",
-    rol: "Agente",
-  },
-  {
-    id: 10,
-    nombre: "Kakashi Hatake",
-    alias: "Lobo Blanco",
-    correo: "kakashi@anbu.com.co",
-    especialidad: "Asesino",
-    rol: "Capitan",
-  },
-  {
-    id: 11,
-    nombre: "Yamato",
-    alias: "Madera",
-    correo: "yamato@anbu.com.co",
-    especialidad: "Espía",
-    rol: "Agente",
-  },
-  {
-    id: 12,
-    nombre: "Sai",
-    alias: "Pincel",
-    correo: "sai@anbu.com.co",
-    especialidad: "Espía",
-    rol: "Agente",
-  },
-  {
-    id: 13,
-    nombre: "Konan",
-    alias: "Ángel de la Muerte",
-    correo: "konan@akatsuki.com",
-    especialidad: "Torturador",
-    rol: "Capitan",
-  },
-  {
-    id: 14,
-    nombre: "Kisame Hoshigaki",
-    alias: "Tiburón Sangriento",
-    correo: "kisame@akatsuki.com",
-    especialidad: "Asesino",
-    rol: "Agente",
-  },
-  {
-    id: 15,
-    nombre: "Zabuza Momochi",
-    alias: "Demonio Oculto",
-    correo: "zabuza@anbu.com.co",
-    especialidad: "Asesino",
-    rol: "Capitan",
-  },
-  {
-    id: 16,
-    nombre: "Shisui Uchiha",
-    alias: "Parpadeo",
-    correo: "shisui@anbu.com.co",
-    especialidad: "Espía",
-    rol: "Agente",
-  },
-];
 
 const AgentsListScreen: React.FC = () => {
   const navigate = useNavigate();
 
-  const [agents, setAgents] = useState<Agent[]>(initialAgents);
+  const [agents, setAgents] = useState<Agent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>("");
   const [filters, setFilters] = useState({
-    nombre: "",
+    fullName: "",
     alias: "",
-    correo: "",
-    especialidad: "",
-    rol: "",
+    email: "",
+    role: "",
   });
   const [sortField, setSortField] = useState<string>("");
   const [sortAsc, setSortAsc] = useState<boolean>(true);
@@ -165,6 +37,32 @@ const AgentsListScreen: React.FC = () => {
 
   const [popupOpen, setPopupOpen] = useState(false);
   const [agentToDelete, setAgentToDelete] = useState<Agent | null>(null);
+
+  // Fetch agents from API
+  useEffect(() => {
+    const fetchAgents = async () => {
+      try {
+        setLoading(true);
+        const userData = await userService.getUsers();
+        // Transform API data to match local interface
+        const transformedAgents: Agent[] = userData.map((user: APIUser) => ({
+          id: user.id,
+          fullName: user.fullName,
+          alias: user.alias,
+          email: user.email,
+          role: user.role,
+        }));
+        setAgents(transformedAgents);
+      } catch (err) {
+        setError("Error al cargar los agentes");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAgents();
+  }, []);
 
   const handleSort = (field: string) => {
     if (sortField === field) {
@@ -178,18 +76,14 @@ const AgentsListScreen: React.FC = () => {
   const filteredAgents = agents
     .filter((agent) => {
       return (
-        (!filters.nombre ||
-          agent.nombre.toLowerCase().includes(filters.nombre.toLowerCase())) &&
+        (!filters.fullName ||
+          agent.fullName.toLowerCase().includes(filters.fullName.toLowerCase())) &&
         (!filters.alias ||
           agent.alias.toLowerCase().includes(filters.alias.toLowerCase())) &&
-        (!filters.correo ||
-          agent.correo.toLowerCase().includes(filters.correo.toLowerCase())) &&
-        (!filters.especialidad ||
-          agent.especialidad
-            .toLowerCase()
-            .includes(filters.especialidad.toLowerCase())) &&
-        (!filters.rol ||
-          agent.rol.toLowerCase().includes(filters.rol.toLowerCase()))
+        (!filters.email ||
+          agent.email.toLowerCase().includes(filters.email.toLowerCase())) &&
+        (!filters.role ||
+          agent.role.toLowerCase().includes(filters.role.toLowerCase()))
       );
     })
     .sort((a, b) => {
@@ -206,7 +100,7 @@ const AgentsListScreen: React.FC = () => {
     setShowEditModal(true);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     const agent = agents.find((a) => a.id === id);
     if (agent) {
       setAgentToDelete(agent);
@@ -232,6 +126,24 @@ const AgentsListScreen: React.FC = () => {
     }
   };
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="bg-black-anbu h-full text-white flex items-center justify-center">
+        <p>Cargando agentes...</p>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="bg-black-anbu h-full text-white flex items-center justify-center">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-black-anbu h-full text-white">
       {(showCreateModal || showEditModal) && (
@@ -249,17 +161,18 @@ const AgentsListScreen: React.FC = () => {
             <table className="bg-grayBlue-anbu w-full rounded text-sm">
               <thead className="sticky top-0 z-10 bg-gray-300 text-black">
                 <tr>
-                  {"nombre alias correo rol especialidad"
-                    .split(" ")
-                    .map((key) => (
-                      <th
-                        key={key}
-                        className="hover:bg-gray3-anbu-200 cursor-pointer px-4 py-2"
-                        onClick={() => handleSort(key)}
-                      >
-                        {key.charAt(0).toUpperCase() + key.slice(1)}
-                      </th>
-                    ))}
+                  {["fullName", "alias", "email", "role"].map((key) => (
+                    <th
+                      key={key}
+                      className="hover:bg-gray3-anbu-200 cursor-pointer px-4 py-2"
+                      onClick={() => handleSort(key)}
+                    >
+                      {key === "fullName" ? "Nombre" : 
+                       key === "email" ? "Correo" :
+                       key === "role" ? "Rol" :
+                       key.charAt(0).toUpperCase() + key.slice(1)}
+                    </th>
+                  ))}
                   <th className="px-4 py-2">Acciones</th>
                 </tr>
                 <tr className="bg-white">
@@ -285,16 +198,13 @@ const AgentsListScreen: React.FC = () => {
                     className="border-t bg-gray-300 text-center"
                   >
                     <td className="text-black-anbu px-4 py-2">
-                      {agent.nombre}
+                      {agent.fullName}
                     </td>
                     <td className="text-black-anbu px-4 py-2">{agent.alias}</td>
                     <td className="text-black-anbu px-4 py-2">
-                      {agent.correo}
+                      {agent.email}
                     </td>
-                    <td className="text-black-anbu px-4 py-2">{agent.rol}</td>
-                    <td className="text-black-anbu px-4 py-2">
-                      {agent.especialidad}
-                    </td>
+                    <td className="text-black-anbu px-4 py-2">{agent.role}</td>
                     <td className="flex justify-center gap-3 px-4 py-2">
                       <button
                         onClick={() => handleEdit(agent)}
