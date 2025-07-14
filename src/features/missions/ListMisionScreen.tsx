@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Button, ScrollArea } from "../../components/ui";
 import ItemMisionList from "../../components/mission/ItemMisionList";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/auth/context.ts";
 import { missionService } from "../../services/mission/mission.service";
 import type { APIMission } from "../../services/mission/mission.service";
 
 const MisionLisScreen: React.FC = () => {
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuthContext();
   const [missions, setMissions] = useState<APIMission[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
@@ -29,14 +31,26 @@ const MisionLisScreen: React.FC = () => {
   }, []);
 
   // Transform API data to match ItemMisionList props
-  const transformMissionData = (mission: APIMission) => ({
-    captain: mission.captain.alias,
-    objective: mission.objective,
-    deadline: new Date(mission.deadline).toLocaleDateString(),
-    level: mission.priority,
-    status: mission.status,
-    isOwner: false, // You'll need to determine this based on current user
-  });
+  const transformMissionData = (mission: APIMission) => {
+    const isKage = user?.role === "kage";
+    const isCaptain = user?.id === mission.captain.id;
+    const isTeamMember = mission.participations.some(
+      (p) => p.user_id === user?.id
+    );
+
+    return {
+      id: mission.id,
+      captain: mission.captain.alias,
+      objective: mission.objective,
+      deadline: new Date(mission.deadline).toLocaleDateString(),
+      level: mission.priority,
+      status: mission.status,
+      isOwner: isCaptain,
+      canEdit: isKage || isCaptain || isTeamMember,
+      editPermission:
+        isKage ? "full" : isCaptain ? "status" : "read" as "full" | "status" | "read",
+    };
+  };
 
   if (loading) {
     return (
@@ -85,7 +99,7 @@ const MisionLisScreen: React.FC = () => {
                       Estado
                     </th>
                     <th className="min-w-[80px] px-4 py-2 whitespace-nowrap">
-                      Chat
+                      Acciones
                     </th>
                   </tr>
                 </thead>
@@ -113,15 +127,19 @@ const MisionLisScreen: React.FC = () => {
           >
             Volver
           </Button>
-          <Button
-            type="submit"
-            color="bg-red-anbu hover:bg-yellow-anbu"
-            textColor="text-white hover:text-black"
-            className="px-6 py-2"
-            onClick={() => navigate("/mision-create")}
-          >
-            Crear Misión
-          </Button>
+
+          {/* Show Create Mission button only for kage */}
+          {user?.role === "kage" && (
+            <Button
+              type="submit"
+              color="bg-red-anbu hover:bg-yellow-anbu"
+              textColor="text-white hover:text-black"
+              className="px-6 py-2"
+              onClick={() => navigate("/mision-create")}
+            >
+              Crear Misión
+            </Button>
+          )}
         </div>
       </div>
     </div>
