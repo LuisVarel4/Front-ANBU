@@ -37,6 +37,7 @@ const AgentsListScreen: React.FC = () => {
 
   const [popupOpen, setPopupOpen] = useState(false);
   const [agentToDelete, setAgentToDelete] = useState<Agent | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   // Fetch agents from API
   useEffect(() => {
@@ -116,13 +117,28 @@ const AgentsListScreen: React.FC = () => {
     );
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (agentToDelete) {
-      setAgents((prev) =>
-        prev.filter((agent) => agent.id !== agentToDelete.id),
-      );
-      setAgentToDelete(null);
-      setPopupOpen(false);
+      try {
+        setDeleting(true);
+        
+        // Make API call to delete user
+        await userService.deleteUser(agentToDelete.id);
+        
+        // Update local state only after successful API call
+        setAgents((prev) =>
+          prev.filter((agent) => agent.id !== agentToDelete.id),
+        );
+        
+        setAgentToDelete(null);
+        setPopupOpen(false);
+      } catch (error) {
+        console.error('Error deleting user:', error);
+        setError("Error al eliminar el usuario. Intenta de nuevo.");
+        // Optionally show an error popup or toast
+      } finally {
+        setDeleting(false);
+      }
     }
   };
 
@@ -154,6 +170,18 @@ const AgentsListScreen: React.FC = () => {
           Listado de Agentes
         </h2>
       </div>
+
+      {error && (
+        <div className="mx-4 mb-4 p-3 bg-red-500 text-white rounded">
+          {error}
+          <button 
+            onClick={() => setError("")}
+            className="ml-2 text-white hover:text-gray-200"
+          >
+            ×
+          </button>
+        </div>
+      )}
 
       <div className="flex-1 px-2 sm:px-4 md:px-8">
         <div className="mx-auto w-full max-w-full rounded-md bg-gray-800 p-2 sm:p-4 md:max-w-4xl">
@@ -209,12 +237,14 @@ const AgentsListScreen: React.FC = () => {
                       <button
                         onClick={() => handleEdit(agent)}
                         className="text-black-anbu hover:scale-110"
+                        disabled={deleting}
                       >
                         <FaEdit />
                       </button>
                       <button
                         onClick={() => handleDelete(agent.id)}
                         className="text-red-anbu hover:scale-110"
+                        disabled={deleting}
                       >
                         <FaTrash />
                       </button>
@@ -266,7 +296,7 @@ const AgentsListScreen: React.FC = () => {
           setAgentToDelete(null);
         }}
         onConfirm={confirmDelete}
-        message="¿Estás seguro que deseas eliminar este agente?"
+        message={`¿Estás seguro que deseas eliminar a ${agentToDelete?.fullName || 'este agente'}?`}
       />
     </div>
   );

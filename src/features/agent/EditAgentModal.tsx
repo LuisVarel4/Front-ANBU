@@ -133,7 +133,7 @@ const EditAgentModal: React.FC<EditAgentModalProps> = ({
   type Campo = keyof typeof formData;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto p-4 bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto p-4 bg-opacity-50">
       <div className="bg-grayBlue-anbu w-full max-w-3xl rounded-xl shadow-md">
         <form onSubmit={manejarEnvio} className="grid gap-6 p-6 md:grid-cols-2">
           <div className="flex items-center justify-center">
