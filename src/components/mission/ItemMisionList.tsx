@@ -61,7 +61,7 @@ const ItemMisionList: React.FC<MisionProps> = ({
       </td>
       <td className="flex items-center justify-center gap-3 px-4 py-2 whitespace-nowrap">
         <FaWhatsapp
-          className="text-black-anbu cursor-pointer text-2xl"
+          className="text-black-anbu cursor-pointer text-2xl hover:text-green-anbu"
           onClick={() =>
             navigate("/mission/chat", {
               state: { objective },
@@ -74,7 +74,7 @@ const ItemMisionList: React.FC<MisionProps> = ({
           className={`cursor-pointer text-2xl ${
             canEdit 
               ? isOwner 
-                ? "text-white" 
+                ? "text-black-anbu hover:text-green-anbu" 
                 : "text-gray1-anbu hover:text-red-anbu"
               : "text-gray-400"
           } ${editPermission === "read" ? "opacity-50" : ""}`}

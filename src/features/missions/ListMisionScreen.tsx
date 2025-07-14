@@ -17,18 +17,51 @@ const MisionLisScreen: React.FC = () => {
     const fetchMissions = async () => {
       try {
         setLoading(true);
-        const data = await missionService.getRegularMissions();
+        setError(""); // Clear previous errors
+
+        if (!user?.id) {
+          setError("Usuario no autenticado");
+          return;
+        }
+
+        let data: APIMission[];
+
+        // If user is Kage, show all missions
+        if (user.role === "kage") {
+          console.log("Fetching all missions for Kage user");
+          data = await missionService.getRegularMissions();
+        }
+        // If user is Agent or Captain, show only their missions
+        else {
+          console.log("Fetching missions for agent/captain:", user.id);
+          data = await missionService.getMissionsByAgent(user.id);
+        }
+
+        console.log("Missions loaded:", data);
         setMissions(data);
-      } catch (err) {
-        setError("Error al cargar las misiones");
-        console.error(err);
+      } catch (err: any) {
+        console.error("Error loading missions:", err);
+
+        // More specific error handling
+        if (err.response?.status === 403) {
+          setError("No tienes permisos para ver estas misiones");
+        } else if (err.response?.status === 404) {
+          setError("No se encontraron misiones");
+        } else {
+          setError("Error al cargar las misiones");
+        }
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMissions();
-  }, []);
+    if (isAuthenticated && user) {
+      fetchMissions();
+    } else {
+      setLoading(false);
+      setError("Usuario no autenticado");
+    }
+  }, [user, isAuthenticated]);
 
   // Transform API data to match ItemMisionList props
   const transformMissionData = (mission: APIMission) => {
@@ -63,7 +96,16 @@ const MisionLisScreen: React.FC = () => {
   if (error) {
     return (
       <div className="bg-black-anbu min-h-full text-white flex items-center justify-center">
-        <p className="text-red-500">{error}</p>
+        <div className="text-center">
+          <p className="text-red-500 mb-4">{error}</p>
+          <Button
+            onClick={() => navigate(-1)}
+            color="bg-red-anbu"
+            textColor="text-white"
+          >
+            Volver
+          </Button>
+        </div>
       </div>
     );
   }
@@ -74,6 +116,23 @@ const MisionLisScreen: React.FC = () => {
         <h2 className="text-red-anbu text-2xl font-bold">
           Listado de misiones
         </h2>
+        <p className="text-gray-300 mt-2">
+          {user?.role === "kage"
+            ? `Mostrando todas las misiones (${missions.length})`
+            : `Mostrando tus misiones (${missions.length})`}
+        </p>
+        {/* Role indicator */}
+        <span
+          className={`inline-block mt-2 px-3 py-1 rounded text-sm ${
+            user?.role === "kage"
+              ? "bg-yellow-anbu text-black"
+              : "bg-green-anbu text-black"
+          }`}
+        >
+          {user?.role === "kage"
+            ? "Kage - Todas las Misiones"
+            : "Agente/Capitán - Mis Misiones"}
+        </span>
       </div>
 
       <div className="px-6">
@@ -105,12 +164,25 @@ const MisionLisScreen: React.FC = () => {
                 </thead>
 
                 <tbody className="divide-y-4 divide-gray-700 text-center">
-                  {missions.map((mission) => (
-                    <ItemMisionList
-                      key={mission.id}
-                      {...transformMissionData(mission)}
-                    />
-                  ))}
+                  {missions.length > 0 ? (
+                    missions.map((mission) => (
+                      <ItemMisionList
+                        key={mission.id}
+                        {...transformMissionData(mission)}
+                      />
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan={6}
+                        className="px-4 py-8 text-center text-gray-400"
+                      >
+                        {user?.role === "kage"
+                          ? "No hay misiones creadas en el sistema"
+                          : "No tienes misiones asignadas"}
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </ScrollArea>

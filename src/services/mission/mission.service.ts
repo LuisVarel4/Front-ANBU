@@ -57,6 +57,11 @@ export const missionService = {
     return response.data;
   },
 
+  async getMissionsByAgent(agentId: string): Promise<APIMission[]> {
+    const response = await api.get(`/regular-missions/agent/${agentId}`);
+    return response.data;
+  },
+
   async getMissionById(id: string): Promise<APIMission> {
     const response = await api.get(`/regular-missions/${id}`);
     return response.data;
