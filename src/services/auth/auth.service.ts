@@ -1,6 +1,6 @@
 import api from '../../api/axios.config.ts';
 import type { LoginPayload } from '../../types/auth/login-payload.interface.ts';
-import type { AuthUser } from '../../types/auth/auth-user.interface.ts';
+import type { AuthUser, IUser } from '../../types/auth/auth-user.interface.ts';
 
 
 export class AuthService {
@@ -13,8 +13,8 @@ export class AuthService {
     await api.post('/auth/logout');
   }
 
-  async getMe(): Promise<AuthUser> {
-    const response = await api.post<AuthUser>('/auth/me');
+  async getMe(): Promise<IUser> {
+    const response = await api.post<IUser>('/auth/me');
     return response.data;
   }
 }

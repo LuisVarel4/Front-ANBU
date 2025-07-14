@@ -5,3 +5,12 @@ export interface AuthUser {
   email: string;
   role: UserRole;
 }
+
+export interface IUser {
+  id: string;
+  fullName: string;
+  alias: string;
+  email: string;
+  role: string;
+  isActive: boolean;
+}

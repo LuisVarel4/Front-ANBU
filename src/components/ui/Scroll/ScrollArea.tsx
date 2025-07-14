@@ -1,4 +1,9 @@
-import React, { type ReactNode, useRef, useEffect } from "react";
+import React, {
+  type ReactNode,
+  useRef,
+  useEffect,
+  forwardRef,
+} from 'react';
 
 export type ScrollAreaProps = {
   children: ReactNode;
@@ -6,27 +11,30 @@ export type ScrollAreaProps = {
   autoScroll?: boolean;
 };
 
-export const ScrollArea: React.FC<ScrollAreaProps> = ({
-  children,
-  className = "",
-  autoScroll = false,
-}) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
+  ({ children, className = '', autoScroll = false }, ref) => {
+    const internalRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (autoScroll && scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [children, autoScroll]);
+    // Usamos la ref pasada o fallback a la interna
+    const combinedRef = (ref as React.RefObject<HTMLDivElement>) ?? internalRef;
 
-  return (
-    <div
-      ref={scrollRef}
-      className={`scrollbar-thin scrollbar-thumb-red-anbu scrollbar-track-transparent h-full overflow-y-auto ${className}`}
-    >
-      {children}
-    </div>
-  );
-};
+    useEffect(() => {
+      if (autoScroll && combinedRef.current) {
+        combinedRef.current.scrollTop = combinedRef.current.scrollHeight;
+      }
+    }, [children, autoScroll, combinedRef]);
+
+    return (
+      <div
+        ref={combinedRef}
+        className={`scrollbar-thin scrollbar-thumb-red-anbu scrollbar-track-transparent h-full overflow-y-auto ${className}`}
+      >
+        {children}
+      </div>
+    );
+  },
+);
+
+ScrollArea.displayName = 'ScrollArea';
 
 export default ScrollArea;
