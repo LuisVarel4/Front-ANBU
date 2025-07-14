@@ -1,18 +1,18 @@
-export type MissionStatus = 'En Proceso' | 'Retraso' | 'Fracaso' | 'Completada';
-export type MissionPriority = 'Baja' | 'Media' | 'Alta' | 'Crítica';
+export type MissionStatus = 'en proceso' | 'retraso' | 'fracaso' | 'completada';
+export type MissionPriority = 'baja' | 'media' | 'alta' | 'critica';
 
 
 export const MissionStatusValues = {
-  EnProceso: 'En Proceso' as MissionStatus,
-  Retraso: 'Retraso' as MissionStatus,
-  Fracaso: 'Fracaso' as MissionStatus,
-  Completada: 'Completada' as MissionStatus,
+  EnProceso: 'en proceso' as MissionStatus,
+  Retraso: 'retraso' as MissionStatus,
+  Fracaso: 'fracaso' as MissionStatus,
+  Completada: 'completada' as MissionStatus,
 };
 
 
 export const MissionPriorityValues = {
-    Baja: 'Baja' as MissionPriority,
-    Media: 'Media' as MissionPriority,
-    Alta: 'Alta' as MissionPriority,
-    Critica: 'Crítica' as MissionPriority,
+  Baja: 'baja' as MissionPriority,
+  Media: 'media' as MissionPriority,
+  Alta: 'alta' as MissionPriority,
+  Critica: 'critica' as MissionPriority,
 }
