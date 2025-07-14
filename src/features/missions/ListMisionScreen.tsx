@@ -1,12 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, ScrollArea } from "../../components/ui";
 import ItemMisionList from "../../components/mission/ItemMisionList";
-import { mockMissions } from "../../data/misiones";
 import { useNavigate } from "react-router-dom";
-import CreateMision from "./CreateMision";
+import { missionService } from "../../services/mission/mission.service";
+import type { APIMission } from "../../services/mission/mission.service";
 
 const MisionLisScreen: React.FC = () => {
   const navigate = useNavigate();
+  const [missions, setMissions] = useState<APIMission[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>("");
+
+  useEffect(() => {
+    const fetchMissions = async () => {
+      try {
+        setLoading(true);
+        const data = await missionService.getRegularMissions();
+        setMissions(data);
+      } catch (err) {
+        setError("Error al cargar las misiones");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMissions();
+  }, []);
+
+  // Transform API data to match ItemMisionList props
+  const transformMissionData = (mission: APIMission) => ({
+    captain: mission.captain.alias,
+    objective: mission.objective,
+    deadline: new Date(mission.deadline).toLocaleDateString(),
+    level: mission.priority,
+    status: mission.status,
+    isOwner: false, // You'll need to determine this based on current user
+  });
+
+  if (loading) {
+    return (
+      <div className="bg-black-anbu min-h-full text-white flex items-center justify-center">
+        <p>Cargando misiones...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-black-anbu min-h-full text-white flex items-center justify-center">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-black-anbu min-h-full text-white">
@@ -45,8 +91,11 @@ const MisionLisScreen: React.FC = () => {
                 </thead>
 
                 <tbody className="divide-y-4 divide-gray-700 text-center">
-                  {mockMissions.map((mision, idx) => (
-                    <ItemMisionList key={idx} {...mision} />
+                  {missions.map((mission) => (
+                    <ItemMisionList
+                      key={mission.id}
+                      {...transformMissionData(mission)}
+                    />
                   ))}
                 </tbody>
               </table>
@@ -69,12 +118,11 @@ const MisionLisScreen: React.FC = () => {
             color="bg-red-anbu hover:bg-yellow-anbu"
             textColor="text-white hover:text-black"
             className="px-6 py-2"
-            onClick={() => navigate('/mision-create')} 
+            onClick={() => navigate("/mision-create")}
           >
             Crear Misión
           </Button>
         </div>
-
       </div>
     </div>
   );
