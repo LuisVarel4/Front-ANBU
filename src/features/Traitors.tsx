@@ -4,6 +4,8 @@ import { traidoresData, traidoresExterminadosData } from "../data/traidores";
 import TablaRecompensas from "../components/traitors/TablaRecompensas";
 import BotonTraidor from "../components/traitors/BotonTraidor";
 import { motion, useInView } from "framer-motion";
+import CreateReport from "../features/reports/CreateReports";
+import { Button } from "../components/ui";
 
 function Traitors() {
   const [botonActivo, setBotonActivo] = useState<"profugos" | "exterminados">(
@@ -14,6 +16,7 @@ function Traitors() {
     botonActivo === "profugos" ? traidoresData : traidoresExterminadosData;
 
   const sectionRef = useRef(null);
+  const [modalAbierto, setModalAbierto] = useState(false);
   const isInView = useInView(sectionRef, { amount: 0.5 });
 
   return (
@@ -53,7 +56,17 @@ function Traitors() {
       </div>
       <div className="flex flex-col items-center md:items-start">
         <TablaRecompensas data={datosActuales} />
+
+        <Button
+          onClick={() => setModalAbierto(true)}
+          type="button"
+          color="bg-red-anbu"
+          className="mt-6 self-center hover:bg-gray2-anbu"
+        >
+          Realizar un reporte
+        </Button>
       </div>
+      <CreateReport isOpen={modalAbierto} onClose={() => setModalAbierto(false)} />
     </section>
   );
 }
