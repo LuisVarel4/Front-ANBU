@@ -15,9 +15,13 @@ const NotificationItem: React.FC<Props> = ({ notification }) => {
 
     switch (notification.type) {
       case 'mission_delayed':
+        break;
       case 'mission_failed':
+        break;
       case 'mission_bounty':
+        break;
       case 'mission_join_request':
+        break;
       case 'message':
         // TODO: Ruta al chat o canal
         navigate(`/mission/chat/${notification.contextId}`);

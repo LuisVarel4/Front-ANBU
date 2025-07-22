@@ -6,10 +6,11 @@ import { createSocket } from '../services/socket/socket.ts';
 
 const socket = createSocket('notifications');
 
-export function useNotificationsSocket() {
+export function useNotificationsSocket(enabled = true) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!enabled) return;
 
     socket.on('connect', () => {
       console.log('🔌 Connected to notifications gateway');
@@ -20,13 +21,8 @@ export function useNotificationsSocket() {
       dispatch(addNotification(notification));
     });
 
-    socket.on('disconnect', () => {
-      console.log('🔌 Disconnected from notifications gateway');
-    });
-
     return () => {
       socket.off('notifications:new');
-      socket.disconnect();
     };
-  }, [dispatch]);
+  }, [dispatch, enabled]);
 }

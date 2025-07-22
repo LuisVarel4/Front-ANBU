@@ -1,51 +1,52 @@
-import React, { useState } from "react";
-import { Button } from "../../components/ui";
-import MascaraAmbuInicio from "../../assets/logos/Logo_mask_login.png";
-import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../context/auth/context.ts";
-import { fakeUsers } from "../../temporal/fakeUsers.ts";
-import PopupTraitor from "../../components/you-are-traitor.tsx";
+import React, { useState } from 'react';
+import { Button } from '../../components/ui';
+import MascaraAmbuInicio from '../../assets/logos/Logo_mask_login.png';
+import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../context/auth/context.ts';
+import { fakeUsers } from '../../temporal/fakeUsers.ts';
+import PopupTraitor from '../../components/you-are-traitor.tsx';
 
 const AuthScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [showPopup, setShowPopup] = useState(false);
 
   const { login } = useAuthContext();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     // Validaciones básicas
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setError("Por favor ingresa un correo válido.");
+      setError('Por favor ingresa un correo válido.');
       return;
     }
     if (password.length < 8) {
-      setError("La contraseña debe tener al menos 8 caracteres.");
+      setError('La contraseña debe tener al menos 8 caracteres.');
       return;
     }
 
     // Intentar login
     const success = login(email, password);
+    console.log(success);
     if (!success) {
-      setError("Credenciales inválidas.");
+      setError('Credenciales inválidas.');
       return;
     }
 
     // Revisar si el rol es traidor
     const role = fakeUsers[email]; // Accedemos al rol usando el correo
-    if (role === "traidor") {
+    if (role === 'traidor') {
       setShowPopup(true);
       return;
     }
 
     // Si no es traidor, continuar
-    navigate("/otp");
+    navigate('/otp');
   };
   return (
     <div className="bg-black-anbu flex min-h-screen flex-col-reverse text-white md:flex-row">
@@ -87,7 +88,7 @@ const AuthScreen: React.FC = () => {
               <div className="mt-0 text-right">
                 <span
                   className="text-gray2-anbu cursor-pointer text-sm hover:underline"
-                  onClick={() => navigate("/email-notification")}
+                  onClick={() => navigate('/email-notification')}
                 >
                   ¿Olvidaste tu contraseña?
                 </span>

@@ -51,6 +51,14 @@ export interface UpdateMissionRequest {
   assignedAgents?: string[];
 }
 
+export interface CreateMissionJoinRequestDto {
+  missionId: string;
+  agentId: string;
+  requestBy: 'agent' | 'captain'; // Basado en el enum RequestType
+  isReinforcement?: boolean;      // Opcional, solo cuando el capitán invita
+}
+
+
 export const missionService = {
   async getRegularMissions(): Promise<APIMission[]> {
     const response = await api.get('/regular-missions');
@@ -76,5 +84,14 @@ export const missionService = {
   async updateMission(id: string, missionData: UpdateMissionRequest): Promise<APIMission> {
     const response = await api.put(`/regular-missions/${id}`, missionData);
     return response.data;
-  }
+  },
+
+  requestAgent: async (payload: CreateMissionJoinRequestDto) => {
+    const response = await api.post('/mission-join-requests', payload);
+    return response.data;
+  },
+
+  async acceptJoinRequest(requestId: string) {
+    return api.patch(`/mission-join-requests/${requestId}/accept`);
+  },
 };

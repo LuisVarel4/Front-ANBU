@@ -9,6 +9,7 @@ import {
 import { FaRegCircleCheck } from 'react-icons/fa6';
 import { GiCancel } from 'react-icons/gi';
 import { notificationsService } from '../../services/notifications/notifications.service.ts';
+import { missionService } from '../../services/mission/mission.service.ts';
 
 type Props = {
   notification: Notification;
@@ -28,6 +29,15 @@ const NotificationActions: React.FC<Props> = ({ notification }) => {
 
   const handleDecision = async (status: 'accepted' | 'rejected') => {
     try {
+
+      // 1. Si se acepta y es de tipo mission_join_request, llamamos al endpoint correspondiente
+      if (
+        status === 'accepted' &&
+        notification.type === 'mission_join_request'
+      ) {
+        await missionService.acceptJoinRequest(notification.contextId!);
+      }
+
       await notificationsService.updateDecisionStatus(notification.id, status);
       dispatch(
         setDecisionStatus({
