@@ -3,8 +3,8 @@ import { Button } from "../../components/ui";
 import MascaraAmbuInicio from "../../assets/logos/Logo_mask_login.png";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/auth/context.ts";
-import { fakeUsers } from "../../temporal/fakeUsers.ts";
 import PopupTraitor from "../../components/you-are-traitor.tsx";
+import { authService } from "../../services/auth/auth.service.ts";
 
 const AuthScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -12,6 +12,7 @@ const AuthScreen: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [formDisabled, setFormDisabled] = useState(false);
 
   const { login } = useAuthContext();
 
@@ -37,10 +38,15 @@ const AuthScreen: React.FC = () => {
       return;
     }
 
-    // Revisar si el rol es traidor
-    const role = fakeUsers[email]; // Accedemos al rol usando el correo
-    if (role === "traidor") {
+    // Obtener el usuario actualizado directamente del backend usando el servicio
+    const userData = await authService.getMe();
+
+    if (userData.role === "traidor") {
       setShowPopup(true);
+      setFormDisabled(true);
+      setEmail("");
+      setPassword("");
+      setError("");
       return;
     }
 
@@ -70,6 +76,7 @@ const AuthScreen: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={formDisabled}
               />
             </div>
 
@@ -83,6 +90,7 @@ const AuthScreen: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={8}
+                disabled={formDisabled}
               />
               <div className="mt-0 text-right">
                 <span
@@ -100,6 +108,7 @@ const AuthScreen: React.FC = () => {
               color="bg-red-anbu hover:bg-yellow-anbu"
               textColor="text-white hover:text-black"
               className="w-full"
+              disabled={formDisabled}
             >
               Enviar código de autenticación
             </Button>
@@ -117,7 +126,13 @@ const AuthScreen: React.FC = () => {
       {/* ✅ Popup para traidor */}
       <PopupTraitor
         isOpen={showPopup}
-        onClose={() => setShowPopup(false)}
+        onClose={() => {
+          setShowPopup(false);
+          setFormDisabled(false);
+          setEmail("");
+          setPassword("");
+          setError("");
+        }}
         message="¡Acceso denegado! Tu lealtad está en duda..."
       />
     </div>
