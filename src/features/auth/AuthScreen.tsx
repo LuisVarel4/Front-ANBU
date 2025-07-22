@@ -15,7 +15,7 @@ const AuthScreen: React.FC = () => {
 
   const { login } = useAuthContext();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -31,7 +31,7 @@ const AuthScreen: React.FC = () => {
     }
 
     // Intentar login
-    const success = login(email, password);
+    const success = await login(email, password);
     if (!success) {
       setError("Credenciales inválidas.");
       return;
