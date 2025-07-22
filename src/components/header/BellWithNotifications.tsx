@@ -1,9 +1,11 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import BellIcon from "../notifications/BellIcon.tsx";
-import NotificationsMenu from "../notifications/NotificationsMenu.tsx";
-import type { RootState } from "../../store";
-import { Badge } from "../ui";
+import React, { useRef, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import BellIcon from '../notifications/BellIcon.tsx';
+import NotificationsMenu from '../notifications/NotificationsMenu.tsx';
+import type { AppDispatch, RootState } from '../../store';
+import { Badge } from '../ui';
+import { notificationsService } from '../../services/notifications/notifications.service.ts';
+import { setNotifications } from '../../store/notifications/slice.tsx';
 
 const BellWithNotifications: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +18,22 @@ const BellWithNotifications: React.FC = () => {
   const notifications = useSelector(
     (state: RootState) => state.notifications.list,
   );
+  const dispatch = useDispatch<AppDispatch>();
+
+  // ✅ 2. Carga inicial de notificaciones
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const data = await notificationsService.getAll();
+        dispatch(setNotifications(data));
+      } catch (error) {
+        console.error('❌ Error al cargar notificaciones:', error);
+      }
+    };
+
+    fetchNotifications();
+  }, [dispatch]);
+
 
   // Cierra el panel si clic fuera
   useEffect(() => {
@@ -31,9 +49,9 @@ const BellWithNotifications: React.FC = () => {
     };
 
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
   return (

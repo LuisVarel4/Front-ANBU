@@ -1,20 +1,26 @@
-import { Outlet, useLocation } from "react-router-dom";
-import Footer from "../features/Footer.tsx";
-import Header from "../components/header/Header.tsx";
+import { Outlet, useLocation } from 'react-router-dom';
+import Footer from '../features/Footer.tsx';
+import Header from '../components/header/Header.tsx';
+import { useNotificationsSocket } from '../hooks/useNotificationsSocket.ts';
 
 
 const MainLayout = () => {
-  const location = useLocation();   
+  const location = useLocation();
+
+
+  // ✅ 1. Escucha de socket
+  useNotificationsSocket();
+
 
   const [color, floating, overflowHidden] = (() => {
-    if (location.pathname.startsWith("/homepage"))
-      return ["bg-transparent", true, false];
+    if (location.pathname.startsWith('/homepage'))
+      return ['bg-transparent', true, false];
     return [`bg-red-anbu bg-[url('/arches.png')] bg-repeat`, false, false];
   })();
   return (
     <div className="flex h-full flex-col">
       <Header color={color} floating={floating} />
-      <main className={`${overflowHidden ? "overflow-hidden" : ""} flex-1`}>
+      <main className={`${overflowHidden ? 'overflow-hidden' : ''} flex-1`}>
         <Outlet />
       </main>
       <Footer />
