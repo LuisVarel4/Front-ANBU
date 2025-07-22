@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../../components/ui";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuthContext } from "../../context/auth/context.ts";
 import { MissionStatusValues, MissionPriorityValues } from "../../Enums/MissionEnum";
 import { missionService } from "../../services/mission/mission.service";
 import { userService } from "../../services/user/user.service";
@@ -11,7 +10,6 @@ import type { APIUser } from "../../services/user/user.service";
 const EditMissionForm: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuthContext();
   
   const passedData = location.state;
   const missionId = passedData?.id;

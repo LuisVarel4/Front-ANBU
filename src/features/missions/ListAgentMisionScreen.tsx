@@ -116,6 +116,19 @@ const ListAgentMisionScreen: React.FC = () => {
         <h2 className="text-red-anbu text-2xl font-bold">
           Agentes de la Misión: {mission.codeName}
         </h2>
+
+        {/* Role indicator */}
+        <div className="mt-4 text-center">
+          <span className={`px-3 py-1 rounded text-sm ${
+            isKage ? "bg-yellow-anbu text-black" : 
+            isCaptain ? "bg-green-anbu text-white" : 
+            "bg-gray-500 text-white"
+          }`}>
+            {isKage ? "Kage - Control Total" : 
+             isCaptain ? "Capitán de esta Misión" : 
+             "Agente - Solo Lectura"}
+          </span>
+        </div>
         <p className="text-gray-300 mt-2">
           Capitán: {mission.captain?.alias || 'N/A'} | Total de miembros: {totalAgents}
         </p>
@@ -146,7 +159,6 @@ const ListAgentMisionScreen: React.FC = () => {
                     <FaFilter /> <span>Rol</span>
                   </div>
                 </th>
-                <th className="px-4 py-2 text-left">Chat</th>
               </tr>
             </thead>
             <tbody>
@@ -160,8 +172,6 @@ const ListAgentMisionScreen: React.FC = () => {
                   email={mission.captain.email}
                   role="Capitán"
                   isCaptain={true}
-                  canRemove={false}
-                  onRemove={() => {}}
                 />
               )}
               
@@ -175,11 +185,6 @@ const ListAgentMisionScreen: React.FC = () => {
                   email={participation.user?.email || 'N/A'}
                   role={participation.user?.role || 'agente'}
                   isCaptain={false}
-                  canRemove={canAddAgents}
-                  onRemove={(agentId) => {
-                    // TODO: Implement remove agent functionality
-                    console.log('Remove agent:', agentId);
-                  }}
                 />
               ))}
             </tbody>

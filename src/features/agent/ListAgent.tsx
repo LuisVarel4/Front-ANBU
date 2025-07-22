@@ -6,6 +6,7 @@ import CreateAgentModal from "../../features/agent/CreateAgentModal";
 import EditAgentModal from "../../features/agent/EditAgentModal";
 import Popup from "../../components/Popup.tsx";
 import { userService } from "../../services/user/user.service";
+import { useAuthContext } from "../../context/auth/context.ts";
 import type { APIUser } from "../../services/user/user.service";
 
 // Update the interface to match API response
@@ -19,6 +20,7 @@ interface Agent {
 
 const AgentsListScreen: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
 
   const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,6 +40,9 @@ const AgentsListScreen: React.FC = () => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [agentToDelete, setAgentToDelete] = useState<Agent | null>(null);
   const [deleting, setDeleting] = useState(false);
+
+  // Check if user is Kage
+  const isKage = user?.role === "kage";
 
   // Fetch agents from API
   useEffect(() => {
@@ -97,11 +102,13 @@ const AgentsListScreen: React.FC = () => {
     });
 
   const handleEdit = (agent: Agent) => {
+    if (!isKage) return; // Prevent non-kage users from editing
     setAgentToEdit(agent);
     setShowEditModal(true);
   };
 
   const handleDelete = (id: string) => {
+    if (!isKage) return; // Prevent non-kage users from deleting
     const agent = agents.find((a) => a.id === id);
     if (agent) {
       setAgentToDelete(agent);
@@ -135,7 +142,6 @@ const AgentsListScreen: React.FC = () => {
       } catch (error) {
         console.error('Error deleting user:', error);
         setError("Error al eliminar el usuario. Intenta de nuevo.");
-        // Optionally show an error popup or toast
       } finally {
         setDeleting(false);
       }
@@ -165,10 +171,30 @@ const AgentsListScreen: React.FC = () => {
       {(showCreateModal || showEditModal) && (
         <div className="bg-opacity-10 fixed inset-0 z-40 backdrop-blur-sm"></div>
       )}
+      
       <div className="py-6 text-center">
         <h2 className="text-red-anbu text-xl font-semibold">
           Listado de Agentes
         </h2>
+        <p className="text-gray-300 mt-2">
+          {isKage 
+            ? `Mostrando todos los agentes (${agents.length})` 
+            : `Vista de agentes (${agents.length})`
+          }
+        </p>
+        
+        {/* Role indicator */}
+        <span
+          className={`inline-block mt-2 px-3 py-1 rounded text-sm ${
+            isKage
+              ? "bg-yellow-anbu text-black"
+              : "bg-green-anbu text-black"
+          }`}
+        >
+          {isKage
+            ? "Kage - Control Total de Agentes"
+            : "Agente - Vista Solo Lectura"}
+        </span>
       </div>
 
       {error && (
@@ -232,19 +258,40 @@ const AgentsListScreen: React.FC = () => {
                     <td className="text-black-anbu px-4 py-2">
                       {agent.email}
                     </td>
-                    <td className="text-black-anbu px-4 py-2">{agent.role}</td>
+                    <td className="text-black-anbu px-4 py-2">
+                      <span className={`px-2 py-1 rounded text-xs ${
+                        agent.role === "kage" ? "bg-yellow-anbu text-black" :
+                        agent.role === "agente" ? "bg-green-anbu text-white" :
+                        "bg-gray-500 text-white"
+                      }`}>
+                        {agent.role}
+                      </span>
+                    </td>
                     <td className="flex justify-center gap-3 px-4 py-2">
+                      {/* Edit button - only enabled for Kage */}
                       <button
                         onClick={() => handleEdit(agent)}
-                        className="text-black-anbu hover:scale-110"
-                        disabled={deleting}
+                        className={`${
+                          isKage 
+                            ? "text-black-anbu hover:scale-110 cursor-pointer" 
+                            : "text-gray-400 cursor-not-allowed"
+                        }`}
+                        disabled={!isKage || deleting}
+                        title={isKage ? "Editar agente" : "Solo Kage puede editar"}
                       >
                         <FaEdit />
                       </button>
+                      
+                      {/* Delete button - only enabled for Kage */}
                       <button
                         onClick={() => handleDelete(agent.id)}
-                        className="text-red-anbu hover:scale-110"
-                        disabled={deleting}
+                        className={`${
+                          isKage 
+                            ? "text-red-anbu hover:scale-110 cursor-pointer" 
+                            : "text-gray-400 cursor-not-allowed"
+                        }`}
+                        disabled={!isKage || deleting}
+                        title={isKage ? "Eliminar agente" : "Solo Kage puede eliminar"}
                       >
                         <FaTrash />
                       </button>
@@ -267,27 +314,42 @@ const AgentsListScreen: React.FC = () => {
           Volver
         </Button>
 
-        <Button
-          onClick={() => setShowCreateModal(true)}
-          type="button"
-          color="bg-red-anbu"
-          className="hover:bg-green-anbu mx-2"
-        >
-          Crear nuevo agente
-        </Button>
+        {/* Create Agent button - only show for Kage */}
+        {isKage && (
+          <Button
+            onClick={() => setShowCreateModal(true)}
+            type="button"
+            color="bg-red-anbu"
+            className="hover:bg-green-anbu mx-2"
+          >
+            Crear nuevo agente
+          </Button>
+        )}
       </div>
 
-      <CreateAgentModal
-        isOpen={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
-      />
+      {/* Show different message based on role */}
+      {!isKage && (
+        <div className="text-center text-gray-400 text-sm mb-4">
+          <p>Solo el Kage puede crear, editar o eliminar agentes</p>
+        </div>
+      )}
 
-      <EditAgentModal
-        isOpen={showEditModal}
-        onClose={() => setShowEditModal(false)}
-        agent={agentToEdit}
-        onSave={handleUpdateAgent}
-      />
+      {/* Modals - only render for Kage */}
+      {isKage && (
+        <>
+          <CreateAgentModal
+            isOpen={showCreateModal}
+            onClose={() => setShowCreateModal(false)}
+          />
+
+          <EditAgentModal
+            isOpen={showEditModal}
+            onClose={() => setShowEditModal(false)}
+            agent={agentToEdit}
+            onSave={handleUpdateAgent}
+          />
+        </>
+      )}
 
       <Popup
         isOpen={popupOpen}
