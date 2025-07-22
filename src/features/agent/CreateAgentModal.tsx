@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import maskAnbu from "../../assets/ilustrations/Mascara_png-removebg-preview.png";
 import Button from "../../components/ui/button/Button";
 import Popup from "../../components/Popup";
@@ -21,6 +22,7 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
   const [errores, setErrores] = useState<{ [key: string]: string }>({});
   const [modalVisible, setModalVisible] = useState(false);
   const [creating, setCreating] = useState(false);
+  const navigate = useNavigate();
 
   const roles = ["agente", "kage", "traidor"];
 
@@ -36,7 +38,7 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
 
   const manejarEnvio = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const nuevosErrores: { [key: string]: string } = {};
 
     // Validate required fields
@@ -65,11 +67,14 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
     // Enhanced password validation
     if (formData.password) {
       if (formData.password.length < 8) {
-        nuevosErrores.password = "La contraseña debe tener al menos 8 caracteres";
+        nuevosErrores.password =
+          "La contraseña debe tener al menos 8 caracteres";
       } else if (!/[a-zA-Z]/.test(formData.password)) {
-        nuevosErrores.password = "La contraseña debe contener al menos una letra";
+        nuevosErrores.password =
+          "La contraseña debe contener al menos una letra";
       } else if (!/[0-9]/.test(formData.password)) {
-        nuevosErrores.password = "La contraseña debe contener al menos un número";
+        nuevosErrores.password =
+          "La contraseña debe contener al menos un número";
       }
     }
 
@@ -88,7 +93,7 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
         };
 
         await userService.createUser(userData);
-        
+
         setModalVisible(true);
         setFormData({
           fullName: "",
@@ -97,9 +102,35 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
           password: "",
           role: "",
         });
-      } catch (error) {
-        console.error('Error creating user:', error);
-        setErrores({ general: "Error al crear el usuario. Intenta de nuevo." });
+      } catch (error: unknown) {
+        // Manejo de errores por campo (adaptado a la estructura real)
+        if (
+          typeof error === "object" &&
+          error !== null &&
+          "response" in error &&
+          typeof (error as { response?: unknown }).response === "object" &&
+          (error as { response?: { data?: unknown } }).response !== null &&
+          Array.isArray(
+            (error as { response: { data: { message?: unknown } } }).response
+              .data.message,
+          )
+        ) {
+          const fieldErrors: { [key: string]: string } = {};
+          (
+            error as {
+              response: {
+                data: { message: Array<{ field: string; error: string }> };
+              };
+            }
+          ).response.data.message.forEach((err) => {
+            fieldErrors[err.field] = err.error;
+          });
+          setErrores(fieldErrors);
+        } else {
+          setErrores({
+            general: "Error al crear el usuario. Intenta de nuevo.",
+          });
+        }
       } finally {
         setCreating(false);
       }
@@ -113,7 +144,7 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
   return (
     <>
       {/* Background overlay with blur effect */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto p-4 bg-opacity-50 backdrop-blur-sm">
+      <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center overflow-auto p-4 backdrop-blur-sm">
         <div className="bg-grayBlue-anbu w-full max-w-3xl rounded-xl shadow-md">
           <form
             onSubmit={manejarEnvio}
@@ -125,7 +156,7 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
 
             <div className="flex flex-col gap-4">
               {errores.general && (
-                <div className="col-span-2 p-3 bg-red-500 text-white rounded">
+                <div className="col-span-2 rounded bg-red-500 p-3 text-white">
                   {errores.general}
                 </div>
               )}
@@ -133,11 +164,14 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
               {(["fullName", "alias", "email", "password"] as Campo[]).map(
                 (campo) => (
                   <div key={campo}>
-                    <label className="mb-1 block capitalize text-white">
-                      {campo === "fullName" ? "Nombre Completo" :
-                       campo === "email" ? "Correo" :
-                       campo === "password" ? "Contraseña" :
-                       campo}
+                    <label className="mb-1 block text-white capitalize">
+                      {campo === "fullName"
+                        ? "Nombre Completo"
+                        : campo === "email"
+                          ? "Correo"
+                          : campo === "password"
+                            ? "Contraseña"
+                            : campo}
                     </label>
                     <input
                       name={campo}
@@ -152,8 +186,8 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
                       onChange={manejarCambio}
                       className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
                       placeholder={
-                        campo === "password" 
-                          ? "Mínimo 8 caracteres, 1 letra y 1 número" 
+                        campo === "password"
+                          ? "Mínimo 8 caracteres, 1 letra y 1 número"
                           : ""
                       }
                     />
@@ -212,6 +246,7 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
           isOpen={modalVisible}
           onClose={() => {
             setModalVisible(false);
+            navigate("/agent-list");
             onClose();
           }}
           message="¡Agente creado exitosamente!"

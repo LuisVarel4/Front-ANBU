@@ -1,19 +1,53 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import anbuDecoration from "../assets/logos/logo_blanco.png";
-import { traidoresData, traidoresExterminadosData } from "../data/traidores";
 import TablaRecompensas from "../components/traitors/TablaRecompensas";
 import BotonTraidor from "../components/traitors/BotonTraidor";
 import { motion, useInView } from "framer-motion";
+import CreateReport from "../features/reports/CreateReports";
+import { Button } from "../components/ui";
+import {
+  fetchBountyMissions,
+  type BountyMission,
+} from "../services/traitors/traitors.service";
 
 function Traitors() {
   const [botonActivo, setBotonActivo] = useState<"profugos" | "exterminados">(
     "profugos",
   );
+  const [bountyMissions, setBountyMissions] = useState<BountyMission[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const datosActuales =
-    botonActivo === "profugos" ? traidoresData : traidoresExterminadosData;
+  useEffect(() => {
+    setLoading(true);
+    fetchBountyMissions()
+      .then((data) => {
+        setBountyMissions(data);
+        setError(null);
+      })
+      .catch(() => {
+        setError("Error al cargar los traidores");
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Mapear a formato que espera TablaRecompensas
+  const mapToTraidor = (m: BountyMission) => ({
+    nombre: m.traitor.alias || "Sin alias",
+    recompensa: `¥${Number(m.reward).toLocaleString()}`,
+  });
+
+  const profugos = bountyMissions
+    .filter((m) => !m.completedAt)
+    .map(mapToTraidor);
+  const exterminados = bountyMissions
+    .filter((m) => !!m.completedAt)
+    .map(mapToTraidor);
+
+  const datosActuales = botonActivo === "profugos" ? profugos : exterminados;
 
   const sectionRef = useRef(null);
+  const [modalAbierto, setModalAbierto] = useState(false);
   const isInView = useInView(sectionRef, { amount: 0.5 });
 
   return (
@@ -52,8 +86,27 @@ function Traitors() {
         </motion.section>
       </div>
       <div className="flex flex-col items-center md:items-start">
-        <TablaRecompensas data={datosActuales} />
+        {loading ? (
+          <p className="text-white">Cargando...</p>
+        ) : error ? (
+          <p className="text-red-500">{error}</p>
+        ) : (
+          <TablaRecompensas data={datosActuales} />
+        )}
+
+        <Button
+          onClick={() => setModalAbierto(true)}
+          type="button"
+          color="bg-red-anbu"
+          className="hover:bg-gray2-anbu mt-6 self-center"
+        >
+          Realizar un reporte
+        </Button>
       </div>
+      <CreateReport
+        isOpen={modalAbierto}
+        onClose={() => setModalAbierto(false)}
+      />
     </section>
   );
 }
