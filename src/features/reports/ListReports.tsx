@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, ScrollArea } from "../../components/ui";
 import { FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import CreateReport from "../../features/reports/CreateReports";
 
 interface Report {
   id: number;
@@ -10,6 +11,7 @@ interface Report {
   tipo: "Traidor asesinado" | "Posible traidor";
   estado: "En Proceso" | "Aprobada" | "Rechazada";
 }
+
 
 const initialReports: Report[] = [
   {
@@ -120,6 +122,7 @@ const initialReports: Report[] = [
 ];
 
 const ListReports: React.FC = () => {
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const navigate = useNavigate();
   const reports = initialReports;
   const [filters, setFilters] = useState({
@@ -252,7 +255,7 @@ const ListReports: React.FC = () => {
           </ScrollArea>
         </div>
       </div>
-      <div className="mt-6 flex justify-center">
+      <div className="mt-6 flex justify-center gap-4">
         <Button
           onClick={() => navigate("/homepage")}
           type="button"
@@ -261,7 +264,20 @@ const ListReports: React.FC = () => {
         >
           Volver
         </Button>
+
+        <Button
+          onClick={() => setShowCreateModal(true)}
+          type="button"
+          color="bg-red-anbu"
+          className="hover:bg-gray2-anbu"
+        >
+          Crear reporte
+        </Button>
       </div>
+        <CreateReport
+      isOpen={showCreateModal}
+      onClose={() => setShowCreateModal(false)}
+    />
     </div>
   );
 };

@@ -13,7 +13,7 @@ export const createSocket = (namespace: string): Socket => {
   const ns = formatNamespace(namespace);
 
   if (!sockets[ns]) {
-    sockets[ns] = io("http://localhost:4000/chat", {
+    sockets[ns] = io("http://localhost:3000/chat", {
       withCredentials: true,
       transports: ["websocket", "polling"], // Agregar polling para debug
       forceNew: true, // Forzar nueva conexión
