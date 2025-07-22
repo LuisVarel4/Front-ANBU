@@ -61,29 +61,29 @@ const ItemMisionList: React.FC<MisionProps> = ({
       </td>
       <td className="flex items-center justify-center gap-3 px-4 py-2 whitespace-nowrap">
         <FaWhatsapp
-          className="text-black-anbu cursor-pointer text-2xl hover:text-green-anbu"
+          className="text-black-anbu hover:text-green-anbu cursor-pointer text-2xl"
           onClick={() =>
-            navigate("/mission/chat", {
+            navigate(`/mission/chat/${id}`, {
               state: { objective },
             })
           }
         />
-        
+
         {/* Always show edit icon, but with different visual states */}
         <FaEdit
           className={`cursor-pointer text-2xl ${
-            canEdit 
-              ? isOwner 
-                ? "text-black-anbu hover:text-green-anbu" 
+            canEdit
+              ? isOwner
+                ? "text-black-anbu hover:text-green-anbu"
                 : "text-gray1-anbu hover:text-red-anbu"
               : "text-gray-400"
           } ${editPermission === "read" ? "opacity-50" : ""}`}
           onClick={handleEdit}
           title={
-            editPermission === "full" 
-              ? "Editar misión" 
-              : editPermission === "status" 
-                ? "Editar estado" 
+            editPermission === "full"
+              ? "Editar misión"
+              : editPermission === "status"
+                ? "Editar estado"
                 : "Ver detalles"
           }
         />
