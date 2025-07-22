@@ -1,20 +1,84 @@
-import { useNavigate } from 'react-router-dom';
-import {Button} from '../../components/ui';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Button } from '../../components/ui';
 import ClipIcon from '../../assets/icons/clip-svgrepo-com.svg';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Popup from '../../components/Popup';
+import { reportService } from '../../services/report/report.service';
+import type { APIReport } from '../../services/report/report.service';
 
 const ReportsForm: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [popup, setPopup] = useState<{ open: boolean; message: string }>({ open: false, message: '' });
+  const [report, setReport] = useState<APIReport | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>("");
 
-  // Datos de ejemplo, puedes reemplazar por props o datos reales
-  const data = {
-    tipo: "Traidor asesinado",
-    fecha: "25/07/2025",
-    agente: "Emma",
-    evidencia: "evidencia.jpg",
-    descripcion: "Lo veo bastante tieso, creo que ya no respira"
+  // Get report ID from navigation state
+  const reportId = location.state?.reportId;
+
+  useEffect(() => {
+    const fetchReportDetails = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        if (!reportId) {
+          setError("ID de reporte no encontrado");
+          return;
+        }
+
+        console.log("Loading report with ID:", reportId); // Debug log
+        const reportData = await reportService.getReportById(reportId);
+        console.log("Report data loaded:", reportData); // Debug log
+        setReport(reportData);
+
+      } catch (err: any) {
+        console.error("Error loading report details:", err);
+        if (err.response?.status === 404) {
+          setError("Reporte no encontrado");
+        } else if (err.response?.status === 403) {
+          setError("No tienes permisos para ver este reporte");
+        } else {
+          setError("Error al cargar los datos del reporte");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (reportId) {
+      fetchReportDetails();
+    } else {
+      setLoading(false);
+      setError("ID de reporte no proporcionado");
+    }
+  }, [reportId]);
+
+  // Function to approve report
+  const handleApproveReport = async () => {
+    try {
+      if (!report) return;
+
+      await reportService.approveReport(report.id);
+      showPopup('Reporte aprobado exitosamente');
+    } catch (err: any) {
+      console.error("Error approving report:", err);
+      showPopup('Error al aprobar el reporte');
+    }
+  };
+
+  // Function to reject report
+  const handleRejectReport = async () => {
+    try {
+      if (!report) return;
+
+      await reportService.rejectReport(report.id);
+      showPopup('Reporte rechazado');
+    } catch (err: any) {
+      console.error("Error rejecting report:", err);
+      showPopup('Error al rechazar el reporte');
+    }
   };
 
   // Función para mostrar el popup
@@ -26,6 +90,33 @@ const ReportsForm: React.FC = () => {
   const closePopup = () => {
     setPopup({ open: false, message: '' });
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black-anbu text-white flex items-center justify-center">
+        <p>Cargando detalles del reporte...</p>
+      </div>
+    );
+  }
+
+  if (error || !report) {
+    return (
+      <div className="min-h-screen bg-black-anbu text-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500 mb-4">{error || "Error al cargar el reporte"}</p>
+          <Button
+            onClick={() => navigate('/reports')}
+            color="bg-red-anbu"
+            textColor="text-white"
+            className="mt-4"
+          >
+            Volver a Reportes
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-black-anbu text-white">
       <div className="flex flex-col items-center w-full">
@@ -41,7 +132,7 @@ const ReportsForm: React.FC = () => {
             <div>
               <label className="block mb-1 font-semibold">Tipo de reporte</label>
               <input
-                value={data.tipo}
+                value={report.typeReport === 'asesinato' ? 'Asesinato' : 'Posible traidor'}
                 disabled
                 className="w-full px-3 py-2 rounded bg-gray-200 text-black-anbu font-semibold"
               />
@@ -49,7 +140,7 @@ const ReportsForm: React.FC = () => {
             <div>
               <label className="block mb-1 font-semibold">Agente asesinado</label>
               <input
-                value={data.agente}
+                value={report.traidor?.alias || 'N/A'}
                 disabled
                 className="w-full px-3 py-2 rounded bg-gray-200 text-black-anbu"
               />
@@ -57,7 +148,7 @@ const ReportsForm: React.FC = () => {
             <div className="md:col-span-2">
               <label className="block mb-1 font-semibold">Descripción detallada de la situación</label>
               <textarea
-                value={data.descripcion}
+                value={report.description}
                 disabled
                 rows={4}
                 className="w-full px-3 py-2 rounded bg-gray-200 text-black-anbu resize-none"
@@ -70,7 +161,7 @@ const ReportsForm: React.FC = () => {
               <label className="block mb-1 font-semibold">Fecha</label>
               <div className="relative">
                 <input
-                  value={data.fecha}
+                  value={new Date(report.createdAt).toLocaleDateString('es-ES')}
                   disabled
                   className="w-full px-3 py-2 rounded bg-gray-200 text-black-anbu font-semibold pr-10"
                 />
@@ -83,35 +174,70 @@ const ReportsForm: React.FC = () => {
               <label className="block mb-1 font-semibold">Evidencia</label>
               <div className="relative">
                 <input
-                  value={data.evidencia}
+                  value={report.fileUrl ? report.fileUrl.split('/').pop() || 'evidencia.jpg' : 'Sin evidencia'}
                   disabled
                   className="w-full px-3 py-2 rounded bg-gray-200 text-black-anbu pr-10"
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-black-anbu">
-                   <img src={ClipIcon} alt="clip" className="w-5 h-5" />
+                  <img src={ClipIcon} alt="clip" className="w-5 h-5" />
                 </span>
               </div>
+              {report.fileUrl && (
+                <div className="mt-2">
+                  <a 
+                    href={report.fileUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:text-blue-300 text-sm underline"
+                  >
+                    Ver evidencia
+                  </a>
+                </div>
+              )}
+            </div>
+            <div>
+              <label className="block mb-1 font-semibold">Reportado por</label>
+              <input
+                value={report.user?.alias || 'N/A'}
+                disabled
+                className="w-full px-3 py-2 rounded bg-gray-200 text-black-anbu"
+              />
+            </div>
+            <div>
+              <label className="block mb-1 font-semibold">Estado actual</label>
+              <input
+                value={report.state === 'en_proceso' ? 'En Proceso' : 
+                       report.state === 'aprobado' ? 'Aprobado' : 'Rechazado'}
+                disabled
+                className={`w-full px-3 py-2 rounded font-semibold ${
+                  report.state === 'aprobado' ? 'bg-green-200 text-green-800' :
+                  report.state === 'rechazado' ? 'bg-red-200 text-red-800' :
+                  'bg-gray-200 text-black-anbu'
+                }`}
+              />
             </div>
           </div>
           {/* Botones */}
-          <div className="md:col-span-2 flex flex-col md:flex-row gap-4 justify-center mt-4">
-            <Button
-              type="button"
-              color="bg-[#960014]"
-              className="w-full md:w-auto"
-              onClick={() => showPopup('Petición rechazada')}
-            >
-              Rechazar petición
-            </Button>
-            <Button
-              type="button"
-              color="bg-[#960014]"
-              className="w-full md:w-auto"
-              onClick={() => showPopup('Petición aceptada')}
-            >
-              Aceptar petición
-            </Button>
-          </div>
+          {report.state === 'en_proceso' && (
+            <div className="md:col-span-2 flex flex-col md:flex-row gap-4 justify-center mt-4">
+              <Button
+                type="button"
+                color="bg-[#960014]"
+                className="w-full md:w-auto"
+                onClick={handleRejectReport}
+              >
+                Rechazar petición
+              </Button>
+              <Button
+                type="button"
+                color="bg-[#960014]"
+                className="w-full md:w-auto"
+                onClick={handleApproveReport}
+              >
+                Aceptar petición
+              </Button>
+            </div>
+          )}
           <div className="md:col-span-2 flex justify-center mt-2">
             <Button
               onClick={() => navigate('/reports')}
