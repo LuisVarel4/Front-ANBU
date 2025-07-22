@@ -17,6 +17,8 @@ const notificationsSlice = createSlice({
     addNotification: (state, action: PayloadAction<Notification>) => {
       const notif = action.payload;
 
+      console.log('addNotification', notif);
+
       if (notif.type === 'message' && notif.contextId) {
         const existing = state.list.find(
           (n) => n.type === 'message' && n.contextId === notif.contextId,

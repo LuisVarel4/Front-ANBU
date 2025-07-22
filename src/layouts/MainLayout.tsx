@@ -2,14 +2,16 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Footer from '../features/Footer.tsx';
 import Header from '../components/header/Header.tsx';
 import { useNotificationsSocket } from '../hooks/useNotificationsSocket.ts';
+import { useAuthContext } from '../context/auth/context.ts';
 
 
 const MainLayout = () => {
   const location = useLocation();
+  const { user, isLoading } = useAuthContext();
 
-
+  console.log('user', user);
   // ✅ 1. Escucha de socket
-  useNotificationsSocket();
+  useNotificationsSocket(Boolean(user) && !isLoading);
 
 
   const [color, floating, overflowHidden] = (() => {

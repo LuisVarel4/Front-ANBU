@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import maskAnbu from "../../assets/ilustrations/Mascara_png-removebg-preview.png";
-import Popup from "../../components/Popup";
-import { Button } from "../../components/ui";
-import { userService } from "../../services/user/user.service";
-import { missionService } from "../../services/mission/mission.service";
-import type { APIUser } from "../../services/user/user.service";
-import type { APIMission } from "../../services/mission/mission.service";
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import maskAnbu from '../../assets/ilustrations/Mascara_png-removebg-preview.png';
+import Popup from '../../components/Popup';
+import { Button } from '../../components/ui';
+import { userService } from '../../services/user/user.service';
+import { missionService } from '../../services/mission/mission.service';
+import type { APIUser } from '../../services/user/user.service';
+import type { APIMission } from '../../services/mission/mission.service';
 
 function RequestAgent() {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
+
   // Get mission data from navigation state
   const missionId = location.state?.missionId;
   const missionName = location.state?.missionName;
 
   const [formData, setFormData] = useState({
-    selectedAgent: "",
+    selectedAgent: '',
   });
   const [availableAgents, setAvailableAgents] = useState<APIUser[]>([]);
   const [mission, setMission] = useState<APIMission | null>(null);
@@ -31,14 +32,14 @@ function RequestAgent() {
         setLoading(true);
 
         if (!missionId) {
-          setErrores({ general: "ID de misión no encontrado" });
+          setErrores({ general: 'ID de misión no encontrado' });
           return;
         }
 
         // Load mission data and all users in parallel
         const [missionData, allUsers] = await Promise.all([
           missionService.getMissionById(missionId),
-          userService.getUsers()
+          userService.getUsers(),
         ]);
 
         setMission(missionData);
@@ -46,20 +47,20 @@ function RequestAgent() {
         // Get IDs of agents already in the mission (including captain)
         const assignedAgentIds = new Set([
           missionData.captain.id,
-          ...missionData.participations.map(p => p.user_id || p.user?.id)
+          ...missionData.participations.map(p => p.user_id || p.user?.id),
         ]);
 
         // Filter out agents already assigned to the mission
-        const available = allUsers.filter(user => 
-          !assignedAgentIds.has(user.id) && 
-          (user.role === 'agente' || user.role === 'kage')
+        const available = allUsers.filter(user =>
+          !assignedAgentIds.has(user.id) &&
+          (user.role === 'agente' || user.role === 'kage'),
         );
 
         setAvailableAgents(available);
 
       } catch (err: any) {
-        console.error("Error loading data:", err);
-        setErrores({ general: "Error al cargar los datos" });
+        console.error('Error loading data:', err);
+        setErrores({ general: 'Error al cargar los datos' });
       } finally {
         setLoading(false);
       }
@@ -75,31 +76,37 @@ function RequestAgent() {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    setErrores({ ...errores, [e.target.name]: "" });
+    setErrores({ ...errores, [e.target.name]: '' });
   };
 
-  const manejarEnvio = (e: React.FormEvent) => {
+  const manejarEnvio = async (e: React.FormEvent) => {
     e.preventDefault();
     const nuevosErrores: { [key: string]: string } = {};
 
     if (!formData.selectedAgent) {
-      nuevosErrores.selectedAgent = "Debe seleccionar un agente";
+      nuevosErrores.selectedAgent = 'Debe seleccionar un agente';
     }
 
     setErrores(nuevosErrores);
 
     if (Object.keys(nuevosErrores).length === 0) {
       // TODO: Send request to selected agent
-      console.log('Sending request to agent:', {
-        missionId,
-        agentId: formData.selectedAgent,
-        missionName
-      });
+      try {
+        await missionService.requestAgent({
+          missionId,
+          agentId: formData.selectedAgent,
+          requestBy: 'captain',  // ← clave
+          isReinforcement: true,           // ← clave
+        });
 
-      setModalVisible(true);
-      setFormData({
-        selectedAgent: "",
-      });
+        setModalVisible(true);
+        setFormData({ selectedAgent: '' });
+      } catch (error) {
+        console.error('Error al enviar solicitud:', error);
+        setErrores({
+          general: 'No se pudo enviar la solicitud. Intenta nuevamente.',
+        });
+      }
     }
   };
 
@@ -161,13 +168,13 @@ function RequestAgent() {
                 value={formData.selectedAgent}
                 onChange={manejarCambio}
                 className={`w-full rounded px-3 py-2 text-black ${
-                  errores.selectedAgent ? "bg-red-100 border-red-500" : "bg-gray-100"
+                  errores.selectedAgent ? 'bg-red-100 border-red-500' : 'bg-gray-100'
                 }`}
               >
                 <option value="">
-                  {availableAgents.length > 0 
-                    ? "Selecciona un agente" 
-                    : "No hay agentes disponibles"
+                  {availableAgents.length > 0
+                    ? 'Selecciona un agente'
+                    : 'No hay agentes disponibles'
                   }
                 </option>
                 {availableAgents.map((agent) => (
@@ -176,11 +183,11 @@ function RequestAgent() {
                   </option>
                 ))}
               </select>
-              
+
               {errores.selectedAgent && (
                 <p className="text-sm text-red-400 mt-1">{errores.selectedAgent}</p>
               )}
-              
+
               {availableAgents.length === 0 && (
                 <p className="text-gray-400 text-xs mt-1">
                   Todos los agentes ya están asignados a esta misión
