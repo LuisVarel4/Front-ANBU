@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import maskAnbu from "../../assets/ilustrations/Mascara_png-removebg-preview.png";
 import Button from "../../components/ui/button/Button";
 import Popup from "../../components/Popup";
+import { userService } from "../../services/user/user.service";
+import type { CreateUserRequest } from "../../services/user/user.service";
 
 interface CreateAgentModalProps {
   isOpen: boolean;
@@ -10,14 +12,17 @@ interface CreateAgentModalProps {
 
 function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
   const [formData, setFormData] = useState({
-    nombre: "",
+    fullName: "",
     alias: "",
-    correo: "",
+    email: "",
     password: "",
-    especialidad: "",
+    role: "",
   });
   const [errores, setErrores] = useState<{ [key: string]: string }>({});
   const [modalVisible, setModalVisible] = useState(false);
+  const [creating, setCreating] = useState(false);
+
+  const roles = ["agente", "kage", "traidor"];
 
   const manejarCambio = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -29,25 +34,75 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
     setErrores({ ...errores, [e.target.name]: "" });
   };
 
-  const manejarEnvio = (e: React.FormEvent) => {
+  const manejarEnvio = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     const nuevosErrores: { [key: string]: string } = {};
 
-    Object.entries(formData).forEach(([key, value]) => {
-      if (!value) nuevosErrores[key] = "Este campo es obligatorio";
-    });
+    // Validate required fields
+    if (!formData.fullName.trim()) {
+      nuevosErrores.fullName = "El nombre completo es obligatorio";
+    }
+    if (!formData.alias.trim()) {
+      nuevosErrores.alias = "El alias es obligatorio";
+    }
+    if (!formData.email.trim()) {
+      nuevosErrores.email = "El email es obligatorio";
+    }
+    if (!formData.password.trim()) {
+      nuevosErrores.password = "La contraseña es obligatoria";
+    }
+    if (!formData.role) {
+      nuevosErrores.role = "El rol es obligatorio";
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (formData.email && !emailRegex.test(formData.email)) {
+      nuevosErrores.email = "El email no tiene un formato válido";
+    }
+
+    // Enhanced password validation
+    if (formData.password) {
+      if (formData.password.length < 8) {
+        nuevosErrores.password = "La contraseña debe tener al menos 8 caracteres";
+      } else if (!/[a-zA-Z]/.test(formData.password)) {
+        nuevosErrores.password = "La contraseña debe contener al menos una letra";
+      } else if (!/[0-9]/.test(formData.password)) {
+        nuevosErrores.password = "La contraseña debe contener al menos un número";
+      }
+    }
 
     setErrores(nuevosErrores);
 
     if (Object.keys(nuevosErrores).length === 0) {
-      setModalVisible(true);
-      setFormData({
-        nombre: "",
-        alias: "",
-        correo: "",
-        password: "",
-        especialidad: "",
-      });
+      try {
+        setCreating(true);
+
+        const userData: CreateUserRequest = {
+          fullName: formData.fullName,
+          alias: formData.alias,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role,
+        };
+
+        await userService.createUser(userData);
+        
+        setModalVisible(true);
+        setFormData({
+          fullName: "",
+          alias: "",
+          email: "",
+          password: "",
+          role: "",
+        });
+      } catch (error) {
+        console.error('Error creating user:', error);
+        setErrores({ general: "Error al crear el usuario. Intenta de nuevo." });
+      } finally {
+        setCreating(false);
+      }
     }
   };
 
@@ -57,8 +112,8 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
 
   return (
     <>
-      {/* Contenido del modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto p-4">
+      {/* Background overlay with blur effect */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto p-4 bg-opacity-50 backdrop-blur-sm">
         <div className="bg-grayBlue-anbu w-full max-w-3xl rounded-xl shadow-md">
           <form
             onSubmit={manejarEnvio}
@@ -69,14 +124,25 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
             </div>
 
             <div className="flex flex-col gap-4">
-              {(["nombre", "alias", "correo", "password"] as Campo[]).map(
+              {errores.general && (
+                <div className="col-span-2 p-3 bg-red-500 text-white rounded">
+                  {errores.general}
+                </div>
+              )}
+
+              {(["fullName", "alias", "email", "password"] as Campo[]).map(
                 (campo) => (
                   <div key={campo}>
-                    <label className="mb-1 block capitalize">{campo}</label>
+                    <label className="mb-1 block capitalize text-white">
+                      {campo === "fullName" ? "Nombre Completo" :
+                       campo === "email" ? "Correo" :
+                       campo === "password" ? "Contraseña" :
+                       campo}
+                    </label>
                     <input
                       name={campo}
                       type={
-                        campo === "correo"
+                        campo === "email"
                           ? "email"
                           : campo === "password"
                             ? "password"
@@ -85,6 +151,11 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
                       value={formData[campo]}
                       onChange={manejarCambio}
                       className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
+                      placeholder={
+                        campo === "password" 
+                          ? "Mínimo 8 caracteres, 1 letra y 1 número" 
+                          : ""
+                      }
                     />
                     {errores[campo] && (
                       <p className="text-sm text-red-400">{errores[campo]}</p>
@@ -92,6 +163,26 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
                   </div>
                 ),
               )}
+
+              <div>
+                <label className="mb-1 block text-white">Rol</label>
+                <select
+                  name="role"
+                  value={formData.role}
+                  onChange={manejarCambio}
+                  className="text-black-anbu w-full rounded bg-gray-100 px-3 py-2"
+                >
+                  <option value="">Selecciona un rol</option>
+                  {roles.map((rol) => (
+                    <option key={rol} value={rol}>
+                      {rol.charAt(0).toUpperCase() + rol.slice(1)}
+                    </option>
+                  ))}
+                </select>
+                {errores.role && (
+                  <p className="text-sm text-red-400">{errores.role}</p>
+                )}
+              </div>
             </div>
 
             <div className="col-span-2 mt-4 flex justify-center gap-4">
@@ -100,6 +191,7 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
                 type="button"
                 color="bg-red-anbu"
                 className="hover:bg-gray2-anbu"
+                disabled={creating}
               >
                 Cancelar
               </Button>
@@ -108,8 +200,9 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
                 type="submit"
                 color="bg-red-anbu"
                 className="hover:bg-green-anbu"
+                disabled={creating}
               >
-                Crear Agente
+                {creating ? "Creando..." : "Crear Agente"}
               </Button>
             </div>
           </form>
@@ -117,16 +210,8 @@ function CreateAgentModal({ isOpen, onClose }: CreateAgentModalProps) {
 
         <Popup
           isOpen={modalVisible}
-          onClose={() => setModalVisible(false)}
-          onConfirm={() => {
+          onClose={() => {
             setModalVisible(false);
-            setFormData({
-              nombre: "",
-              alias: "",
-              correo: "",
-              password: "",
-              especialidad: "",
-            });
             onClose();
           }}
           message="¡Agente creado exitosamente!"

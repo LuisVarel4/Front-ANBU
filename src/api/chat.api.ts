@@ -18,7 +18,7 @@ export interface PaginatedResponse<T> {
 export const chatApi = createApi({
   reducerPath: 'chatApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:4000/chat',
+    baseUrl: 'http://localhost:3000/chat',
     credentials: 'include', // Importante para sesión
   }),
   endpoints: (builder) => ({
