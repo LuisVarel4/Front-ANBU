@@ -15,10 +15,12 @@ export interface PaginatedResponse<T> {
   };
 }
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export const chatApi = createApi({
   reducerPath: 'chatApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3000/chat',
+    baseUrl: `${apiUrl}/chat`,
     credentials: 'include', // Importante para sesión
   }),
   endpoints: (builder) => ({
