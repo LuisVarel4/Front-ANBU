@@ -28,10 +28,10 @@ function TablaRecompensas({ data }: TablaRecompensasProps) {
                 key={index}
                 className="border-gray3-anbu border-b last:border-b-0"
               >
-                <td className="text-gray3-anbu p-3 text-left align-middle text-base md:text-lg">
+                <td className="text-gray3-anbu p-3 text-center align-middle text-base md:text-lg">
                   {nombre}
                 </td>
-                <td className="text-gray3-anbu p-3 text-right align-middle font-mono text-lg md:text-xl">
+                <td className="text-gray3-anbu p-3 text-center align-middle font-mono text-lg md:text-xl">
                   {recompensa}
                 </td>
               </tr>
